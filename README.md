@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/banner.png" alt="ClearboxGTM — how to win on Reddit" width="100%"></p>
+
 # ClearboxGTM
 
 **How to win on Reddit — the skills, the engine, and the playbooks, ready for your coding agent.**
