@@ -6,7 +6,7 @@ description: The agency motion for a Reddit-led visibility offer. Given a client
 
 # reddit-agency
 
-The Clearbox way to help an agency, consultant, or operator win a client with a Reddit-led AI-visibility offer. You run it for your client; they can run it for theirs.
+The Clearbox way to help an agency, consultancy, or operator win a client with a Reddit-led AI-visibility offer. You run it for your client; they can run it for theirs.
 
 ## The strategy that wins (what the deck and plan must say)
 

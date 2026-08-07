@@ -36,8 +36,9 @@ DENYLIST="$HOME/.clearbox/never-publish.txt"
 if [ -f "$DENYLIST" ]; then
   while IFS= read -r term; do
     case "$term" in ''|'#'*) continue;; esac
-    if grep -riqE "$term" . --exclude-dir=.git; then
-      echo "FAIL: denylist term matched: $term"; grep -rilE "$term" . --exclude-dir=.git; FAIL=1
+    if grep -riqE "$term" . --exclude-dir=.git --exclude-dir=__pycache__; then
+      echo "FAIL: denylist term matched: $term"
+      grep -rilE "$term" . --exclude-dir=.git --exclude-dir=__pycache__; FAIL=1
     fi
   done < "$DENYLIST"
 else
@@ -49,21 +50,27 @@ BLOCKLIST="$HOME/shawn-gtme-os/.claude/blocklist.txt"
 if [ -f "$BLOCKLIST" ]; then
   while IFS= read -r term; do
     case "$term" in ''|'#'*) continue;; esac
-    if grep -riqE "$term" . --exclude-dir=.git; then
+    if grep -riqE "$term" . --exclude-dir=.git --exclude-dir=__pycache__; then
       echo "FAIL: blocklist term matched: $term"; FAIL=1
     fi
   done < "$BLOCKLIST"
 fi
 
-# 3. Local infra: absolute home paths and env-file references
-# (bracketed patterns so this file does not match itself)
-grep -rnE '/U[s]ers/|\.e[n]v\.' . --exclude-dir=.git && { echo "FAIL: local infra leak"; FAIL=1; }
+# 3. Local infra: absolute home paths, and env-file references
+# (bracketed patterns so this file does not match itself; .env.notion is the
+# push tool's own documented config convention and is allowed)
+grep -rnE '/U[s]ers/' . --exclude-dir=.git --exclude-dir=__pycache__ \
+  && { echo "FAIL: absolute home path leak"; FAIL=1; }
+grep -rnE '\.e[n]v\.' . --exclude-dir=.git --exclude-dir=__pycache__ --exclude=.gitignore \
+  | grep -v '\.env\.notion' && { echo "FAIL: env-file reference leak"; FAIL=1; }
 
 # 4. Private identifiers: org tokens
-grep -rnE 'org_[A-Za-z0-9]{20,}' . --exclude-dir=.git && { echo "FAIL: private org id"; FAIL=1; }
+grep -rnE 'org_[A-Za-z0-9]{20,}' . --exclude-dir=.git --exclude-dir=__pycache__ \
+  && { echo "FAIL: private org id"; FAIL=1; }
 
 # 5. Language rule: the views claim is "1.5M+", never the next million up
-grep -rniE '2[m]\+|2 milli[o]n' . --exclude-dir=.git && { echo "FAIL: forbidden views claim"; FAIL=1; }
+grep -rniE '2[m]\+|2 milli[o]n' . --exclude-dir=.git --exclude-dir=__pycache__ \
+  && { echo "FAIL: forbidden views claim"; FAIL=1; }
 grep -q '1\.5M+' proof/README.md || { echo "FAIL: proof/README.md missing 1.5M+ claim"; FAIL=1; }
 
 # 6. PARTNERS.md stays number-free (no percentages, dollars, durations)
