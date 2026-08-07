@@ -30,7 +30,7 @@ The styling engine is `lib/sheet_engine.py`. It is the real, reusable piece. See
 
 The same classified signal feeds five more modules that turn it into an operated client offer. Each is a single file, reads the pipeline's data, and re-points by argument. [ENGINE.md](ENGINE.md) documents them in full.
 
-- **`geo.py`** the buyer questions to own so AI cites the brand, each checked for current answer-engine visibility through a hard-capped Exa pass.
+- **`geo.py`** the buyer questions to own, each checked for current retrieval visibility through a hard-capped Exa pass. Exa is a leading indicator, not proof that an AI answer named or cited the brand.
 - **`competitor.py`** the competitor narrative read straight from Clearbox's opportunity classification (the classification is the relevant-mention signal, not literal brand counting), plus a generated sentiment read and a share-of-voice view.
 - **`digest.py`** the daily digest of engage threads with the drafted reply, new leads, and competitor mentions, as a header line plus one block per opportunity ordered by priority. Render-only by default; add `--post --webhook-secret <SECRET_NAME>` to post to an incoming webhook.
 - **`unmask.py`** the disclosure gate (enrich the company not the person, and only when the author self-disclosed a company by naming it, linking a site, or posting as a brand handle), then a pluggable enrichment backend (Freckle by default, swap in Clay or Apollo) returning the company, the ICP tier, and buying-role contacts.
@@ -147,8 +147,8 @@ MAX_AGE_DAYS=60 python3 pull.py
 
 This is deliberate, and it is the whole point. Two reasons:
 
-- **AI cites what is current.** Models weight fresh, active threads. A live conversation with a few hundred interactions is already high-read, and it is the one that shows up in an answer.
-- **It keeps you sincere.** The way to grow on Reddit is to show up in conversations that are actually happening and add real value. Dredging up year-old threads to drop a link is how you get flagged and banned. Recent-only forces you to engage with live discussions, which is the honest way to earn a mention in the first place.
+- **Current threads are where participation is still useful.** A live conversation lets the account answer a real buyer while the discussion is active. Search or AI visibility is measured later and is never guaranteed by recency alone.
+- **It keeps you sincere.** The useful place to participate is a conversation that is actually happening. Recent-only keeps the queue focused on live discussions. It is not a guarantee against removals or enforcement; community rules and the quality of the contribution still control.
 
 ## Rebuild in place
 

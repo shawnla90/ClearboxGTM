@@ -51,9 +51,9 @@ Transparent rules, not a black box. Every content topic gets a 0-100 total from 
 
 The four pieces above are the reusable engine. These five modules sit on top and turn the scored signal into an operated client offer: what to own in AI answers, where a competitor is winning, what to send each day, which leads disclosed a company, and the content that answers the buyer question. Each is a single file, read-only except for its `--out`, and re-points by argument.
 
-### `geo.py` - the GEO terms and their AI visibility
+### `geo.py` - the GEO terms and their retrieval visibility
 
-A "GEO term" is a buyer question a GTM or RevOps leader would type or ask an AI, one the brand can answer with authority. The terms come from the real buyer language the account surfaced, generated into clean queries upstream, or derived from `content_topics` as a fallback. Each term is then checked for current answer-engine visibility with a hard-capped Exa pass (does the brand already surface when a buyer asks this?), so the output holds the plan and the gap in one file. An absent Exa key degrades to terms without a visibility score, and the cap on `lib/exa_client.MAX_QUERIES` keeps a run cheap.
+A "GEO term" is a buyer question a GTM or RevOps leader would type or ask an AI, one the brand can answer with authority. The terms come from the real buyer language the account surfaced, generated into clean queries upstream, or derived from `content_topics` as a fallback. Each term is then checked for current retrieval visibility with a hard-capped Exa pass. This shows whether the brand surfaces in Exa's result set, not whether an answer engine named or cited it. An absent Exa key degrades to terms without a retrieval score, and the cap on `lib/exa_client.MAX_QUERIES` keeps a run cheap. Observed AI visibility requires a separate prompt receipt with the answer and exact citations.
 
 ```bash
 python3 geo.py --brand "Acme PM" --db data/signals.db --out data/geo_terms.json

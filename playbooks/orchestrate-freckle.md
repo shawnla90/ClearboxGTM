@@ -101,7 +101,7 @@ The database is the part people skip and then regret skipping. Owning the rows m
 | Disclosure gate | Local Python |
 | Company enrichment, ICP tier, contacts | Freckle |
 | Signup person resolution and copy drafting | Freckle |
-| GEO terms and AI visibility | Local Python plus Exa |
+| GEO terms and retrieval visibility | Local Python plus Exa. Confirm AI mentions and citations separately with answer receipts. |
 | Competitor share of voice and sentiment | Local Python plus LLM |
 | Content drafting | Local Python plus LLM |
 | Sheet, Notion, Slack delivery | Local Python |

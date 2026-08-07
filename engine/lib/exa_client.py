@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""exa_client.py — a tiny, HARD-CAPPED Exa client for AI-visibility checks.
+"""exa_client.py — a tiny, HARD-CAPPED Exa client for retrieval checks.
 
-Answer-engine visibility is "when a buyer asks AI this question, does the brand show up in what
-the model reads?" Exa /search returns what the answer engines cite. This client runs a SMALL,
-capped set of those queries so a visibility check never burns the balance. Key from the EXA_API_KEY
-env var. Every function degrades to {available: False} on any error, never raises.
+Exa /search returns an independent search result set. It can show whether a brand or source is
+retrievable for a buyer question, but it cannot prove that ChatGPT, Claude, Perplexity, Google, or
+another answer engine named or cited that result. That requires a receipt from the answer itself.
+This client runs a SMALL, capped query set so a retrieval check never burns the balance. Key from
+the EXA_API_KEY env var. Every function degrades to {available: False} on any error, never raises.
 
 CAP: MAX_QUERIES per call (default 8). A caller cannot exceed it even by passing more queries.
 """
@@ -44,8 +45,8 @@ def _search(query: str, key: str, num: int = 10) -> dict:
         return json.load(r)
 
 
-def ai_visibility(name: str, queries: list[str], key: str | None = None) -> dict:
-    """Share of buyer-intent queries where `name` surfaces in the Exa answer set. Capped."""
+def retrieval_visibility(name: str, queries: list[str], key: str | None = None) -> dict:
+    """Share of buyer-intent queries where `name` surfaces in Exa results. Capped."""
     key = key or get_key()
     if not key:
         return {"available": False, "reason": "no EXA_API_KEY"}
@@ -63,3 +64,8 @@ def ai_visibility(name: str, queries: list[str], key: str | None = None) -> dict
     return {"score": round(100 * hits / checked) if checked else 0,
             "checked": checked, "capped_at": MAX_QUERIES, "queries": detail,
             "available": checked > 0}
+
+
+def ai_visibility(name: str, queries: list[str], key: str | None = None) -> dict:
+    """Backward-compatible alias. The evidence is retrieval visibility, not AI citation."""
+    return retrieval_visibility(name, queries, key)

@@ -14,6 +14,8 @@ read playbooks/how-to-win-on-reddit.md and tell me where to start for <my compan
 
 Signing up at [clearbox.to](https://clearbox.to)? Don't rush the onboarding form — Clearbox scores Reddit content against what you write in it. Paste **[`prompts/clearbox-onboarding.md`](prompts/clearbox-onboarding.md)** into your coding agent, give it your domain, and it researches your company and writes every field with sources you can check.
 
+Running the agency motion across client accounts? Start with the public [multiple Reddit accounts operating guide](https://fierce-camelotia-1fa.notion.site/Clearbox-Running-Multiple-Reddit-Accounts-for-Clients-3b51fb92bcd78187a212de323c577399). It covers the account/workspace/operator boundary, related brands, disclosure, IP and VPN myths, coordination controls, and the measurement receipts clients can see.
+
 ## What's in here
 
 | Stage | What it does | Where |
@@ -25,6 +27,7 @@ Signing up at [clearbox.to](https://clearbox.to)? Don't rush the onboarding form
 | **Resolve who it is** | The disclosure gate, then enrichment (Freckle default, pluggable) | [`engine/unmask.py`](engine/unmask.py) |
 | **Orchestrate off-platform** | Enrichment, GEO terms, share of voice, lead magnets, the daily Slack digest | [`playbooks/`](playbooks/) |
 | **Sell it as a service** | The agency package: buyer-signal sheet, deck, Notion command center | [`skills/reddit-agency/`](skills/reddit-agency/) |
+| **Run multiple client accounts safely** | Client ownership, named operators, disclosure, coordination controls, and a five-level success scorecard | [`skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md`](skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md) |
 | **Audit quality** | The 5-dimension pick-quality rubric | [`playbooks/account-quality-benchmark.md`](playbooks/account-quality-benchmark.md) |
 
 ## The playbooks
@@ -45,6 +48,7 @@ Signing up at [clearbox.to](https://clearbox.to)? Don't rush the onboarding form
 2. **The disclosure gate refuses to guess.** Identity resolution runs only on what an author already tied to a company in public.
 3. **Recency is a hard gate.** Live threads only.
 4. **Every claim traces to a source.** The FACTCHECK gates in the skills are not decoration; they are the post-mortems of real mistakes.
+5. **Retrieval is not citation.** Exa can show that a source is retrievable. Only a captured AI answer with an exact source receipt proves that answer named or cited it.
 
 ## Related
 
