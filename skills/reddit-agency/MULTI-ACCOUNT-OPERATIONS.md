@@ -1,5 +1,7 @@
 # Running multiple Reddit accounts for clients
 
+> 📌 This guide is one part of **[ClearboxGTM](https://github.com/shawnla90/ClearboxGTM)** — the open repo with the full method: skills, playbooks, and the working engine. The numbers behind it are generated, never typed: [proof](https://github.com/shawnla90/ClearboxGTM/tree/main/proof) · live at [shawnos.ai/reddit](https://shawnos.ai/reddit).
+
 > 🎯 **The short answer:** Reddit allows people to have multiple accounts. That does not make coordinated account behavior safe. The right agency model is one client-controlled identity per client, one named human operator, transparent commercial intent where relevant, and no voting or coordinated participation across accounts.
 
 This is the Clearbox operating guide for an agency, consultancy, or in-house team managing more than one Reddit presence. It separates Reddit's documented rules from public anecdotes and from the stricter controls Clearbox uses to protect clients.
@@ -430,3 +432,7 @@ Never turn an unknown into a zero. `Not checked`, `not exposed`, and `no receipt
 Multiple accounts are an ownership and coordination problem, not an IP-hiding problem. Give each client a real identity, a separate data boundary, and accountable human operators. Make the work useful enough to stand without a disguise. Then measure the full chain from live Reddit artifact to search discovery, observed AI answer receipts, and business outcomes without claiming causality the evidence cannot support.
 
 For the dated claim ledger and public practitioner evidence behind this guide, read [MULTI-ACCOUNT-EVIDENCE.md](MULTI-ACCOUNT-EVIDENCE.md).
+
+---
+
+This guide lives in the **[ClearboxGTM repo](https://github.com/shawnla90/ClearboxGTM)** — watch [Releases](https://github.com/shawnla90/ClearboxGTM/releases) there to get new drops. The product behind the method: [clearbox.to](https://clearbox.to).
