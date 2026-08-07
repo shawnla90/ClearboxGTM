@@ -1,12 +1,14 @@
 ---
 name: clearbox-onboard
-version: 1.0.0
+version: 1.1.0
 description: Turn a website domain into a complete Clearbox offer pack — one-liner, selling points in the form's fixed template shapes, keywords, competitor brands, own brands, and suggested tracked subreddits — grounded in real research and paste-ready for the clearbox.to onboarding form. No API submission; the user pastes. Use when the user says "clearbox onboard <domain>", "/clearbox-onboard", "build a clearbox offer pack for <company>", or "write my clearbox onboarding".
 ---
 
 # clearbox-onboard
 
 One domain in, a full Clearbox offer pack out, every claim sourced.
+
+The interview itself is portable — see [`../../playbooks/offer-context-onboarding.md`](../../playbooks/offer-context-onboarding.md) for the generalized offer-context pattern any research agent can run, and the three drop-in reuses of the pack this skill produces.
 
 The clearbox.to onboarding form asks for a name, a one-liner (80 chars max), and selling points, and warns: "Don't rush this one. Clearbox scores Reddit content against what you write here." This skill is the not-rushing. It researches the company first, then fills the form's exact shapes plus the fields behind the form (keywords, competitors, tracked subreddits). The stakes are structural: your keywords and competitors drive the matching, and the subreddit suggestion pass runs once at onboarding and is never re-run. Write these fields like they are permanent, because they mostly are. Output is pasted by the user into the form; there is no API path today.
 
@@ -108,3 +110,4 @@ Run the FACTCHECK "Before paste" checklist. Then give the user the paste blocks 
 - `PROMPT.md` — the standalone pastable version of this skill for any coding agent
 - `../reddit-onboard/` — what happens after the account exists
 - `../../playbooks/how-to-win-on-reddit.md` — the method this feeds
+- `../../playbooks/offer-context-onboarding.md` — the interview as a portable pattern for any research agent
