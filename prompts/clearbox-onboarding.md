@@ -69,3 +69,13 @@ Give me plain text, no markdown formatting inside the answer blocks, in this ord
 8. Sources: a numbered list with one URL per selling point, so I can check every claim before I paste
 
 Then tell me: "Paste these into the clearbox.to onboarding form, field by field. Read the sources first."
+
+## Step 6: sign up
+
+When you are ready to paste, open the form:
+
+```bash
+open https://clearbox.to
+```
+
+Paste the fields from Step 5 into the onboarding form, one at a time.

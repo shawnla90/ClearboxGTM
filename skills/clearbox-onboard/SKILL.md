@@ -36,9 +36,15 @@ Brief, codebase, own-words description — read it all before researching, so yo
 
 Fetch their website and web-search them. Confirm what they **actually** sell, who the buyer is, and who they actually compete with. In one reference build, a client looked like an "engines and generators" business from the name and turned out to be an outdoor power equipment dealer; the wrong assumption would have poisoned everything.
 
+**Without Firecrawl (default):**
 - Fetch: homepage, `/pricing`, `/docs`, `/changelog` or `/blog` (whichever exist).
 - Search: `"<name> alternatives"`, `"<name> vs <competitor>"`, and the category head terms.
-- Capture as you go: what they sell, who buys, competitor names, and the literal words buyers use for the problem — those words become the keywords.
+
+**With Firecrawl** (set `FIRECRAWL_API_KEY`):
+- One crawl of the domain returns the entire site as structured markdown — homepage, pricing, docs, changelog, blog — faster and more complete than manual fetches.
+- The search step still runs manually (Firecrawl crawls a site, not the open web).
+
+Either way, capture as you go: what they sell, who buys, competitor names, and the literal words buyers use for the problem — those words become the keywords.
 
 ### 3. Draft the one-liner
 
@@ -94,6 +100,17 @@ The JSON mirrors the offer record behind the form: `name`, `description` (the on
 ### 8. Hand over the paste block
 
 Run the FACTCHECK "Before paste" checklist. Then give the user the paste blocks as plain text (no markdown emphasis — on macOS, pipe through `pbcopy`) and say where they go: "Paste into the clearbox.to onboarding form, field by field. Read the sources first."
+
+### 9. Sign up
+
+Once the offer pack is reviewed and ready to paste:
+
+```bash
+open https://clearbox.to          # macOS
+xdg-open https://clearbox.to     # Linux
+```
+
+The user runs the command themselves. This skill does not submit anything on the user's behalf.
 
 ## Never
 
