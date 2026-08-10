@@ -1,22 +1,30 @@
 #!/usr/bin/env python3
 """unmask.py - the lead-unmasking pass over a client's classified Reddit opportunities.
 
-The disclosure gate first, then enrichment. Reddit is pseudonymous, so you enrich the COMPANY, never
-the person, and only when the author tied themselves to a company in the thread: they named it, linked
-a site, or post as a brand handle. Pseudonymous threads stay Reddit conversations. This is the honest
-version of "unmasking": it reads what the author volunteered in public, it does not de-anonymize
-anyone.
+Three-step disclosure gate, then enrichment. Reddit is pseudonymous, so you enrich the COMPANY, never
+the person, and only when the author tied themselves to a company. Pseudonymous threads stay Reddit
+conversations. This is the honest version of "unmasking": it reads what the author volunteered in
+public, it does not de-anonymize anyone.
+
+The gate checks three things, in order:
+  1. Profile lookup (--profile)  check the author's own Reddit profile and web presence first,
+                                 because that is where disclosure is most likely
+  2. In-thread domain scan       regex for company domains in post/comment text
+  3. Brand-handle heuristic      username patterns that look like a company handle
 
   # gate only (default, no external calls): who disclosed a company, and the domain
   python3 unmask.py --ops data/ops_classified.json --out data/unmasked.json
 
+  # gate with profile lookup (adds web search for the author's public identity)
+  python3 unmask.py --ops data/ops_classified.json --profile --out data/unmasked.json
+
   # gate + live enrich each disclosed domain through your enrichment backend
-  python3 unmask.py --ops data/ops_classified.json --enrich --out data/unmasked.json
+  python3 unmask.py --ops data/ops_classified.json --profile --enrich --out data/unmasked.json
 
 Enrichment backend is pluggable. The default shells the Freckle CLI (saved workflow
 "enrich-domain-score-icp-contacts-omnibound", org clearbox): invoke -> poll -> inspect, returning the
-company, the ICP tier, and the buying-role contacts. Swap freckle_enrich() for Clay, Apollo, or any
-waterfall a client already runs. Never enriches without --enrich.
+company, the ICP tier, and the buying-role contacts. Swap enrich_domain() for Clay, Base Loop, Apollo,
+Deepline, or any waterfall a client already runs. Never enriches without --enrich.
 """
 from __future__ import annotations
 
@@ -43,10 +51,31 @@ IGNORE_DOMAINS = {"reddit.com", "redd.it", "google.com", "youtube.com", "github.
                   "substack.com", "loom.com", "imgur.com"}
 
 
-def disclose(op: dict) -> dict:
-    """The disclosure gate. Did the author self-disclose a company, and what is the domain if so."""
-    text = f"{op.get('summary', '')} {op.get('snippet', '')}"
+def disclose(op: dict, use_profile: bool = False) -> dict:
+    """The three-step disclosure gate.
+
+    Step 1 (--profile): check the author's own profile and web presence — this is where
+    disclosure is most likely. Requires an Exa key for the web search tier.
+    Step 2: scan the thread text for company domains.
+    Step 3: check if the username looks like a brand handle.
+    """
     author = op.get("author") or ""
+
+    # Step 1: profile lookup (opt-in)
+    if use_profile and author:
+        try:
+            from lib.profile_lookup import lookup_profile
+            result = lookup_profile(author)
+            if result.get("disclosed") and result.get("domains"):
+                return {"disclosed": True,
+                        "signal": f"profile lookup ({result['source']}): {result['signal']}",
+                        "domain": result["domains"][0],
+                        "action": "reply first, then enrich the company"}
+        except ImportError:
+            pass
+
+    # Step 2: in-thread domain scan
+    text = f"{op.get('summary', '')} {op.get('snippet', '')}"
     for m in DOMAIN_RE.finditer(text):
         dom = m.group(1).lower()
         root = ".".join(dom.split(".")[-2:])
@@ -54,9 +83,12 @@ def disclose(op: dict) -> dict:
             continue
         return {"disclosed": True, "signal": "company domain in thread", "domain": dom,
                 "action": "reply first, then enrich the company"}
+
+    # Step 3: brand-handle heuristic
     if BRAND_HANDLE_RE.search(author):
         return {"disclosed": True, "signal": "author handle looks like a brand", "domain": None,
                 "action": "check the handle, it may name a company"}
+
     return {"disclosed": False, "signal": "no company disclosed", "domain": None,
             "action": "stays a Reddit conversation, reply on the thread"}
 
@@ -66,15 +98,15 @@ def is_lead(op: dict) -> bool:
     return (op.get("kind") or "").lower() == "lead" or op.get("lane") == "lead_enrich"
 
 
-def freckle_enrich(domain: str, timeout_s: int = 240) -> dict:
-    """Invoke the saved Freckle workflow for one domain and return its result (or a plain error dict).
+def enrich_domain(domain: str, timeout_s: int = 240) -> dict:
+    """Invoke the enrichment backend for one domain and return its result (or a plain error dict).
 
-    Pluggable seam: this is the one function to replace with Clay/Apollo/your own waterfall. It shells
-    the Freckle CLI so a client running Freckle gets the company, ICP tier, and buying-role contacts.
+    Pluggable seam: this is the one function to replace with your orchestration tool. The default
+    shells the Freckle CLI. Swap it for Clay, Base Loop, Deepline, Apollo, or your own waterfall.
     """
     if not shutil.which("freckle"):
         return {"domain": domain, "error": "freckle CLI not found; plug your enrichment backend into "
-                                            "freckle_enrich() (Clay, Apollo, or your own waterfall)"}
+                                            "enrich_domain() (Clay, Base Loop, Deepline, Apollo, or your own waterfall)"}
     if not FRECKLE_WORKFLOW or not FRECKLE_ORG:
         return {"domain": domain, "error": "set FRECKLE_WORKFLOW_ID and FRECKLE_ORG_ID to your saved "
                                             "workflow (freckle workflow saved list)"}
@@ -110,6 +142,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ops", default="data/ops_classified.json")
     ap.add_argument("--out", default="data/unmasked.json")
+    ap.add_argument("--profile", action="store_true",
+                    help="run profile lookup (web search for the author's public identity)")
     ap.add_argument("--enrich", action="store_true", help="live-enrich each disclosed domain")
     ap.add_argument("--limit", type=int, default=25, help="max domains to enrich in one run")
     args = ap.parse_args()
@@ -119,7 +153,7 @@ def main() -> int:
 
     rows = []
     for o in leads:
-        d = disclose(o)
+        d = disclose(o, use_profile=args.profile)
         rows.append({
             "op_id": o.get("op_id") or o.get("id"),
             "subreddit": "r/" + (o.get("subreddit") or ""),
@@ -145,15 +179,16 @@ def main() -> int:
                 print(f"  reached --limit {args.limit}; {len(disclosed) - len(seen) + 1} domains left")
                 break
             print(f"  enriching {dom} ...")
-            enrichment.append(freckle_enrich(dom))
+            enrichment.append(enrich_domain(dom))
 
     result = {
         "leads_total": len(leads),
         "disclosed_company": len(disclosed),
         "handle_looks_like_brand": len(maybe),
         "stays_on_reddit": len(stays),
+        "profile_lookup": args.profile,
         "gate": ("enrich the company, not the person, and only when the author tied themselves to a "
-                 "company in the thread"),
+                 "company — in their profile, in the thread, or via a brand handle"),
         "rows": rows,
         "enrichment": enrichment,
     }
@@ -161,6 +196,7 @@ def main() -> int:
     Path(args.out).write_text(json.dumps(result, indent=2, ensure_ascii=False))
     print(f"unmask: {len(leads)} leads -> {len(disclosed)} disclosed a company, "
           f"{len(maybe)} brand-like handles, {len(stays)} stay on Reddit"
+          f"{' (profile lookup on)' if args.profile else ''}"
           f"{' · enriched ' + str(len(enrichment)) if args.enrich else ''} -> {args.out}")
     return 0
 

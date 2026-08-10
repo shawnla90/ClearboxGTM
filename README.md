@@ -71,7 +71,8 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 | **Read the market** | Pull → mine → score buyer signals | Color-coded Google Sheet with A-D tiers and 4-dimension scores | [`engine/`](engine/) |
 | **Engage as a human** | Value-first reply drafting | Draft comments with per-item human approval gate | [`skills/reddit-engage/`](skills/reddit-engage/) |
 | **Personalize the reply** | Three-variable model for specific, tension-creating comments | Icebreaker + poke-the-bear + pain-point per reply | [`skills/personalization/`](skills/personalization/) |
-| **Resolve who it is** | Disclosure gate, then enrichment | Company, ICP tier, and buying-role contacts (only if self-disclosed) | [`engine/unmask.py`](engine/unmask.py) |
+| **Resolve who it is** | Three-step disclosure gate (profile, thread, handle), then enrichment | Company, ICP tier, and buying-role contacts (only if self-disclosed) | [`engine/unmask.py`](engine/unmask.py) |
+| **Profile lookup** | Check the author's profile and web presence for identity signals | Domains, social links, and bio from their public presence | [`skills/profile-lookup/`](skills/profile-lookup/) |
 | **Measure AI visibility** | GEO terms + live retrieval-visibility score | JSON of buyer questions with Exa retrieval status | [`skills/geo-visibility/`](skills/geo-visibility/) |
 | **Win the long tail** | Buyer questions → content drafts | Blog + LinkedIn + Reddit pack with FAQ schema, drafted never posted | [`skills/longtail-content/`](skills/longtail-content/) |
 | **Competitor intel** | Share of voice from classified Reddit ops | Competitor narrative with generated sentiment and openings | [`skills/competitor-intel/`](skills/competitor-intel/) |
@@ -81,7 +82,8 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 | **Reddit proposals** | Pitch from buyer signals | Structured brief.json + readable BRIEF.md for a prospect | [`skills/reddit-proposal/`](skills/reddit-proposal/) |
 | **Dataviz** | Reference architecture for GTM dashboards | Dark-theme Recharts palette, 3 standalone .tsx examples | [`skills/dataviz/`](skills/dataviz/) |
 | **Attribution tracking** | Journey materialization pattern | First/last-touch attribution from local SQLite, no cookies | [`playbooks/attribution-tracking.md`](playbooks/attribution-tracking.md) |
-| **Orchestrate off-platform** | Enrichment, GEO, share of voice, lead magnets, digest | Five playbooks covering the full off-platform motion | [`playbooks/`](playbooks/) |
+| **Orchestrate enrichment** | The disclosure gate is the skill; pick your enrichment backend | Generic playbook + per-tool integration guides (Freckle, Clay, Base Loop, Deepline) | [`playbooks/orchestrate-enrichment.md`](playbooks/orchestrate-enrichment.md) |
+| **Orchestrate off-platform** | Enrichment, GEO, share of voice, lead magnets, digest | Playbooks covering the full off-platform motion | [`playbooks/`](playbooks/) |
 | **Sell it as a service** | The agency package | Buyer-signal sheet, deck, Notion command center | [`skills/reddit-agency/`](skills/reddit-agency/) |
 | **Win the agency client** | The reverse-uno method | A readout of their buyers, not a pitch | [`playbooks/win-an-agency-client.md`](playbooks/win-an-agency-client.md) |
 | **Run multiple accounts safely** | Client ownership, named operators, disclosure controls | Five-level success scorecard with evidence ledger | [`skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md`](skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md) |
@@ -103,6 +105,7 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 - [`offer-context-onboarding.md`](playbooks/offer-context-onboarding.md) — the interview pattern as portable IP: offer context in, everything downstream inherits its quality
 - [`automation-boundaries.md`](playbooks/automation-boundaries.md) — precisely what the machine may and may never do
 - [`win-an-agency-client.md`](playbooks/win-an-agency-client.md) — the reverse-uno: show them their buyers instead of a pitch
+- [`orchestrate-enrichment.md`](playbooks/orchestrate-enrichment.md) — the three-step disclosure gate (profile, thread, handle) and how to plug in your enrichment backend
 - [`orchestrate-freckle.md`](playbooks/orchestrate-freckle.md) — the Reddit-to-pipeline loop: Clearbox classifies, the disclosure gate holds, Freckle enriches, four surfaces receive
 - [`orchestrate-deepline.md`](playbooks/orchestrate-deepline.md) — opportunity stream → orchestration substrate, with the trust model that keeps Reddit UGC as data, never instructions
 - [`notion-command-center.md`](playbooks/notion-command-center.md) — every engagement ships as real, linked, stable documents
