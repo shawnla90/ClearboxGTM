@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """digest.py — the daily Slack digest of a client's Reddit opportunities.
 
+Original daily digest pattern by Lucas. Ported to the ClearboxGTM engine.
+
 The operated-service delivery: each day the account's engage threads (with the drafted value-first
 reply), new leads, and competitor mentions land in the client's Slack, not only in a sheet. Format:
 a header line, then one block per opportunity, ordered by priority, capped. v1 is a text digest with
