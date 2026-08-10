@@ -59,6 +59,8 @@ The example throughout is a project-management SaaS for small teams (call it "Ac
 - A Google account (personal or Workspace) that will own the sheet and deck
 - One data source: a reddit34 RapidAPI key for the live pull, or nothing at all for the bundled offline sample
 
+> **First-time setup takes 5 minutes.** You need Python 3.9+, a Google account, and a one-time OAuth connection. The script walks you through it -- no GCP experience required. [Jump to setup](#1-clone-and-enter-the-starter)
+
 ## Setup
 
 ### 1. Clone and enter the starter
@@ -143,6 +145,46 @@ The Clearbox opportunity inbox is a pull-only HTTP API, so the Clearbox path in 
 
 Two things trip people up. The token is a path segment in the URL, not a header, so it rides inside the path itself. And Cloudflare returns 403 to a default urllib User-Agent, so send a browser User-Agent on every request. There are no POST routes. Every call is a read, and the one state change, marking an op done, is itself a GET.
 
+## Enrichment APIs — with and without
+
+Every API in this pipeline is optional. The pipeline runs without any of them; each one makes a specific step better. The cost tradeoff matters: a Clay table burning credits on random company research costs more per row than pulling pre-classified intent from the Clearbox API and only enriching what is worth enriching.
+
+| API | What it does | Without it | With it |
+|-----|-------------|-----------|---------|
+| **RapidAPI** (reddit34) | Reddit thread pull | Use bundled offline sample or Clearbox | Live keyword-based pull, free tier available |
+| **Clearbox** | Classified opportunity inbox | RapidAPI keyword matching (noisier) | Intent-classified, context-driven signal |
+| **Exa** | Retrieval visibility check | Terms listed, no live score | Brand-surfaces-for-buyer-question score |
+| **Firecrawl** | Site crawl + SEO audit | Manual web fetch in onboarding research | Structured markdown of entire site, SEO baseline |
+| **Apollo** | People/email reveal | No email enrichment | Email + title + company from a LinkedIn URL |
+| **MoltSets** | Email deliverability grade | Send without grading | A-F grade, catchall detection, freemail flag |
+
+### Key setup
+
+Every key follows the same pattern: set the env var, or store it in a secrets database (sqlite file with a `secrets(key, value)` table, path in `SECRETS_DB`). Without a key, the step degrades — no crash, no error, just a narrower output.
+
+```bash
+export EXA_API_KEY=...           # retrieval visibility (geo.py)
+export FIRECRAWL_API_KEY=...     # site crawl (onboarding research)
+export APOLLO_API_KEY=...        # people reveal (coverage waterfall)
+export MOLTSETS_API_KEY=...      # email grading (coverage waterfall)
+export RAPIDAPI_KEY=...          # reddit34 pull (pull.py)
+```
+
+### Where the API fits in automation platforms
+
+The Clearbox API is a pull-only HTTP endpoint. Every call is a GET. That means it plugs into any platform that can make an HTTP request:
+
+- **Clay** — Add the Clearbox inbox as an HTTP column. Each row arrives pre-classified (lead / competitor / engage) with intent and sentiment. Clay enriches only the leads worth enriching instead of running blind research on every company. The cost difference is the point: one classified API call replaces dozens of speculative Clay credits.
+- **n8n** — HTTP Request node pulls the inbox, a Switch node routes by `kind` (lead → enrich → CRM, competitor → alert → Slack, engage → draft → queue). n8n's reasoning nodes can layer Clearbox classification with Firecrawl site data and Exa retrieval scores to build a full prospect brief before a human touches it.
+- **Zapier** — Webhooks by Zapier catches the classified ops. Route to Google Sheets, Slack, HubSpot, or a custom webhook. Simpler than n8n but covers the 80% case.
+- **Make (Integromat)** — Same HTTP module pattern as n8n. The Clearbox API shape (GET, JSON, no auth header — token in path) works without custom modules.
+
+The integration guides for each platform ship in a future release. The API shape is documented above in ["Access everything through the API"](#access-everything-through-the-api).
+
+## Build vs buy
+
+This is build versus buy, with eyes open. You can stand up the full loop yourself and know exactly what it does. The RapidAPI path is free to start and honest about its limits: it matches keywords, so it finds the conversations a keyword can find. Want the accurate, context-driven version that surfaces the real high-intent conversations for you? That is what [Clearbox](https://clearbox.to) does.
+
 ## The recency guardrail
 
 `pull.py` only keeps threads from the **last 30 days**. Nothing older ever enters the database. Widen it if you want a fuller season:
@@ -180,10 +222,6 @@ python3 build_deck.py                  # rebuild the stored deck
 - **The app is unverified warning**: it is your own app. Click Advanced, then continue.
 - **`no RAPIDAPI_KEY set`**: export your reddit34 key, or run `bash run.sh --offline` to use the bundled sample with no key.
 - **Empty topics**: a small pull yields modest scores. Widen `MAX_AGE_DAYS`, add more subreddits and keywords, or switch to the Clearbox source for higher-intent input.
-
-## Build vs buy
-
-This is build versus buy, with eyes open. You can stand up the full loop yourself and know exactly what it does. The RapidAPI path is free to start and honest about its limits: it matches keywords, so it finds the conversations a keyword can find. Want the accurate, context-driven version that surfaces the real high-intent conversations for you? That is what [Clearbox](https://clearbox.to) does.
 
 ---
 
