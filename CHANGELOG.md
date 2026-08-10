@@ -2,6 +2,28 @@
 
 All notable changes to this repo are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are announced via GitHub Releases.
 
+## [0.6.0] - 2026-08-09
+
+Show me the workflow: step-by-step integration guides for Clay, n8n, Zapier, and Make with Mermaid diagrams, the enrichment waterfall and AEO content loop as visual node graphs, a real client deliverable example, and a live Firecrawl scrape of freckle.io.
+
+### Added
+
+- **Clay integration guide**: step-by-step HTTP column setup, Filter by kind, cost comparison (60-96% fewer credits), and Mermaid workflow diagram (`examples/integrations/clay.md`).
+- **n8n integration guide**: HTTP Request, Switch node routing, AI Agent reasoning nodes with multi-source context (Clearbox + Firecrawl + Exa), two Mermaid diagrams (`examples/integrations/n8n.md`).
+- **Zapier integration guide**: Schedule, Webhooks GET, Filter, routing to Sheets/Slack/HubSpot (`examples/integrations/zapier.md`).
+- **Make integration guide**: HTTP module, Iterator, Router with Mermaid diagram (`examples/integrations/make.md`).
+- **Enrichment waterfall diagram**: visual node graph from disclosure gate through Freckle, Apollo, MoltSets to T1/T2/SUPPRESS classification (`examples/workflows/enrichment-waterfall.md`).
+- **AEO content loop diagram**: buyer questions to GEO terms to Exa retrieval check to content gaps to publish and re-check (`examples/workflows/aeo-content-loop.md`).
+- **Client market read example**: sanitized structure of a real client deliverable showing the triage pattern, signal/win/enter triad, operating rules, and Notion delivery (`examples/client-market-read.md`).
+- **Firecrawl freckle.io example**: real Firecrawl scrape of freckle.io (120,290 chars from one API call), the kind of output the onboarding research step consumes (`examples/firecrawl-freckle-site.json`).
+
+### Changed
+
+- **engine/README.md**: automation platform section now links to full step-by-step guides instead of single-paragraph descriptions, "future release" placeholder removed.
+- **examples/README.md**: integration section links to full guides, new workflow diagrams section, client deliverable example section, freckle.io Firecrawl example added.
+- **orchestrate-freckle.md**: added enrichment waterfall detail diagram (Mermaid) showing the disclosure gate to Apollo to MoltSets flow.
+- **README stage table**: three new rows for integration guides, workflow diagrams, and client market read.
+
 ## [0.5.0] - 2026-08-09
 
 The proof you can see: visual gallery, three proof stories with the LinkedIn outbound receipts, live API examples from Exa, Firecrawl, Apollo, and MoltSets, the Exa deep-dive, and the enrichment API table showing what each tool does with and without a key.
