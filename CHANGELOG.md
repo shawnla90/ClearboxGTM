@@ -2,6 +2,31 @@
 
 All notable changes to this repo are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are announced via GitHub Releases.
 
+## [0.5.0] - 2026-08-09
+
+The proof you can see: visual gallery, three proof stories with the LinkedIn outbound receipts, live API examples from Exa, Firecrawl, Apollo, and MoltSets, the Exa deep-dive, and the enrichment API table showing what each tool does with and without a key.
+
+### Added
+
+- **Visual proof gallery**: fresh Playwright screenshots of real outputs (Google Sheet, Notion operating guide) committed to `assets/gallery/`, with `scripts/screenshot.py` for reproducibility.
+- **Reddit AI visibility loop playbook**: the full open-source loop -- post genuinely, AI reads Reddit, retrieval visibility compounds.
+- **Reddit growth and SEO playbook**: how genuine Reddit presence compounds into organic search rankings and AI retrieval without backlink games.
+- **Personalization skill**: the 3-variable model (icebreaker, poke-the-bear, pain-point) for thread-specific Reddit comment drafting.
+- **Exa retrieval guide**: practical SDK guide for API key setup, query construction, interpreting retrieval results, the hard cap, and the Firecrawl companion section (`skills/geo-visibility/EXA-GUIDE.md`).
+- **API examples**: real API responses from Exa, Firecrawl, Apollo, and MoltSets -- actual calls, not mocks -- with pipeline diagrams and automation platform integration guides (`examples/`).
+- **LinkedIn outbound proof story**: 16-day outbound funnel (1,297 leads, 496 CRs, 238 accepted at 48%, 2 calls booked) with the exact messages revealed (`proof/stories/linkedin-outbound.md`).
+- **No-backlinks-needed proof story**: AI citations come from being helpful, not from SEO link-building (`proof/stories/no-backlinks-needed.md`).
+- **Inbound-from-content proof story**: genuine replies compound into pipeline -- 724 inbound replies, 25 tracked wins (`proof/stories/inbound-from-content.md`).
+- **STORY.md**: founding story skeleton (content ships when ready).
+
+### Changed
+
+- **README overhauled**: "What it looks like" gallery with real screenshots, "Quick walkthrough" with expected output, restructured stage table with "You get" column, personalization row, API examples row, coverage waterfall forward reference, proof/stories link.
+- **reddit-proposal skill enhanced**: Clearbox integration section with classify-to-pitch workflow diagram, "What the prospect sees" section, cross-links to sentiment.
+- **geo-visibility skill extended**: "Deep dive" link to the new Exa guide, "Other enrichment tools" section covering Firecrawl.
+- **Signup integration**: `open https://clearbox.to` added as explicit final step in clearbox-onboard skill and onboarding prompt.
+- **engine/README.md**: first-time setup callout, build-vs-buy CTA moved earlier, enrichment API table (with/without comparison for Exa, Firecrawl, Apollo, MoltSets), automation platform integration guides (Clay, n8n, Zapier, Make).
+
 ## [0.4.0] - 2026-08-09
 
 The skills drop: six new skills, three new engine scripts, a security showcase, and the attribution tracking pattern.
