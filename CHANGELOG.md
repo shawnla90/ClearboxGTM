@@ -4,17 +4,18 @@ All notable changes to this repo are documented here. Format follows [Keep a Cha
 
 ## [0.7.0] - 2026-08-10
 
-Profile lookup and orchestration: the three-step disclosure gate (profile → thread → handle), tested on live leads, with per-tool integration guides for every enrichment backend.
+Profile lookup and orchestration: an evidence-bearing review gate that separates direct Reddit-profile disclosure, search candidates, no public evidence, and lookup errors, with per-tool integration guides for every enrichment backend.
 
 ### Added
 
-- **Profile lookup skill**: four-tier waterfall that checks the author's own Reddit profile first (where disclosure is most likely), then searches the web via Exa and DuckDuckGo for blogs, social links, and company pages tied to the username. Playwright browser scrape as a heavy fallback. Tested on 8 live leads: 1 disclosed (twot0n3 → mpiresolutions.com via Exa), 7 genuinely pseudonymous — the in-thread check alone had found 0 (`skills/profile-lookup/`, `engine/lib/profile_lookup.py`).
-- **Orchestrate enrichment playbook**: the generic playbook describing the three-step disclosure gate and the pluggable enrichment seam, with links to each tool's integration guide. The gate is the skill; the backend is your choice (`playbooks/orchestrate-enrichment.md`).
-- **Base Loop integration guide**: typed workflow with AI-powered stages, tested on 30 ops with 91 AI executions and 13 leads correctly held (`examples/integrations/baseloop.md`).
+- **Profile lookup skill**: four-tier waterfall that checks the author's own Reddit profile for exact disclosure evidence, then searches via Exa and DuckDuckGo for manual-review candidates. Every hit carries an evidence URL and excerpt; blocked checks remain lookup errors (`skills/profile-lookup/`, `engine/lib/profile_lookup.py`).
+- **Orchestrate enrichment playbook**: the generic playbook describing the direct-disclosure gate, manual-review candidate path, retry path, and pluggable enrichment seam, with links to each tool's integration guide (`playbooks/orchestrate-enrichment.md`).
+- **Base Loop integration guide**: typed workflow with AI-powered stages and explicit fields for lookup status, review verdict, enrichment eligibility, and evidence receipts (`examples/integrations/baseloop.md`).
+- **Focused gate tests**: direct Reddit-profile disclosure, search-only candidates, no-evidence versus error states, and enrichment eligibility (`tests/test_profile_lookup.py`).
 
 ### Changed
 
-- **engine/unmask.py**: three-step disclosure gate (profile lookup → in-thread scan → brand handle). New `--profile` flag enables the profile lookup waterfall. Enrichment function renamed from `freckle_enrich()` to `enrich_domain()` to reflect pluggable backend.
+- **engine/unmask.py**: only exact Reddit-profile company evidence can enter automatic enrichment. Search, thread-domain, and brand-handle matches are manual-review candidates. New `--profile` flag enables the full lookup waterfall; `enrich_domain()` remains the pluggable backend seam.
 - **README stage table**: new rows for profile lookup and orchestration enrichment; "Resolve who it is" updated to reference the three-step gate.
 - **README playbooks list**: orchestrate-enrichment.md added as the generic entry point above the tool-specific playbooks.
 

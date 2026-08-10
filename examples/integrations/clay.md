@@ -132,7 +132,7 @@ Hit rate on ICP: higher (intent-filtered). 100% of credits spent on classified l
 
 - The Clearbox API is pull-only. There is no webhook or push notification. Set up a scheduled Clay table refresh (every 6-12 hours) to poll for new ops.
 - The token is in the URL path, not a header. Do not expose the Clay table publicly.
-- Ops are Reddit-sourced. The disclosure gate applies: you enrich the company (if self-disclosed), never the person. See [`../../engine/unmask.py`](../../engine/unmask.py) for the gate logic.
+- Ops are Reddit-sourced. Enrich the company, never the person, and only when `unmask.py --profile` returns `eligible_direct_disclosure` with exact Reddit-profile evidence. Search, thread, and handle candidates stay in manual review. See [`../../engine/unmask.py`](../../engine/unmask.py) for the gate logic.
 
 ## Related
 

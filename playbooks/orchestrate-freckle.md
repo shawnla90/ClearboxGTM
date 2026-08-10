@@ -30,8 +30,10 @@ Five plays hang off that spine. Each one is a script in `../engine/` you can rea
 ```mermaid
 graph TD
   A[Lead-lane ops] --> B[Disclosure gate<br/>unmask.py]
-  B -->|domain disclosed<br/>~1.25% of leads| C[Freckle workflow<br/>company + ICP + contacts]
-  B -->|no disclosure| D[Reply as human<br/>the larger part of the work]
+  B -->|direct Reddit-profile disclosure| C[Freckle workflow<br/>company + ICP + contacts]
+  B -->|search/thread/handle candidate| M[Manual review]
+  B -->|no public evidence| D[Reply as human<br/>the larger part of the work]
+  B -->|lookup error| N[Retry queue]
   C --> E{Has LinkedIn URL?}
   E -->|yes| F[Apollo: people/match]
   E -->|no| G[Apollo: org search]
@@ -43,7 +45,7 @@ graph TD
   I -->|D/F| L[SUPPRESS]
 ```
 
-The enrichment backend (Freckle) is pluggable — swap it for Clay, Apollo, or your own waterfall. The gate stays the same. See the full diagram: [`../examples/workflows/enrichment-waterfall.md`](../examples/workflows/enrichment-waterfall.md).
+The enrichment backend (Freckle) is pluggable — swap it for Base Loop, Clay, Deepline, Apollo, or your own waterfall. The gate stays the same. See the full diagram: [`../examples/workflows/enrichment-waterfall.md`](../examples/workflows/enrichment-waterfall.md).
 
 ## What Clearbox is doing
 
@@ -67,17 +69,15 @@ Recency is a hard gate, not a preference. The default window is the last 30 days
 
 ## Play 2: resolve who it is
 
-This is one hop, and it is optional.
+This is optional and evidence-gated.
 
-Reddit is pseudonymous by design, and the gate respects that. It reads what an author already tied to a company in public, in the thread. Three signals count: they named a company, they linked a site, or they post under a brand handle. When one of those is present, the domain goes to Freckle, which returns the company, an ICP tier, and contacts.
+Reddit is pseudonymous by design, and the gate respects that. Only a company domain published on the author's own Reddit profile, preserved with the exact profile URL and excerpt, is automatic enrichment evidence. Search matches, company domains mentioned in a thread, and brand-like handles are candidates for human review, not proof of identity or ownership.
 
-When none of them is present, the thread stays a conversation, and a human reply is the correct move. Those threads are the larger part of the work and they are where the account actually grows.
+When there is no direct disclosure, the thread stays a conversation unless a reviewer confirms a candidate. A lookup failure stays unknown and is retried rather than reported as no evidence.
 
-`unmask.py` does this. Freckle is the default enrichment backend, and the documented alternative is to swap it for Clay, Apollo, or your own waterfall. The gate is the part worth copying. The enrichment behind it is a choice.
+`unmask.py` does this. Freckle is the default enrichment backend, and the documented alternatives include Base Loop, Clay, Deepline, Apollo, or another waterfall. The gate is the part worth copying. The enrichment behind it is a choice.
 
-> 🔴 The gate refuses to guess. That is the whole design. A system that infers an identity from a handle is the kind of system that gets a category regulated, and it produces contacts nobody can act on with a straight face.
-
-**Real numbers from a live run of this gate** (720 leads across several client corpora): 1.25% of lead-lane authors had self-disclosed a company by one of the three signals. Of the disclosed domains, the enrichment waterfall resolved 44.3% to a full company record, 35.7% to a partial record, 24.3% to contacts, and 7.1% missed entirely. The gate holding at ~1% is the point: everything else stays a human conversation.
+> 🔴 The gate refuses to guess. `direct_disclosure`, `plausible_candidate`, `no_public_evidence`, and `lookup_error` are different states. Only the first can enter automatic enrichment.
 
 Freckle also runs the other direction, on signups: a person arrives with a free email address and nothing else; the workflow resolves the profile, scores the company, and drafts the first message, with fallbacks at each step so one miss does not kill the run.
 

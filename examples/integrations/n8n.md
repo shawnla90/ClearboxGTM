@@ -181,7 +181,7 @@ graph TD
 
 - The Clearbox API is pull-only (GET). n8n's Schedule Trigger is the polling mechanism — there is no webhook to push new ops.
 - The AI Agent node requires an LLM API key (OpenAI, Anthropic, or any provider n8n supports). Drafts are never sent automatically.
-- The disclosure gate runs in the Clearbox classification. For leads without a self-disclosed company, the enrichment branch will not have a domain to enrich — route those to the reply queue instead.
+- Run `unmask.py --profile` before the enrichment branch. Only `eligible_direct_disclosure` rows carry a domain into enrichment. Route `plausible_candidate` to manual review, `no_public_evidence` to the reply queue, and `lookup_error` to retry.
 
 ## Related
 

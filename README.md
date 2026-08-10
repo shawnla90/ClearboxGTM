@@ -71,8 +71,8 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 | **Read the market** | Pull → mine → score buyer signals | Color-coded Google Sheet with A-D tiers and 4-dimension scores | [`engine/`](engine/) |
 | **Engage as a human** | Value-first reply drafting | Draft comments with per-item human approval gate | [`skills/reddit-engage/`](skills/reddit-engage/) |
 | **Personalize the reply** | Three-variable model for specific, tension-creating comments | Icebreaker + poke-the-bear + pain-point per reply | [`skills/personalization/`](skills/personalization/) |
-| **Resolve who it is** | Three-step disclosure gate (profile, thread, handle), then enrichment | Company, ICP tier, and buying-role contacts (only if self-disclosed) | [`engine/unmask.py`](engine/unmask.py) |
-| **Profile lookup** | Check the author's profile and web presence for identity signals | Domains, social links, and bio from their public presence | [`skills/profile-lookup/`](skills/profile-lookup/) |
+| **Review company disclosure** | Exact Reddit-profile evidence first; search, thread, and handle matches stay in manual review | Verified company domain or candidate with evidence receipt | [`engine/unmask.py`](engine/unmask.py) |
+| **Profile lookup** | Separate direct profile evidence, search candidates, absence, and lookup errors | Verdict, enrichment eligibility, exact URLs, domains, and bio | [`skills/profile-lookup/`](skills/profile-lookup/) |
 | **Measure AI visibility** | GEO terms + live retrieval-visibility score | JSON of buyer questions with Exa retrieval status | [`skills/geo-visibility/`](skills/geo-visibility/) |
 | **Win the long tail** | Buyer questions → content drafts | Blog + LinkedIn + Reddit pack with FAQ schema, drafted never posted | [`skills/longtail-content/`](skills/longtail-content/) |
 | **Competitor intel** | Share of voice from classified Reddit ops | Competitor narrative with generated sentiment and openings | [`skills/competitor-intel/`](skills/competitor-intel/) |
@@ -105,7 +105,7 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 - [`offer-context-onboarding.md`](playbooks/offer-context-onboarding.md) — the interview pattern as portable IP: offer context in, everything downstream inherits its quality
 - [`automation-boundaries.md`](playbooks/automation-boundaries.md) — precisely what the machine may and may never do
 - [`win-an-agency-client.md`](playbooks/win-an-agency-client.md) — the reverse-uno: show them their buyers instead of a pitch
-- [`orchestrate-enrichment.md`](playbooks/orchestrate-enrichment.md) — the three-step disclosure gate (profile, thread, handle) and how to plug in your enrichment backend
+- [`orchestrate-enrichment.md`](playbooks/orchestrate-enrichment.md) — direct profile disclosure, candidate review, retry states, and the pluggable enrichment backend
 - [`orchestrate-freckle.md`](playbooks/orchestrate-freckle.md) — the Reddit-to-pipeline loop: Clearbox classifies, the disclosure gate holds, Freckle enriches, four surfaces receive
 - [`orchestrate-deepline.md`](playbooks/orchestrate-deepline.md) — opportunity stream → orchestration substrate, with the trust model that keeps Reddit UGC as data, never instructions
 - [`notion-command-center.md`](playbooks/notion-command-center.md) — every engagement ships as real, linked, stable documents
@@ -125,7 +125,7 @@ What actually built the user base — including what failed. The honest channel 
 ## The rules this repo will not let you break
 
 1. **Nothing posts automatically.** Every send is a human pressing send. The automation reads, drafts, scores, and digests; it does not talk.
-2. **The disclosure gate refuses to guess.** Identity resolution runs only on what an author already tied to a company in public.
+2. **The disclosure gate refuses to guess.** Only an exact company domain published on the author's own Reddit profile is automatically enrichment-eligible. Search, thread, and handle matches require human review.
 3. **Recency is a hard gate.** Live threads only.
 4. **Every claim traces to a source.** The FACTCHECK gates in the skills are not decoration; they are the post-mortems of real mistakes.
 5. **Retrieval is not citation.** Exa can show that a source is retrievable. Only a captured AI answer with an exact source receipt proves that answer named or cited it.

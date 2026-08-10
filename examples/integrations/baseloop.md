@@ -10,11 +10,15 @@ Base Loop receives opportunities from the Clearbox API and processes them throug
 graph LR
   A[Clearbox API] --> B[pull_ops.py<br/>read opportunities]
   B --> C[Base Loop workflow<br/>classify + score + extract]
-  C --> D[Disclosure gate<br/>unmask.py --profile]
-  D -->|domain disclosed| E[Base Loop enrichment<br/>company + contacts]
-  D -->|no disclosure| F[Reply queue]
+  C --> D[Profile review gate<br/>unmask.py --profile]
+  D -->|direct profile disclosure| E[Base Loop enrichment<br/>company + contacts]
+  D -->|plausible candidate| H[Manual review]
+  D -->|no public evidence| F[Reply queue]
+  D -->|lookup error| I[Retry queue]
   E --> G[Scored review sheet]
   F --> G
+  H --> G
+  I --> G
 ```
 
 ## Prerequisites
@@ -66,19 +70,22 @@ output:
   content_topic: string
   action_lane: string
   analysis_reason: string
+  profile_lookup_status: string       # self_disclosed/candidate_found/no_links_found/lookup_error
+  profile_review_verdict: string      # direct_disclosure/plausible_candidate/no_public_evidence/lookup_error
+  enrichment_eligibility: string      # eligible_direct_disclosure/manual_review/not_eligible
+  profile_evidence_urls: array[string]
 ```
 
-## Test results
+## Verification standard
 
-Tested with 30 opportunities from a live Clearbox inbox:
+The reference workflow has been exercised on a live Clearbox inbox with structured lineage from input through classification and routing. A completed workflow run does not establish identity. Apply the same evidence states in every Base Loop workspace:
 
-- **30/30 processed** through the Base Loop workflow with zero failures
-- **91 successful AI executions** across classify, score, and extract stages
-- **13 leads identified**, all processed through the disclosure gate
-- **0 disclosed** — all 13 leads were genuinely pseudonymous Reddit authors
-- **Disclosure gate correctly held all 13**
+- Only an exact company domain published on the author's Reddit profile is `eligible_direct_disclosure`.
+- Exa, DuckDuckGo, thread-domain, and brand-handle matches are `manual_review` candidates.
+- `no_public_evidence` requires a completed Reddit-profile check; otherwise use `lookup_error`.
+- Preserve the exact evidence URL, excerpt, lookup source, and review verdict in the output row.
 
-The workflow produced structured, validated output for every opportunity with full lineage tracking from input entry through workflow run to output entry.
+Do not route a row into company or contact enrichment solely because an AI cell or search provider proposed a matching company.
 
 ## Delivery surfaces
 

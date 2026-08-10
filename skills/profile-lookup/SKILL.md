@@ -1,8 +1,8 @@
 # Profile Lookup
 
-> Version 1.0.0
+> Version 1.1.0
 
-Given a Reddit username, check whether the person's public presence discloses a company, website, or social profile. The waterfall starts with the person's own Reddit profile — that is where disclosure is most likely — then escalates to web search if the profile does not reveal anything.
+Given a Reddit username, check for an exact company disclosure on the author's own Reddit profile, then collect search-only candidates for human review. The profile is evidence. A search result is only a lead to verify.
 
 ## When to use
 
@@ -12,38 +12,49 @@ After classifying opportunities, before enrichment. The disclosure gate in `unma
 
 | Tier | Method | Cost | What it finds |
 |------|--------|------|---------------|
-| 1 | Reddit profile (JSON API) | Free | Bio text, website link, social links in their profile |
-| 2 | Exa search | ~$0.01/query | Company blogs, LinkedIn profiles, personal sites tied to the username |
-| 3 | DuckDuckGo HTML search | Free | Same signals, coarser results, no API key needed |
-| 4 | Playwright browser scrape | Free | Rendered profile page via an existing Chrome session |
+| 1 | Reddit profile (JSON API) | Free | Company domain as direct disclosure; social link without a company domain as a candidate |
+| 2 | Exa search | ~$0.01/query | Possible company pages tied to the username, manual review only |
+| 3 | DuckDuckGo HTML search | Free | Possible company pages tied to the username, manual review only |
+| 4 | Playwright browser scrape | Free | Same profile rule against the rendered page |
 
-The waterfall stops at the first tier that finds a company domain or professional link. Tier 1 (Reddit JSON API) returns 403 since mid-2025 but costs nothing to try. Tier 4 requires Chrome launched with `--remote-debugging-port=9222`.
+The waterfall returns immediately on direct Reddit-profile evidence. Search candidates are retained while later profile tiers are checked. A blocked or unavailable tier is an error, not proof that no evidence exists. Tier 4 can reuse Chrome launched with `--remote-debugging-port=9222`.
 
 ## What it returns
 
 ```json
 {
   "disclosed": true,
-  "domains": ["mpiresolutions.com"],
-  "links": ["https://mpiresolutions.com/blog/..."],
-  "bio": "Founder at MPI Resolutions...",
-  "source": "exa",
-  "signal": "company domain found via web search: mpiresolutions.com"
+  "lookup_status": "self_disclosed",
+  "review_verdict": "direct_disclosure",
+  "enrichment_eligibility": "eligible_direct_disclosure",
+  "domains": ["acme.com"],
+  "source": "reddit_json",
+  "evidence": [{
+    "url": "https://www.reddit.com/user/acme_author/",
+    "kind": "reddit_profile",
+    "excerpt": "I run acme.com"
+  }]
 }
 ```
 
-When no identity signals are found across all tiers:
+A web-search match stays out of enrichment:
 
 ```json
 {
   "disclosed": false,
-  "domains": [],
-  "links": [],
-  "bio": null,
-  "source": "none",
-  "signal": "no identity signals found across 4 tiers"
+  "lookup_status": "candidate_found",
+  "review_verdict": "plausible_candidate",
+  "enrichment_eligibility": "manual_review",
+  "domains": ["possible-company.com"],
+  "source": "exa",
+  "evidence": [{
+    "url": "https://possible-company.com/team/acme_author",
+    "kind": "web_search_candidate"
+  }]
 }
 ```
+
+The other terminal states are `no_public_evidence`, used only when a Reddit-profile tier completed without a match, and `lookup_error`, used when no profile tier completed. Do not turn a successful search with no match into a negative profile finding when Reddit itself could not be checked.
 
 ## How to run
 
@@ -51,7 +62,7 @@ When no identity signals are found across all tiers:
 
 ```bash
 cd engine
-python3 -m lib.profile_lookup twot0n3 Squared_Bear --verbose
+python3 -m lib.profile_lookup example_author another_author --verbose
 ```
 
 ### As part of the unmask pipeline
@@ -65,9 +76,11 @@ python3 unmask.py --ops data/ops_classified.json --profile --out data/unmasked.j
 ```python
 from lib.profile_lookup import lookup_profile
 
-result = lookup_profile("twot0n3")
-if result["disclosed"]:
+result = lookup_profile("example_author")
+if result["enrichment_eligibility"] == "eligible_direct_disclosure":
     print(f"Found: {result['domains']} via {result['source']}")
+elif result["review_verdict"] == "plausible_candidate":
+    print("Manual review required")
 ```
 
 ## Prerequisites
@@ -78,13 +91,11 @@ if result["disclosed"]:
 
 ## What this is and is not
 
-This reads what the author chose to publish — a bio, a website link, a blog post under their username. It does not infer identity from posting patterns, writing style, or timezone analysis. If the person did not leave public breadcrumbs tying their username to a company, the lookup correctly returns `disclosed: false` and the lead stays a Reddit conversation.
+This reads exact profile evidence and gathers search candidates. It does not infer identity from posting patterns, writing style, or timezone analysis. It never treats a search result, a domain mentioned in a thread, or a brand-like handle as direct disclosure. Those states require human verification and remain in the Reddit conversation queue.
 
-## Real test results
+## Decision rule
 
-Tested against 8 lead usernames from a live client corpus:
-- **1 of 8 disclosed** — `twot0n3` → `mpiresolutions.com` via Exa (company blog found linking to the username)
-- **7 of 8 genuinely pseudonymous** — no identity signals across any tier
-- The in-thread domain scan alone had found **0 of 8** — the profile lookup added one real lead the thread check missed entirely
-
-The 12.5% hit rate on this corpus is higher than the ~1.25% baseline from in-thread scanning alone. The profile lookup catches a different class of disclosure: people who keep their Reddit username separate from their posts but link it to their company elsewhere on the web.
+- `direct_disclosure` plus an exact Reddit-profile evidence URL and company domain: enrichment eligible.
+- `plausible_candidate`: manual review only; never passed to enrichment automatically.
+- `no_public_evidence`: a Reddit-profile tier completed without a match.
+- `lookup_error`: no Reddit-profile tier completed; retry rather than report a negative.

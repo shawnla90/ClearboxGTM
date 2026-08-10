@@ -8,25 +8,26 @@ This playbook describes the pattern that stays the same regardless of which orch
 
 ```mermaid
 graph TD
-  A[Lead-lane ops] --> B[Step 1: Profile lookup<br/>check the author's own profile<br/>and web presence]
-  B -->|domain found| F[Enrichment backend]
-  B -->|nothing found| C[Step 2: In-thread scan<br/>regex for company domains<br/>in post text]
-  C -->|domain found| F
-  C -->|nothing found| D[Step 3: Brand-handle check<br/>does the username look<br/>like a company?]
-  D -->|yes| G[Manual review<br/>then enrich if confirmed]
-  D -->|no| E[Stays a Reddit conversation<br/>reply as a human]
+  A[Lead-lane ops] --> B[Step 1: Reddit profile<br/>exact bio or link evidence]
+  B -->|company domain self-disclosed| F[Enrichment backend]
+  B -->|no direct disclosure| C[Step 2: Search + thread scan<br/>collect possible matches]
+  C -->|candidate found| G[Manual review<br/>verify before enrichment]
+  C -->|no candidate| D[Step 3: Brand-handle check]
+  D -->|candidate| G
+  D -->|no candidate| E[Stays a Reddit conversation<br/>reply as a human]
+  B -->|lookup failed| I[Lookup error<br/>retry, do not mark absent]
   F --> H[Company + ICP tier + contacts]
 ```
 
-Step 1 checks the person's own profile first, because that is where disclosure is most likely. If the Reddit profile has a company in the bio, a website link, or social links — that is a disclosed domain. If the profile does not reveal anything, Exa and DuckDuckGo search the username across the web to find company blogs, LinkedIn profiles, or personal sites tied to it.
+Step 1 checks the author's own Reddit profile. A company domain published there, preserved with the exact profile URL and excerpt, is direct disclosure. If the profile does not reveal a company, Exa and DuckDuckGo may find possible pages tied to the username. Those search results are candidates, not disclosure.
 
-Step 2 scans the thread text for company domains. Step 3 checks if the username itself looks like a brand handle.
+Step 2 also scans the thread for company domains, but a domain mention may describe a vendor or competitor, so it remains a candidate. Step 3 treats a brand-like username the same way. A reviewer must verify either candidate before any enrichment.
 
 When none of the three steps finds a company, the lead stays a Reddit conversation. A human reply is the correct move, and those threads are where an account actually grows.
 
 ## The enrichment seam
 
-When the gate finds a domain, it passes to the `enrich_domain()` function in `engine/unmask.py`. This is the single swap point — replace it with whatever orchestration tool you run:
+Only when the gate returns `enrichment_eligibility: eligible_direct_disclosure` does it pass a domain to `enrich_domain()` in `engine/unmask.py`. This is the single swap point — replace it with whatever orchestration tool you run:
 
 ```python
 def enrich_domain(domain: str, timeout_s: int = 240) -> dict:
@@ -50,30 +51,28 @@ Each orchestration tool has its own guide showing how it plugs into this seam:
 ```bash
 cd engine
 
-# Gate only — no external calls, shows who disclosed
+# Gate only — no external calls, shows thread/handle candidates
 python3 unmask.py --ops data/ops_classified.json --out data/unmasked.json
 
-# Gate with profile lookup — adds web search for each author's public identity
+# Gate with profile lookup — separates direct profile evidence, candidates, absence, and errors
 python3 unmask.py --ops data/ops_classified.json --profile --out data/unmasked.json
 
 # Gate + profile lookup + live enrichment through your backend
 python3 unmask.py --ops data/ops_classified.json --profile --enrich --out data/unmasked.json
 ```
 
-## What the gate holds
+## Gate output
 
-Real numbers from live runs across several client corpora:
+- `direct_disclosure`: exact Reddit-profile evidence plus a company domain; enrichment eligible.
+- `plausible_candidate`: search, thread-domain, or brand-handle evidence; manual review only.
+- `no_public_evidence`: a Reddit-profile tier completed without evidence.
+- `lookup_error`: no Reddit-profile tier completed; retry rather than report absence.
 
-- **474 leads processed** across 6 accounts
-- **7 company domains voluntarily disclosed** (1.25% via in-thread scan + brand handle)
-- **1 additional disclosure found via profile lookup** (twot0n3 → mpiresolutions.com, found by Exa searching the username and finding a company blog)
-- **467 correctly held** as pseudonymous Reddit authors
-
-The gate holding at ~1-2% is the point. Everything else stays a human conversation.
+Each direct or candidate result preserves exact evidence URLs and excerpts. Everything not directly disclosed stays out of automatic enrichment.
 
 ## The rules
 
-1. **The gate refuses to guess.** It reads what the author volunteered. It does not infer identity from writing style, posting patterns, or timezone.
+1. **The gate refuses to guess.** Only exact evidence on the author's Reddit profile is direct disclosure. Search, thread, and handle matches require review.
 2. **Enrich the company, never the person.** The enrichment backend receives a domain, not a name.
 3. **Never enrich without `--enrich`.** The default run is gate-only with zero external calls.
 4. **Profile lookup is opt-in.** Pass `--profile` to enable it. Without the flag, only the in-thread scan and brand-handle check run.

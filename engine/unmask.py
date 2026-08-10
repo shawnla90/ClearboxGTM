@@ -1,24 +1,23 @@
 #!/usr/bin/env python3
 """unmask.py - the lead-unmasking pass over a client's classified Reddit opportunities.
 
-Three-step disclosure gate, then enrichment. Reddit is pseudonymous, so you enrich the COMPANY, never
-the person, and only when the author tied themselves to a company. Pseudonymous threads stay Reddit
-conversations. This is the honest version of "unmasking": it reads what the author volunteered in
-public, it does not de-anonymize anyone.
+Three-step review gate, then enrichment. Reddit is pseudonymous, so you enrich the COMPANY, never the
+person. Only an exact company domain published on the author's own Reddit profile is automatically
+eligible. Search, thread-domain, and brand-handle matches are manual-review candidates. Pseudonymous
+threads stay Reddit conversations. This does not de-anonymize anyone.
 
 The gate checks three things, in order:
-  1. Profile lookup (--profile)  check the author's own Reddit profile and web presence first,
-                                 because that is where disclosure is most likely
-  2. In-thread domain scan       regex for company domains in post/comment text
-  3. Brand-handle heuristic      username patterns that look like a company handle
+  1. Reddit profile (--profile)  exact self-disclosure can become enrichment-eligible
+  2. Web/thread candidates       search or thread domains require manual review
+  3. Brand-handle heuristic      username patterns require manual review
 
-  # gate only (default, no external calls): who disclosed a company, and the domain
+  # gate only (default, no external calls): collect thread and handle candidates
   python3 unmask.py --ops data/ops_classified.json --out data/unmasked.json
 
-  # gate with profile lookup (adds web search for the author's public identity)
+  # gate with profile lookup: direct profile evidence, candidates, absence, or errors
   python3 unmask.py --ops data/ops_classified.json --profile --out data/unmasked.json
 
-  # gate + live enrich each disclosed domain through your enrichment backend
+  # gate + live enrich only exact profile-disclosed domains through your backend
   python3 unmask.py --ops data/ops_classified.json --profile --enrich --out data/unmasked.json
 
 Enrichment backend is pluggable. The default shells the Freckle CLI (saved workflow
@@ -51,46 +50,151 @@ IGNORE_DOMAINS = {"reddit.com", "redd.it", "google.com", "youtube.com", "github.
                   "substack.com", "loom.com", "imgur.com"}
 
 
+def _gate_result(
+    verdict: str,
+    *,
+    signal: str,
+    source: str,
+    domain: str | None = None,
+    candidate_domains: list[str] | None = None,
+    evidence: list[dict] | None = None,
+    profile_lookup_status: str = "not_checked",
+) -> dict:
+    candidate_domains = candidate_domains or []
+    direct = verdict == "direct_disclosure" and bool(domain)
+    return {
+        "disclosed": direct,
+        "review_verdict": verdict,
+        "enrichment_eligibility": "eligible_direct_disclosure" if direct else (
+            "manual_review" if verdict == "plausible_candidate" else "not_eligible"
+        ),
+        "profile_lookup_status": profile_lookup_status,
+        "signal": signal,
+        "source": source,
+        "domain": domain if direct else None,
+        "candidate_domain": candidate_domains[0] if candidate_domains else None,
+        "candidate_domains": candidate_domains,
+        "evidence": evidence or [],
+        "action": (
+            "reply first, then enrich the company"
+            if direct
+            else "review the evidence; do not enrich yet"
+            if verdict == "plausible_candidate"
+            else "retry the lookup before deciding"
+            if verdict == "lookup_error"
+            else "stays a Reddit conversation, reply on the thread"
+        ),
+    }
+
+
 def disclose(op: dict, use_profile: bool = False) -> dict:
     """The three-step disclosure gate.
 
-    Step 1 (--profile): check the author's own profile and web presence — this is where
-    disclosure is most likely. Requires an Exa key for the web search tier.
-    Step 2: scan the thread text for company domains.
-    Step 3: check if the username looks like a brand handle.
+    Step 1 (--profile): exact evidence on the author's Reddit profile may qualify.
+    Search-only matches are candidates. Step 2 thread domains and Step 3 brand-like
+    handles are also candidates because neither proves the author owns the company.
     """
     author = op.get("author") or ""
+    profile_status = "not_checked"
+    profile_error = None
+    candidates = []
 
     # Step 1: profile lookup (opt-in)
     if use_profile and author:
         try:
             from lib.profile_lookup import lookup_profile
             result = lookup_profile(author)
-            if result.get("disclosed") and result.get("domains"):
-                return {"disclosed": True,
-                        "signal": f"profile lookup ({result['source']}): {result['signal']}",
-                        "domain": result["domains"][0],
-                        "action": "reply first, then enrich the company"}
+            profile_status = result.get("lookup_status", "lookup_error")
+            if (
+                result.get("review_verdict") == "direct_disclosure"
+                and result.get("enrichment_eligibility") == "eligible_direct_disclosure"
+                and result.get("domains")
+                and result.get("evidence")
+            ):
+                return _gate_result(
+                    "direct_disclosure",
+                    signal=f"Reddit profile self-disclosure ({result['source']}): {result['signal']}",
+                    source=result.get("source", "reddit_profile"),
+                    domain=result["domains"][0],
+                    evidence=result.get("evidence", []),
+                    profile_lookup_status=profile_status,
+                )
+            if result.get("review_verdict") == "plausible_candidate":
+                candidates.append({
+                    "source": result.get("source", "web_search"),
+                    "domains": result.get("domains", []),
+                    "signal": result.get("signal", "search candidate"),
+                    "evidence": result.get("evidence", []),
+                })
+            elif result.get("review_verdict") == "lookup_error":
+                profile_error = result.get("signal", "profile lookup failed")
         except ImportError:
-            pass
+            profile_status = "lookup_error"
+            profile_error = "profile lookup module unavailable"
 
-    # Step 2: in-thread domain scan
+    # Step 2: in-thread domains are candidates, not proof of ownership.
     text = f"{op.get('summary', '')} {op.get('snippet', '')}"
+    thread_domains = []
     for m in DOMAIN_RE.finditer(text):
         dom = m.group(1).lower()
         root = ".".join(dom.split(".")[-2:])
-        if root in IGNORE_DOMAINS:
+        if root in IGNORE_DOMAINS or dom in thread_domains:
             continue
-        return {"disclosed": True, "signal": "company domain in thread", "domain": dom,
-                "action": "reply first, then enrich the company"}
+        thread_domains.append(dom)
+    if thread_domains:
+        candidates.append({
+            "source": "thread_domain",
+            "domains": thread_domains,
+            "signal": "company domain appeared in the thread; ownership is not established",
+            "evidence": [{
+                "url": op.get("permalink") or op.get("url"),
+                "kind": "thread_domain_candidate",
+                "excerpt": text.strip()[:300],
+            }],
+        })
 
-    # Step 3: brand-handle heuristic
+    # Step 3: a brand-like handle is a candidate only.
     if BRAND_HANDLE_RE.search(author):
-        return {"disclosed": True, "signal": "author handle looks like a brand", "domain": None,
-                "action": "check the handle, it may name a company"}
+        candidates.append({
+            "source": "brand_handle",
+            "domains": [],
+            "signal": "author handle looks like a brand; ownership is not established",
+            "evidence": [{
+                "url": f"https://www.reddit.com/user/{author}/",
+                "kind": "brand_handle_candidate",
+                "excerpt": author,
+            }],
+        })
 
-    return {"disclosed": False, "signal": "no company disclosed", "domain": None,
-            "action": "stays a Reddit conversation, reply on the thread"}
+    if candidates:
+        candidate_domains = []
+        evidence = []
+        for candidate in candidates:
+            candidate_domains.extend(candidate["domains"])
+            evidence.extend(candidate["evidence"])
+        candidate_domains = list(dict.fromkeys(candidate_domains))
+        return _gate_result(
+            "plausible_candidate",
+            signal="; ".join(candidate["signal"] for candidate in candidates),
+            source="+".join(candidate["source"] for candidate in candidates),
+            candidate_domains=candidate_domains,
+            evidence=evidence,
+            profile_lookup_status=profile_status,
+        )
+
+    if use_profile and profile_error:
+        return _gate_result(
+            "lookup_error",
+            signal=profile_error,
+            source="profile_lookup",
+            profile_lookup_status=profile_status,
+        )
+    return _gate_result(
+        "no_public_evidence",
+        signal="no direct disclosure or candidate found in the checked sources",
+        source="none",
+        profile_lookup_status=profile_status,
+    )
 
 
 def is_lead(op: dict) -> bool:
@@ -163,9 +267,10 @@ def main() -> int:
             **d,
         })
 
-    disclosed = [r for r in rows if r["disclosed"] and r["domain"]]
-    stays = [r for r in rows if not r["disclosed"]]
-    maybe = [r for r in rows if r["disclosed"] and not r["domain"]]
+    disclosed = [r for r in rows if r["enrichment_eligibility"] == "eligible_direct_disclosure"]
+    maybe = [r for r in rows if r["enrichment_eligibility"] == "manual_review"]
+    lookup_errors = [r for r in rows if r["review_verdict"] == "lookup_error"]
+    stays = [r for r in rows if r["review_verdict"] == "no_public_evidence"]
 
     enrichment = []
     if args.enrich:
@@ -184,18 +289,20 @@ def main() -> int:
     result = {
         "leads_total": len(leads),
         "disclosed_company": len(disclosed),
-        "handle_looks_like_brand": len(maybe),
+        "manual_review_candidates": len(maybe),
+        "lookup_errors": len(lookup_errors),
         "stays_on_reddit": len(stays),
         "profile_lookup": args.profile,
-        "gate": ("enrich the company, not the person, and only when the author tied themselves to a "
-                 "company — in their profile, in the thread, or via a brand handle"),
+        "gate": ("only exact company-domain evidence published on the author's Reddit profile is "
+                 "enrichment-eligible; search, thread, and handle matches require manual review"),
         "rows": rows,
         "enrichment": enrichment,
     }
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(result, indent=2, ensure_ascii=False))
     print(f"unmask: {len(leads)} leads -> {len(disclosed)} disclosed a company, "
-          f"{len(maybe)} brand-like handles, {len(stays)} stay on Reddit"
+          f"{len(maybe)} manual-review candidates, {len(lookup_errors)} lookup errors, "
+          f"{len(stays)} stay on Reddit"
           f"{' (profile lookup on)' if args.profile else ''}"
           f"{' · enriched ' + str(len(enrichment)) if args.enrich else ''} -> {args.out}")
     return 0

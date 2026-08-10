@@ -76,13 +76,14 @@ python3 digest.py --client "Acme PM" --out data/slack_digest.txt
 python3 digest.py --client "Acme PM" --out data/slack_digest.txt --post --webhook-secret SLACK_WEBHOOK_YOURCLIENT
 ```
 
-### `unmask.py` - the disclosure gate and lead enrichment
+### `unmask.py` - the profile review gate and lead enrichment
 
-Reddit is pseudonymous, so this enriches the company, never the person, and only when the author tied themselves to a company in the thread by naming it, linking a site, or posting as a brand handle. Pseudonymous threads stay Reddit conversations. The default run is the gate alone, with no external calls, reporting who disclosed a company and the domain. Add `--enrich` and each disclosed domain goes through a pluggable enrichment backend: Freckle by default (a saved workflow returning the company, the ICP tier, and the buying-role contacts), swappable for Clay, Apollo, or any waterfall a client already runs. It never enriches without `--enrich`.
+Reddit is pseudonymous, so this enriches the company, never the person. Only an exact company domain published on the author's own Reddit profile, preserved with its evidence URL and excerpt, is automatically eligible. Search results, domains mentioned in a thread, and brand-like handles are plausible candidates that require manual review. `no_public_evidence` and `lookup_error` remain separate states. Add `--profile` to run the full lookup and `--enrich` to send only eligible domains through the pluggable backend: Freckle by default, swappable for Base Loop, Clay, Deepline, Apollo, or another waterfall. It never enriches without `--enrich`.
 
 ```bash
 python3 unmask.py --ops data/ops_classified.json --out data/unmasked.json
-python3 unmask.py --ops data/ops_classified.json --out data/unmasked.json --enrich
+python3 unmask.py --ops data/ops_classified.json --profile --out data/unmasked.json
+python3 unmask.py --ops data/ops_classified.json --profile --out data/unmasked.json --enrich
 ```
 
 ### `content.py` - scaffold and anti-slop-check a content pack
