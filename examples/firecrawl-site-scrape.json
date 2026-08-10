@@ -1,0 +1,12 @@
+{
+  "_api": "Firecrawl",
+  "_endpoint": "scrape",
+  "_input": "URL",
+  "_example_note": "Firecrawl converts any URL into structured markdown. One API call replaces manual fetches of homepage, pricing, docs, and blog. The onboarding skill uses this to research a prospect site before writing the offer pack.",
+  "url": "https://clearbox.to",
+  "title": "",
+  "description": "",
+  "status_code": "",
+  "markdown_length": 13902,
+  "markdown_preview": "markdown='# Your Reddit opportunity inbox.\\n\\nSurface leads, competitor activity, and engagement opportunities in real time.\\n\\nInteractive demo\\n\\nInbox\\n\\n9\\n\\nAsk AI\\n\\nleadr/SaaS\\n\\n4m\\n\\n![](https://www.redditstatic.com/avatars/defaults/v2/avatar_default_0.png)marcusbuildsis shopping for a CRM under $200/mo with an API and Slack.\\n\\ncompetitorr/SaaS\\n\\n5m\\n\\n![](https://www.redditstatic.com/avatars/defaults/v2/avatar_default_2.png)jules\\\\_byrneis the co-founder of a rival CRM, pitching it in the thread.\\n\\nleadr/sales\\n\\n30m\\n\\n![](https://www.redditstatic.com/avatars/defaults/v2/avatar_default_6.png)MellowQuartz5wants a CRM that keeps contacts clean without manual babysitting.\\n\\nengager/Entrepreneur\\n\\n40m\\n\\n![](https://www.redditstatic.com/avatars/defaults/v2/avatar_default_3.png)dev\\\\_priyaargues painless data migration is what actually wins CRM switchers.\\n\\ncompetitorr/Entrepreneur\\n\\n50m\\n\\n![](https://www.redditstatic.com/avatars/defaults/v2/avatar_default_3.png)tetra\\\\_m"
+}

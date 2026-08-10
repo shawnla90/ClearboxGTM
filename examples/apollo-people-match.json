@@ -1,0 +1,18 @@
+{
+  "_api": "Apollo",
+  "_endpoint": "people/match",
+  "_input": "LinkedIn URL",
+  "_example_note": "Apollo resolves a LinkedIn URL to a verified work email, title, company, seniority, and location. This is the reveal step in the coverage waterfall: LinkedIn URL in, deliverable email out.",
+  "name": "Dharmesh Shah",
+  "title": "Founder and CTO",
+  "organization": "HubSpot",
+  "email": "dshah@hubspot.com",
+  "email_status": "verified",
+  "city": "Boston",
+  "state": "Massachusetts",
+  "seniority": "founder",
+  "departments": [
+    "c_suite",
+    "master_engineering_technical"
+  ]
+}

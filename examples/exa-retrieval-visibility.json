@@ -1,0 +1,43 @@
+{
+  "score": 0,
+  "checked": 8,
+  "capped_at": 8,
+  "queries": [
+    {
+      "query": "best reddit monitoring tool for GTM teams",
+      "appears": false
+    },
+    {
+      "query": "how to find buyer intent signals on reddit",
+      "appears": false
+    },
+    {
+      "query": "reddit lead generation for B2B SaaS",
+      "appears": false
+    },
+    {
+      "query": "competitor mentions tracking on reddit",
+      "appears": false
+    },
+    {
+      "query": "AI visibility from reddit presence",
+      "appears": false
+    },
+    {
+      "query": "reddit buyer signals tool",
+      "appears": false
+    },
+    {
+      "query": "alternative to brand24 for reddit monitoring",
+      "appears": false
+    },
+    {
+      "query": "how to use reddit for go to market",
+      "appears": false
+    }
+  ],
+  "available": true,
+  "_example_note": "Clearbox scores 0/8 retrieval visibility \u2014 a new brand that has not yet built organic presence for these buyer queries. This is what the tool reports before the content strategy lands. The score improves as genuine Reddit presence compounds into retrieval.",
+  "_api": "Exa",
+  "_brand": "Clearbox"
+}

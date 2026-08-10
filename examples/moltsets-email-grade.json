@@ -1,0 +1,17 @@
+{
+  "_api": "MoltSets",
+  "_endpoint": "reverse_email_lookup",
+  "_input": "email address",
+  "_example_note": "MoltSets returns a deliverability grade (A-F), company enrichment, and confirmation status. Grade A = safe to send. The coverage waterfall uses this to classify: A/B same-domain = T1_send, C = T2_catchall, D/F = SUPPRESS.",
+  "work_email_confirmed": "dshah@hubspot.com",
+  "work_email_confirmed_risk_score": "A",
+  "work_email_confirmed_status": "2026-07-03",
+  "current_company": "Hubspot",
+  "current_company_url": "https://hubspot.com",
+  "company_employee_range": "5001+",
+  "company_revenue_range": "Above $50M",
+  "current_industry": "Information Technology",
+  "seniority": "Owner",
+  "title": "Founder and CTO",
+  "fair_use_remaining_5h": 14952
+}
