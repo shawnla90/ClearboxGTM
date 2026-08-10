@@ -25,6 +25,26 @@ graph LR
 
 Five plays hang off that spine. Each one is a script in `../engine/` you can read, run, and change.
 
+### Enrichment waterfall detail
+
+```mermaid
+graph TD
+  A[Lead-lane ops] --> B[Disclosure gate<br/>unmask.py]
+  B -->|domain disclosed<br/>~1.25% of leads| C[Freckle workflow<br/>company + ICP + contacts]
+  B -->|no disclosure| D[Reply as human<br/>the larger part of the work]
+  C --> E{Has LinkedIn URL?}
+  E -->|yes| F[Apollo: people/match]
+  E -->|no| G[Apollo: org search]
+  F --> H[MoltSets: email grade]
+  G --> H
+  H --> I{Grade?}
+  I -->|A/B| J[T1_send]
+  I -->|C| K[T2_catchall]
+  I -->|D/F| L[SUPPRESS]
+```
+
+The enrichment backend (Freckle) is pluggable — swap it for Clay, Apollo, or your own waterfall. The gate stays the same. See the full diagram: [`../examples/workflows/enrichment-waterfall.md`](../examples/workflows/enrichment-waterfall.md).
+
 ## What Clearbox is doing
 
 Clearbox reads live conversations and returns four things together: the person, the room they said it in, the timestamp, and their exact words.
