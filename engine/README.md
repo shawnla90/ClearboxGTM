@@ -174,12 +174,12 @@ export RAPIDAPI_KEY=...          # reddit34 pull (pull.py)
 
 The Clearbox API is a pull-only HTTP endpoint. Every call is a GET. That means it plugs into any platform that can make an HTTP request:
 
-- **Clay** — Add the Clearbox inbox as an HTTP column. Each row arrives pre-classified (lead / competitor / engage) with intent and sentiment. Clay enriches only the leads worth enriching instead of running blind research on every company. The cost difference is the point: one classified API call replaces dozens of speculative Clay credits.
-- **n8n** — HTTP Request node pulls the inbox, a Switch node routes by `kind` (lead → enrich → CRM, competitor → alert → Slack, engage → draft → queue). n8n's reasoning nodes can layer Clearbox classification with Firecrawl site data and Exa retrieval scores to build a full prospect brief before a human touches it.
-- **Zapier** — Webhooks by Zapier catches the classified ops. Route to Google Sheets, Slack, HubSpot, or a custom webhook. Simpler than n8n but covers the 80% case.
-- **Make (Integromat)** — Same HTTP module pattern as n8n. The Clearbox API shape (GET, JSON, no auth header — token in path) works without custom modules.
+- **Clay** — HTTP column pulls the inbox pre-classified. Enrich only leads, skip the credits on engage and competitor rows. Cost reduction: 60-96% fewer Clay credits vs keyword-based research. [Full step-by-step guide →](../examples/integrations/clay.md)
+- **n8n** — HTTP Request → Switch → enrichment or AI Agent reasoning nodes. Layer Clearbox classification with Firecrawl site data and Exa retrieval scores to build prospect briefs before a human touches anything. [Full guide with Mermaid diagrams →](../examples/integrations/n8n.md)
+- **Zapier** — Schedule → Webhooks GET → Filter → Google Sheets, Slack, HubSpot. Covers the 80% case without reasoning nodes. [Full guide →](../examples/integrations/zapier.md)
+- **Make (Integromat)** — HTTP module → Iterator → Router. Same pattern as n8n, no custom modules needed. [Full guide →](../examples/integrations/make.md)
 
-The integration guides for each platform ship in a future release. The API shape is documented above in ["Access everything through the API"](#access-everything-through-the-api).
+Workflow diagrams showing the full enrichment waterfall and AEO content loop: [`../examples/workflows/`](../examples/workflows/).
 
 ## Build vs buy
 

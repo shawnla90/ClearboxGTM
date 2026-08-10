@@ -21,6 +21,7 @@ Every API is optional. The pipeline runs without any of them; each one makes a s
 - [`firecrawl-site-scrape.json`](firecrawl-site-scrape.json) — Firecrawl scrape of clearbox.to into structured markdown. 13,902 chars from one API call.
 - [`apollo-people-match.json`](apollo-people-match.json) — Apollo people/match from a LinkedIn URL. Returns verified email, title, company, seniority.
 - [`moltsets-email-grade.json`](moltsets-email-grade.json) — MoltSets reverse email lookup. Returns deliverability grade (A = safe to send), company enrichment, confirmation date.
+- [`firecrawl-freckle-site.json`](firecrawl-freckle-site.json) — Firecrawl scrape of freckle.io. 120,290 chars of structured markdown from one API call — the kind of output the onboarding research step consumes.
 
 ## How these fit the pipeline
 
@@ -51,12 +52,23 @@ subreddit config
 
 ## Where the API fits in automation platforms
 
-The Clearbox API is a pull-only HTTP endpoint — every call is a GET. That means it plugs into any platform that can make an HTTP request:
+The Clearbox API is a pull-only HTTP endpoint — every call is a GET. That means it plugs into any platform that can make an HTTP request. Each platform has a full step-by-step guide with Mermaid workflow diagrams:
 
-- **Clay** — Add the Clearbox inbox as an HTTP column. Each row arrives pre-classified (lead / competitor / engage) with intent and sentiment. Clay enriches only the leads worth enriching instead of running blind research on every company.
-- **n8n** — HTTP Request node pulls the inbox, a Switch node routes by `kind`. n8n's reasoning nodes can layer Clearbox classification with Firecrawl site data and Exa retrieval scores to build a full prospect brief.
-- **Zapier** — Webhooks by Zapier catches the classified ops. Route to Google Sheets, Slack, HubSpot, or a custom webhook.
-- **Make** — Same HTTP module pattern. The Clearbox API shape (GET, JSON, token in path) works without custom modules.
+- **Clay** — HTTP column, Filter by kind, enrich only leads. 60-96% fewer credits vs keyword research. [Full guide →](integrations/clay.md)
+- **n8n** — HTTP Request → Switch → AI Agent reasoning nodes for prospect briefs. [Full guide →](integrations/n8n.md)
+- **Zapier** — Schedule → Webhooks GET → Filter → Sheets/Slack/HubSpot. [Full guide →](integrations/zapier.md)
+- **Make** — HTTP module → Iterator → Router. No custom modules needed. [Full guide →](integrations/make.md)
+
+## Workflow diagrams
+
+Visual node graphs showing how the pieces connect:
+
+- [**Enrichment waterfall**](workflows/enrichment-waterfall.md) — disclosure gate → Freckle → Apollo → MoltSets → classify
+- [**AEO content loop**](workflows/aeo-content-loop.md) — buyer questions → GEO terms → Exa check → content gaps → publish → re-check
+
+## Client deliverable example
+
+What a real client deliverable looks like — the triage pattern, the signal/win/enter triad, and how it pushes to Notion: [**client-market-read.md**](client-market-read.md)
 
 ## Key setup
 

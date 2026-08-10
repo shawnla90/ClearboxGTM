@@ -87,6 +87,9 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 | **Run multiple accounts safely** | Client ownership, named operators, disclosure controls | Five-level success scorecard with evidence ledger | [`skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md`](skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md) |
 | **Audit quality** | 5-dimension pick-quality rubric | Score any account's picks before the client does | [`playbooks/account-quality-benchmark.md`](playbooks/account-quality-benchmark.md) |
 | **API examples** | Real API responses from Exa, Firecrawl, Apollo, MoltSets | What each enrichment step produces, with and without each API | [`examples/`](examples/) |
+| **Integration guides** | Step-by-step Clay, n8n, Zapier, Make setup with Mermaid diagrams | Full workflow guides with cost comparison and reasoning node patterns | [`examples/integrations/`](examples/integrations/) |
+| **Workflow diagrams** | Visual node graphs for enrichment waterfall and AEO content loop | Mermaid diagrams that render on GitHub | [`examples/workflows/`](examples/workflows/) |
+| **Client market read** | What a real client deliverable looks like | The triage pattern, signal/win/enter triad, delivery to Notion | [`examples/client-market-read.md`](examples/client-market-read.md) |
 | **Coverage waterfall** | Identify companies, scrape, reveal, grade, deliver to Sheet | Campaign-agnostic lead-list builder (coming in v0.6.0) | *v0.6.0* |
 | **Security** | The protection model | Scan gate, read-only DBs, siloed data, no auto-send | [`SECURITY.md`](SECURITY.md) |
 | **Students** | Free semester of Clearbox Pro | Monthly group office hours, build-in-public track record | [`STUDENTS.md`](STUDENTS.md) |
