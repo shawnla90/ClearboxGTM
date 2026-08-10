@@ -1,6 +1,6 @@
 ---
 name: reddit-agency
-version: 1.1.0
+version: 1.2.0
 description: The agency motion for a Reddit-led visibility offer. Given a client name and website, research them, pull real recent Reddit buyer signals, and build a complete package: a buyer-signal sheet, pitch deck, command center, operating docs, and the required multi-account safety and measurement module. Use when the user says "build a reddit package for <client>", "help me win <client>", or "reddit as a service for <client>".
 ---
 
@@ -29,6 +29,8 @@ Read [`MULTI-ACCOUNT-OPERATIONS.md`](MULTI-ACCOUNT-OPERATIONS.md) before designi
 - **Workspace:** one private Clearbox workspace per client.
 - **Account:** the client-controlled public Reddit identity and recovery ownership.
 - **Operator:** the named human authorized to review and publish.
+
+Every agency command-center Sheet must also include a visible **Plan Setup** view. It must show the recommended plan for the existing offer, the option to create additional offers, and the verified dashboard behavior: each new offer gets its own Stripe customer and subscription, with billing independent across offers. Use one offer per client or genuinely separate service line. Keep account, offer, plan, Reddit identity, operator, and billing owner distinct.
 
 Add the [stable public guide](https://fierce-camelotia-1fa.notion.site/Clearbox-Running-Multiple-Reddit-Accounts-for-Clients-3b51fb92bcd78187a212de323c577399) to the client's command center. Complete the setup checklist in the guide. Do not substitute a VPN, proxy, dedicated IP, or browser profile for identity, disclosure, and coordination controls.
 
@@ -74,6 +76,7 @@ Start each client benchmark from [`AI-VISIBILITY-SCORECARD.csv`](AI-VISIBILITY-S
 - **Score with a real tier spread.**
 - **Keep links stable.** Rebuilds update docs and sheets in place.
 - **Include the multi-account guide in every agency command center.** The universal public page is the client-safe version; the evidence ledger remains available for fact-checking.
+- **Include Plan Setup in every agency Sheet.** State the recommended path, the multi-offering alternative, the per-offer Stripe and subscription behavior, and who owns the billing decision.
 - **Keep identity, workspace, and operator separate.** Each has a named owner.
 - **Measure exact receipts.** A brand mention, a Reddit citation, an exact comment citation, and a business outcome are different events.
 - **Frame Clearbox as the engine.** You sell Reddit and AI visibility as a service; behind the scenes it runs on Clearbox for live tracking, sentiment, and competitor monitoring.

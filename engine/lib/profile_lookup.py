@@ -128,25 +128,13 @@ def _lookup_error(source: str, signal: str) -> dict:
 
 
 def _get_secret(key: str) -> str:
-    val = os.environ.get(key, "").strip()
-    if val:
-        return val
-    try:
-        import sqlite3
-        db = os.path.expanduser("~/.niobot/data/niobot.db")
-        if os.path.exists(db):
-            row = sqlite3.connect(db).execute(
-                "SELECT value FROM secrets WHERE key=?", (key,)).fetchone()
-            if row:
-                return row[0].strip()
-    except Exception:
-        pass
-    env_file = os.path.expanduser(f"~/.env.{key.lower().replace('_api_key', '').replace('_key', '')}")
-    if os.path.exists(env_file):
-        for line in open(env_file):
-            if line.startswith(f"{key}="):
-                return line.split("=", 1)[1].strip()
-    return ""
+    """Read provider credentials from the process environment only.
+
+    The public engine must not assume a private workstation database or guess
+    provider-specific secret files. Callers remain responsible for injecting
+    the requested key into the environment.
+    """
+    return os.environ.get(key, "").strip()
 
 
 def _extract_domains(text: str) -> list[str]:

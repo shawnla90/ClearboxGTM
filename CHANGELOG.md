@@ -2,6 +2,22 @@
 
 All notable changes to this repo are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are announced via GitHub Releases.
 
+## [0.8.0] - 2026-08-10
+
+Plan and offer setup: the agency skill now carries the actual multi-offering product behavior into every client command center instead of stopping at workflow and account guidance.
+
+### Added
+
+- **Plan Setup requirement**: every agency command-center Sheet must recommend a path for the existing offer and explain when to add a separate offer for another client or service line.
+- **Offer and billing boundary**: the operating guide now distinguishes the dashboard account, offer, plan, Reddit identity, operator, and billing owner.
+- **Verified multi-offering behavior**: the guide records that each new offer gets its own Stripe customer and subscription, with billing independent across offers.
+
+### Changed
+
+- **reddit-agency 1.2.0**: Step 0B and the delivery checklist now require a visible Plan Setup view and one isolated offer per client or genuinely separate service line.
+- **README stage table**: added the plan and offer configuration stage to the public workflow map.
+- **Profile lookup secret loading**: provider keys now come from the process environment only; the public engine no longer assumes private workstation databases or guesses secret-file paths.
+
 ## [0.7.0] - 2026-08-10
 
 Profile lookup and orchestration: an evidence-bearing review gate that separates direct Reddit-profile disclosure, search candidates, no public evidence, and lookup errors, with per-tool integration guides for every enrichment backend.

@@ -13,6 +13,7 @@ Research checked: August 6, 2026. Platform rules can change. Recheck the linked 
 - **FACT:** directly supported by Reddit, the FTC, OpenAI, or Google documentation.
 - **OBSERVED:** a public practitioner or moderator report. Useful evidence, not a platform rule or a proven cause.
 - **CLEARBOX RULE:** our operating standard. It is intentionally stricter than the minimum Reddit documents.
+- **CLEARBOX PRODUCT FACT:** behavior verified in the current Clearbox product. It is not a claim about Reddit or a promise about a future product version.
 - **FICTION:** a confident claim that the available evidence does not support.
 - **UNPROVEN:** plausible, but not established well enough to promise to a client.
 
@@ -33,6 +34,35 @@ The standard agency shape is:
 5. Client approval for identity, profile language, disclosure language, and any comment that names or recommends the client.
 
 > 🔴 A new browser profile, a VPN, or a dedicated IP is not an ethical or technical permission slip. None of them changes what the accounts actually do.
+
+## The offer, plan, and billing boundary
+
+Do not collapse the Clearbox account, an offer, a plan, and a Reddit identity into one thing.
+
+- **Clearbox account:** the dashboard login and control surface for the authorized user.
+- **Offer:** the private operating and commercial boundary for one client, brand, or genuinely separate service line.
+- **Plan:** the capacity selected for that offer.
+- **Reddit identity:** the public account that participates under the identity and disclosure rules in this guide.
+
+**CLEARBOX PRODUCT FACT, verified August 10, 2026:** an authorized user can be enabled to create more than one offer. Before the user proceeds, the dashboard explains that each new offer gets its own Stripe customer and subscription, and that billing is independent across offers.
+
+That creates three valid setup paths:
+
+1. **One offer, higher-capacity plan:** upgrade the existing offer when its own volume needs more capacity.
+2. **One primary offer plus additional offers:** keep the current offer intact, then create one independently billed offer for each added client or genuinely separate service line.
+3. **Both:** upgrade the primary offer and add separate offers alongside it.
+
+**CLEARBOX RULE:** never combine unrelated clients in one offer to avoid a subscription. Each offer gets its own client owner, billing owner, targeting, inbox, workflow, usage view, command-center Sheet, and evidence ledger. The dashboard account can control multiple offers, but the offers remain separate operating and billing boundaries.
+
+Every agency command center must include a short **Plan Setup** view that answers:
+
+- Which offer already exists?
+- Does that offer need a higher-capacity plan?
+- Is another client or service ready for its own offer?
+- Who owns the new offer and its subscription?
+- What does the dashboard say will happen before the user confirms?
+
+Do not replace this with internal tool language. Freckle, Base Loop, Clay, or another processor may support the work behind the scenes; the client needs to understand the offer, plan, billing, and operating boundaries they control.
 
 ## When one owner has two related companies
 
