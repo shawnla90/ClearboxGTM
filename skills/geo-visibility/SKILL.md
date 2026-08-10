@@ -50,6 +50,10 @@ Terms the brand doesn't currently surface for are the content plan: feed them to
 2. **Terms come from buyer evidence** — generated from real threads or mined topics, never brainstormed into the file.
 3. **The check is capped.** Don't loop it to inflate coverage; 8 well-chosen terms tell the story.
 
+## Deep dive
+
+For API key setup, query construction patterns, interpreting the retrieval results, and the hard cap that protects your balance: [`EXA-GUIDE.md`](EXA-GUIDE.md).
+
 ## Related
 
 - `../../engine/geo.py` — the module this wraps

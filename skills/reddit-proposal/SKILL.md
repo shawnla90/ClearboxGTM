@@ -41,6 +41,37 @@ Two files in the `--out` directory:
 
 The brief is generated from real Reddit conversations. Every quote traces to a permalink in `brief.json`.
 
+## Clearbox integration
+
+When running against a Clearbox workspace (not the RapidAPI baseline), the proposal pipeline inherits the classification that makes it accurate:
+
+1. **Classify** -- Clearbox classifies every Reddit opportunity as engage, lead, or competitor by buying intent (not keywords)
+2. **Sentiment** -- `engine/sentiment.py` generates per-op sentiment from the classified ops ([`../sentiment/`](../sentiment/))
+3. **Competitor** -- `engine/competitor.py` rolls the classified ops into share-of-voice and competitive context ([`../competitor-intel/`](../competitor-intel/))
+4. **Proposal** -- `engine/proposal.py` reads scored topics, buyer language, and optionally layers in competitor analysis and GEO terms
+5. **Pitch** -- The output BRIEF.md is a readout of the prospect's market, not a pitch deck
+
+The workflow:
+
+```
+classify --> sentiment --> competitor --> proposal --> pitch
+  (Clearbox)   (engine)     (engine)      (engine)    (BRIEF.md)
+```
+
+Each step is optional and degrades gracefully. The proposal works with just the signal database; competitor and GEO context make it richer.
+
+## What the prospect sees
+
+The BRIEF.md is designed to hand to a prospect. It contains:
+
+- **Their buyers' real questions** -- extracted from Reddit threads, with subreddit and kind (question/comparison/pain)
+- **Content gaps** -- scored topics where no brand is the answer yet, ranked by intent and demand
+- **Where the conversations happen** -- the subreddits with the most activity
+- **Competitive context** (if competitor analysis was run) -- share of voice and the plain-language reading
+- **GEO gaps** (if geo was run) -- buyer questions the prospect does not yet surface for
+
+Every quote traces to a permalink in brief.json. The prospect can click through and read the conversation themselves. This is the reverse-uno method: show them their buyers instead of a pitch.
+
 ## Rules
 
 1. **Buyer questions come from the database, not from brainstorming.** Every question in the brief was mined from a real Reddit thread by `engine/mine.py`.
@@ -54,3 +85,4 @@ The brief is generated from real Reddit conversations. Every quote traces to a p
 - `../../playbooks/win-an-agency-client.md` — the reverse-uno strategy this executes
 - `../competitor-intel/` — produces the competitor analysis this optionally incorporates
 - `../geo-visibility/` — produces the GEO terms this optionally incorporates
+- `../sentiment/` — the upstream sentiment classification
