@@ -94,6 +94,35 @@ python3 content.py scaffold --client "Acme PM" --topic "how to keep one source o
 python3 content.py check content/pack-01/linkedin.md
 ```
 
+### `sentiment.py` - thread-level sentiment classification
+
+Reddit opportunities carry no sentiment field. This generates a per-op sentiment read — positive, neutral, or negative — with a 1-5 score and a reason. Heuristic by default (keyword signals in the summary); `--cli` adds a Claude-powered pass for nuanced three-class scoring. The output matches the shape `competitor.py` reads at its `--gen` input, so the two chain directly: sentiment feeds competitor narrative.
+
+```bash
+python3 sentiment.py --ops data/ops_classified.json --out data/sentiment.json
+python3 sentiment.py --ops data/ops_classified.json --out data/sentiment.json --cli
+```
+
+### `last24.py` - the morning briefing
+
+Filters `signals.db` for threads created in the last 24 hours, ordered by intent (comparisons and recommendations first) then engagement. The fastest way to see what is live right now. `--refresh` shells out to `pull.py` first to bring the database current. Without it, reads what is already there.
+
+```bash
+python3 last24.py --db data/signals.db --out data/last24.json
+python3 last24.py --db data/signals.db --out data/last24.json --refresh
+```
+
+### `proposal.py` - Reddit-sourced pitch materials
+
+The reverse-uno at the tactical level: given a prospect company, reads scored content topics and buyer language from `signals.db`, optionally layers in competitor analysis and GEO terms, and outputs a structured `brief.json` plus a readable `BRIEF.md` for prospect pitches. Every quote traces to a permalink.
+
+```bash
+python3 proposal.py --prospect "Acme Corp" --db data/signals.db --out data/proposal/
+python3 proposal.py --prospect "Acme Corp" --db data/signals.db \
+    --competitor-analysis data/competitor_analysis.json \
+    --geo data/geo_terms.json --out data/proposal/
+```
+
 ## The data contract
 
 Everything flows through SQLite (`data/signals.db`), so each stage is independent and idempotent. Four tables:

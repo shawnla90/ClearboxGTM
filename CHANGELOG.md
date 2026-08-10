@@ -2,6 +2,28 @@
 
 All notable changes to this repo are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are announced via GitHub Releases.
 
+## [0.4.0] - 2026-08-09
+
+The skills drop: six new skills, three new engine scripts, a security showcase, and the attribution tracking pattern.
+
+### Added
+
+- **Competitor intel skill**: share of voice, generated sentiment, and where the opening is — from classified Reddit ops. Includes FACTCHECK.md enforcing the classification-not-counting rule. Wraps `engine/competitor.py` + the new `engine/sentiment.py`.
+- **Sentiment skill**: three-class (positive/neutral/negative) thread-level sentiment classification, LLM-powered with heuristic fallback. Output feeds competitor-intel and the daily digest.
+- **Dataviz skill**: reference architecture for GTM dashboards with Recharts — the dark-theme palette, the component patterns, and three standalone `.tsx` examples (ChannelBars, ImpressionsLine, FunnelBars) plus a bootstrapping guide.
+- **Last 24 hours skill**: the morning briefing — freshest buyer signals from the last day, ranked by intent and engagement.
+- **Reddit proposal skill**: pitch materials for a prospect from their buyers' Reddit conversations. The reverse-uno applied to a single prospect.
+- **Slack digest skill**: wraps `engine/digest.py` as a proper skill with setup, chaining, and the render-vs-post boundary.
+- **Three engine scripts**: `sentiment.py` (thread-level sentiment from classified ops), `last24.py` (24h buyer signal feed), `proposal.py` (Reddit-sourced pitch brief).
+- **SECURITY.md**: the protection model — siloed-by-design architecture (no cookies, no shared backend, local SQLite), the scan gate explained, read-only databases, the no-auto-send boundary, terminal examples, and the "using Reddit the right way" thesis.
+- **Attribution tracking playbook**: the journey materialization pattern — identity spine, events table, first/last-touch channel attribution, and the "your data stays yours" architecture. Documents how the proof pipeline's signup-attribution tables are produced.
+
+### Changed
+
+- README expanded with 8 new stage table rows (6 skills, attribution playbook, security doc) and rule #6 ("your data stays yours").
+- ENGINE.md expanded with 3 new client-service modules.
+- `engine/digest.py` now credits Lucas for the original daily digest pattern.
+
 ## [0.3.0] - 2026-08-07
 
 The flagship drop: release hygiene, real branding, generated proof, transparency, and three new tracks (agency, students, partners).

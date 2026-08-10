@@ -35,6 +35,9 @@ The same classified signal feeds five more modules that turn it into an operated
 - **`digest.py`** the daily digest of engage threads with the drafted reply, new leads, and competitor mentions, as a header line plus one block per opportunity ordered by priority. Render-only by default; add `--post --webhook-secret <SECRET_NAME>` to post to an incoming webhook.
 - **`unmask.py`** the disclosure gate (enrich the company not the person, and only when the author self-disclosed a company by naming it, linking a site, or posting as a brand handle), then a pluggable enrichment backend (Freckle by default, swap in Clay or Apollo) returning the company, the ICP tier, and buying-role contacts.
 - **`content.py`** scaffold a LinkedIn, Reddit, and blog content pack from one buyer question in the brand voice, plus an anti-slop check subcommand.
+- **`sentiment.py`** thread-level sentiment classification (positive/neutral/negative, 1-5 score) from classified ops, heuristic by default with optional `--cli` for LLM-powered reads. Output feeds `competitor.py --gen`.
+- **`last24.py`** the morning briefing: buyer signals from the last 24 hours, ranked by intent and engagement. Optional `--refresh` pulls fresh data first.
+- **`proposal.py`** pitch materials for a prospect from their buyers' Reddit conversations. Outputs a structured `brief.json` + readable `BRIEF.md` for the reverse-uno.
 
 ```bash
 python3 geo.py --brand "Acme PM" --db data/signals.db --out data/geo_terms.json
@@ -43,6 +46,9 @@ python3 digest.py --client "Acme PM" --out data/slack_digest.txt
 python3 unmask.py --ops data/ops_classified.json --out data/unmasked.json          # add --enrich to live-enrich
 python3 content.py scaffold --client "Acme PM" --topic "how to keep one source of truth across two CRMs" --out content/pack-01
 python3 content.py check content/pack-01/linkedin.md
+python3 sentiment.py --ops data/ops_classified.json --out data/sentiment.json --cli
+python3 last24.py --db data/signals.db --out data/last24.json --refresh
+python3 proposal.py --prospect "Acme Corp" --db data/signals.db --out data/proposal/
 ```
 
 The example throughout is a project-management SaaS for small teams (call it "Acme PM"). Point it at your own market by editing two config files and two Python maps.

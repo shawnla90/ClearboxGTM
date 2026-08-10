@@ -35,7 +35,15 @@ Running the agency motion across client accounts? Start with the public [multipl
 | **Sell it as a service** | The agency package: buyer-signal sheet, deck, Notion command center | [`skills/reddit-agency/`](skills/reddit-agency/) |
 | **Win the agency client** | The reverse-uno method: lead with a readout of their buyers, not a pitch | [`playbooks/win-an-agency-client.md`](playbooks/win-an-agency-client.md) |
 | **Run multiple client accounts safely** | Client ownership, named operators, disclosure, coordination controls, and a five-level success scorecard | [`skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md`](skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md) |
+| **Competitor intel** | Share of voice, sentiment, and where the opening is — from classified Reddit ops | [`skills/competitor-intel/`](skills/competitor-intel/) |
+| **Sentiment** | Three-class LLM sentiment on every opportunity, feeding the competitor narrative | [`skills/sentiment/`](skills/sentiment/) |
+| **Last 24 hours** | The morning briefing — freshest buyer signals from the last day | [`skills/last24/`](skills/last24/) |
+| **Slack digest** | The daily client delivery — engage threads, leads, competitor mentions, to Slack | [`skills/slack-digest/`](skills/slack-digest/) |
+| **Reddit proposals** | Pitch materials for a prospect from their buyers' Reddit conversations | [`skills/reddit-proposal/`](skills/reddit-proposal/) |
+| **Dataviz** | Reference architecture for GTM dashboards — Recharts palette, patterns, examples | [`skills/dataviz/`](skills/dataviz/) |
+| **Attribution tracking** | The journey materialization pattern — first/last touch, no cookies, local data | [`playbooks/attribution-tracking.md`](playbooks/attribution-tracking.md) |
 | **Audit quality** | The 5-dimension pick-quality rubric | [`playbooks/account-quality-benchmark.md`](playbooks/account-quality-benchmark.md) |
+| **Security** | The protection model — what is guarded, the scan gate, read-only DBs, no auto-send | [`SECURITY.md`](SECURITY.md) |
 | **Students** | A free semester of Clearbox Pro + monthly group office hours, for students who build in public | [`STUDENTS.md`](STUDENTS.md) |
 | **Partners** | Referral and delivery tracks — terms by email, method in the open | [`PARTNERS.md`](PARTNERS.md) |
 
@@ -49,6 +57,7 @@ Running the agency motion across client accounts? Start with the public [multipl
 - [`orchestrate-deepline.md`](playbooks/orchestrate-deepline.md) — opportunity stream → orchestration substrate, with the trust model that keeps Reddit UGC as data, never instructions
 - [`notion-command-center.md`](playbooks/notion-command-center.md) — every engagement ships as real, linked, stable documents
 - [`account-quality-benchmark.md`](playbooks/account-quality-benchmark.md) — score any account's picks before the client does
+- [`attribution-tracking.md`](playbooks/attribution-tracking.md) — the journey materialization pattern: first/last-touch attribution from local SQLite, no cookies, no third-party tracking
 
 ## Proof
 
@@ -65,6 +74,7 @@ What actually built the user base — including what failed. The honest channel 
 3. **Recency is a hard gate.** Live threads only.
 4. **Every claim traces to a source.** The FACTCHECK gates in the skills are not decoration; they are the post-mortems of real mistakes.
 5. **Retrieval is not citation.** Exa can show that a source is retrievable. Only a captured AI answer with an exact source receipt proves that answer named or cited it.
+6. **Your data stays yours.** Every database is a local SQLite file on your machine. No cookies, no shared backend, no analytics pixel. Attribution runs locally. Client workspaces are siloed by directory. See [`SECURITY.md`](SECURITY.md).
 
 How these rules are enforced — the provenance rule, the language boundaries, and the scan gate every release passes: [`VERIFYING.md`](VERIFYING.md).
 
