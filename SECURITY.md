@@ -22,7 +22,7 @@ This is the point of running it yourself instead of using a hosted analytics pla
 
 The `.gitignore` excludes:
 
-- **Secrets:** `.env`, `.env.*`, `*.key`, `*.pem`, `credentials.json`, `secrets.json`
+- **Secrets:** environment files, key files, `credentials.json`, `secrets.json`
 - **Client data:** `workspaces/*` (except `workspaces/example-acme-pm/`), `social/`
 - **Caches:** `__pycache__/`, `*.py[cod]`, `venv/`, `node_modules/`
 - **Scratch:** `*.tmp`, `*.bak`, `scratch/`, `proof/.cache/`
@@ -43,7 +43,7 @@ Every release passes a 12-check gate before the tag is pushed. The gate is a run
 
 1. **Private denylist terms** — every term in the external denylist is grepped against the entire repo
 2. **Second blocklist** — a separate list, if present
-3. **Absolute home paths** — `/Users/` patterns that would leak local filesystem structure
+3. **Absolute home paths** — patterns that would leak local filesystem structure
 4. **Environment file references** — `.env.*` patterns (except `.env.notion`, which is the Notion push tool's documented config)
 5. **Private org tokens** — long alphanumeric strings after `org_`
 6. **Views claim language** — the exact claim is "1.5M+"; the gate blocks any higher rounding
