@@ -31,7 +31,7 @@ graph TD
 
 | Step | Tool | Input | Output | Without it |
 |------|------|-------|--------|-----------|
-| Classify | Clearbox | Subreddit config | Ops with `kind` and `summary` | Use RapidAPI keyword matching (noisier) |
+| Classify | Clearbox | Configured offer context | Ops with `kind`, `summary`, and exact source URL | Hold the workflow until a complete Clearbox export is available |
 | Disclosure gate | `unmask.py` | Reddit profile evidence + op text | Verdict, eligibility, evidence URL, candidate domain | No enrichment path |
 | Company enrich | Freckle CLI | Domain | Company name, ICP tier, contacts | Swap for Clay or Apollo org search |
 | People match | Apollo API | LinkedIn URL or company name | Email, title, seniority | No email enrichment |

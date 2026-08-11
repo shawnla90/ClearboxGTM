@@ -12,7 +12,7 @@ The thesis behind everything in this repo. The full method, with the live number
 
 **Value first, links almost never.** A URL in a post body gets auto-removed in many subs; describe the artifact and put the link in a comment if asked. No hard CTAs. Your profile bio does the discovery work. Comments that read like marketing get an account flagged; comments that solve the problem build the karma that compounds.
 
-**Recency is a hard gate.** Engage with live threads only. Necro-posting on old threads reads as scraping-and-spamming and is the fast lane to a ban.
+**Recency is a hard gate.** Engage with live threads only. Necro-posting on old threads reads as bulk promotion and is the fast lane to a ban.
 
 **Know the gates before you post.** Karma minimums, account-age gates, sub-specific rules. Check them; never assume them. A removed post is not neutral — a slow post decays, a removed post stops dead, and views that stop dead a few hours in are your shadowban tell.
 

@@ -2,6 +2,26 @@
 
 All notable changes to this repo are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are announced via GitHub Releases.
 
+## [0.10.1] - 2026-08-10
+
+The Reddit engine now has one explicit opportunity source: Clearbox. This patch removes the legacy parallel discovery path so the public architecture, runnable starter, and reusable agency skill all teach the same source contract.
+
+### Changed
+
+- **Clearbox-only source contract**: `pull.py` imports a complete Clearbox export and requires the stable opportunity id, original `lead`/`engage`/`competitor` disposition, and exact Reddit permalink.
+- **Safe offline path**: the bundled synthetic Clearbox export exercises the same contract without copying over a user's live export.
+- **Aligned public guidance**: the engine guide, agency skill, AI-visibility playbook, proposal skill, examples, and GTM starter language now describe Clearbox as the authoritative opportunity source.
+- **Profile evidence terminology**: the optional Playwright tier is described as a rendered-profile check, not as a Reddit collection path.
+
+### Removed
+
+- **Legacy discovery client and configuration**: removed the external Reddit discovery client, its environment-key path, and the keyword/subreddit source files.
+
+### Verification
+
+- Added importer tests for complete-export handling, truncation refusal, source-field validation, and exact permalink preservation.
+- Added a release scan rule that rejects the retired source path from active Reddit engine surfaces.
+
 ## [0.10.0] - 2026-08-10
 
 The client pack you can see: a redesigned Clearbox dashboard, a real synthetic eleven-view demonstration, a guided public Notion brief, and an animated end-to-end README walkthrough backed by reproducible HyperFrames source.

@@ -1,3 +1,8 @@
+---
+name: profile-lookup
+description: 'Review public Reddit-profile company disclosure evidence before enrichment. Use when checking whether a Reddit author directly published a company domain, separating direct profile evidence from search-only candidates, or distinguishing no public evidence from lookup errors.'
+---
+
 # Profile Lookup
 
 > Version 1.1.0
@@ -15,7 +20,7 @@ After classifying opportunities, before enrichment. The disclosure gate in `unma
 | 1 | Reddit profile (JSON API) | Free | Company domain as direct disclosure; social link without a company domain as a candidate |
 | 2 | Exa search | ~$0.01/query | Possible company pages tied to the username, manual review only |
 | 3 | DuckDuckGo HTML search | Free | Possible company pages tied to the username, manual review only |
-| 4 | Playwright browser scrape | Free | Same profile rule against the rendered page |
+| 4 | Playwright rendered-profile check | Free | Same profile rule against the rendered page |
 
 The waterfall returns immediately on direct Reddit-profile evidence. Search candidates are retained while later profile tiers are checked. A blocked or unavailable tier is an error, not proof that no evidence exists. Tier 4 can reuse Chrome launched with `--remote-debugging-port=9222`.
 

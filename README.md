@@ -70,7 +70,7 @@ Use `--backend freckle` or `--backend baseloop` with the matching sanitized fixt
 <details>
 <summary><strong>Run the original offline market-signal pipeline</strong></summary>
 
-The bundled offline path remains useful when you want to inspect the lower-level pull → mine → score pipeline without a Clearbox account:
+The bundled offline path remains useful when you want to inspect the lower-level import → mine → score pipeline without a live Clearbox account. Its input is a synthetic Clearbox export with the same `id`, `kind`, and permalink contract as a real build:
 
 Clone the repo and run the offline pipeline — no API key, no Google account needed for the first run:
 
@@ -86,21 +86,19 @@ Expected output:
 
 ```
 1/5  creating the local database...
-2/5  pulling recent buyer threads from Reddit...
-     offline mode: seeding from the bundled sample
-     pulled 8 threads (8 relevant) across 7 subreddits
+2/5  importing classified Clearbox opportunities...
+     offline mode: using the bundled synthetic Clearbox export
+     clearbox import: 12 opportunities read, 12 new, 12 total
 3/5  mining buyer language + content topics...
-     tagged 7 threads, extracted 15 buyer-language items, built 8 content topics
+     tagged 10 threads, extracted 23 buyer-language items, built 11 content topics
 4/5  scoring every content topic 1 to 5...
-     scored 8 topics: 2A 3B 2C 1D
+     scored: 4 star x1, 2 star x7, 1 star x3
 5/5  building the color-coded Google Sheet...
      (skipped: no Google OAuth token — run setup_oauth.py first)
 done.
 ```
 
-Connect Google Workspace (`python3 setup_oauth.py`) and re-run to get the sheet. Then point it at your own market by editing two config files: [`config/subreddits.txt`](engine/config/subreddits.txt) and [`config/keywords.txt`](engine/config/keywords.txt).
-
-Ready to try the full, context-driven version? `open https://clearbox.to` — Clearbox classifies by buying intent, not keywords.
+Connect Google Workspace (`python3 setup_oauth.py`) and re-run to get the sheet. To use your own market, configure the offer in Clearbox and import the complete opportunity export with `CLEARBOX_EXPORT=/path/to/export.json bash run.sh`. For a live account API build, use the [client value-pack builder](skills/reddit-agency/CLIENT-VALUE-PACK.md).
 
 </details>
 

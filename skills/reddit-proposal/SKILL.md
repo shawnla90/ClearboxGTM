@@ -43,7 +43,7 @@ The brief is generated from real Reddit conversations. Every quote traces to a p
 
 ## Clearbox integration
 
-When running against a Clearbox workspace (not the RapidAPI baseline), the proposal pipeline inherits the classification that makes it accurate:
+When running against a Clearbox workspace, the proposal pipeline inherits the classification that makes it accurate:
 
 1. **Classify** -- Clearbox classifies every Reddit opportunity as engage, lead, or competitor by buying intent (not keywords)
 2. **Sentiment** -- `engine/sentiment.py` generates per-op sentiment from the classified ops ([`../sentiment/`](../sentiment/))

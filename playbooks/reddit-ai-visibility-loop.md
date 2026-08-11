@@ -30,13 +30,11 @@ The sincere play is quieter and it works:
 - Comment as yourself, share real value, build karma. Karma is credibility. It is what makes your presence stick and get cited, and it is earned by being useful, not by dropping links.
 - Get cited because you were the most helpful voice in the thread.
 
-## Two data sources, honestly
+## The source contract
 
-**RapidAPI** gives you a quick baseline. Fast and cheap, enough to see the gap and build the first deck.
+Clearbox is the source of record. It classifies each opportunity as `lead`, `engage`, or `competitor` and preserves the exact Reddit permalink. "Best CRM for small teams" and "frustrated with HubSpot" can both be buying signals, so the system uses offer context and classification rather than presenting a keyword pull as the product.
 
-**Clearbox** gives you the accurate version. It classifies Reddit by buying intent instead of keywords, off real content consumption, and adds sentiment and competitor context. "Best CRM for small teams" and "frustrated with HubSpot" are both buying signals, but only one has the keyword in it. Clearbox catches both and delivers the ones worth your time with a brief so you know how to respond.
-
-Use the baseline to learn the loop. Plug in Clearbox when you want it accurate and hands-off. That is what [Clearbox](https://clearbox.to) is for: your Reddit inbox, filtered by intent.
+Freckle, Base Loop, or Clay can add analysis after the Clearbox pull. They do not replace the source disposition or the permalink. That separation is what keeps a client report traceable.
 
 ## From visibility to retrieval
 
@@ -62,10 +60,9 @@ python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 bash run.sh --offline
 
-# Then connect Google and run it live
+# Then connect Google and import a complete Clearbox export
 python3 setup_oauth.py
-export RAPIDAPI_KEY=your_reddit34_key
-bash run.sh
+CLEARBOX_EXPORT=/path/to/clearbox-opportunities.json bash run.sh
 ```
 
 The sheet URL prints at the end. Open it. That is your content plan, scored and color-coded. For the deck, run `python3 build_deck.py`.

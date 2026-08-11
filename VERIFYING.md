@@ -90,10 +90,19 @@ grep -IrniE 'Stripe customer|billing is independent|Freckle workbook|Base Loop w
   skills/reddit-agency README.md \
   && { echo "FAIL: admin or internal implementation detail in client-facing agency guidance"; FAIL=1; }
 
+# 7C. The Reddit engine has one opportunity source: Clearbox
+REDDIT_SURFACES=(README.md engine/README.md engine/ENGINE.md engine/pull.py engine/run.sh \
+  skills/reddit-agency playbooks/reddit-ai-visibility-loop.md playbooks/how-to-win-on-reddit.md)
+grep -IrniE 'r[a]pidapi|r[e]ddit34|REDDIT_SOUR[C]E|lib/reddit_clien[t]|scr[a]pe|scr[a]per|scr[a]ping' \
+  "${REDDIT_SURFACES[@]}" \
+  && { echo "FAIL: legacy Reddit discovery source referenced in an active surface"; FAIL=1; }
+find engine/lib -maxdepth 1 -name 'reddit_*client.py' -print -quit | grep -q . \
+  && { echo "FAIL: legacy Reddit discovery client still exists"; FAIL=1; }
+
 # 8. Python compiles
 python3 -m compileall -q engine proof scripts || { echo "FAIL: compileall"; FAIL=1; }
 
-# 8B. Unit tests cover source dispositions, permalinks, backend adapters, and Notion blocks
+# 8B. Unit tests cover source imports, dispositions, permalinks, backend adapters, and Notion blocks
 python3 -m unittest discover -s tests -v || { echo "FAIL: unit tests"; FAIL=1; }
 
 # 9. Proof pipeline is fresh and idempotent (run it, then require zero diff)
