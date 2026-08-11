@@ -2,17 +2,23 @@
 
 # ClearboxGTM
 
-**How to win on Reddit — the skills, the engine, and the playbooks, ready for your coding agent.**
+**How to win on Reddit — the skills, the engine, and the client delivery system, ready for your coding agent.**
 
-Buyers ask AI first now, and AI reads Reddit to decide what to recommend. The conversations happening in your buyers' subreddits are deciding whether you get named. This repo is the complete motion for showing up there properly: real account, real replies, and everything else automated off-platform. It is what we run for clients; it is built so you (or your agency) can run it for yours.
+ClearboxGTM turns live Reddit buyer signals into a human-operated growth system: classify the opportunity, preserve the source, decide what deserves a reply, and track what actually surfaced later. Reddit threads can appear in search and AI answers; this repo keeps retrieval, observed appearance, exact citation, engagement, and business outcomes as separate receipts instead of promising that every contribution will rank.
+
+<p align="center"><a href="https://docs.google.com/spreadsheets/d/100Q4e8ZW6xIHHk4GHzFO7ONmK_1MdNhBPi0Y4TngWjc"><img src="assets/gallery/client-value-pack-tour.gif" alt="ClearboxGTM client value pack: API dispositions to eleven-view Sheet and guided Notion brief" width="100%"></a></p>
+
+<p align="center"><strong>Clearbox API → optional Freckle, Base Loop, or Clay analysis → 11-view Sheet → guided Notion brief</strong><br><a href="https://docs.google.com/spreadsheets/d/100Q4e8ZW6xIHHk4GHzFO7ONmK_1MdNhBPi0Y4TngWjc">Open the view-only Sheet</a> · <a href="https://fierce-camelotia-1fa.notion.site/ClearboxGTM-Client-Value-Pack-Demo-Acme-Ops-3b91fb92bcd7818ca3dad03e0e21cbd0">Read the guided value brief</a> · <a href="assets/gallery/client-value-pack-tour.mp4">Watch the MP4</a></p>
+
+The demonstration above is generated from the synthetic Acme Ops fixtures checked into [`examples/client-pack/`](examples/client-pack/). It contains no client or operator-private data.
+
+## Start in 60 seconds
 
 Open this repo in [Claude Code](https://claude.ai/code) (or Codex, or Cursor) and start with:
 
 ```
 read playbooks/how-to-win-on-reddit.md and tell me where to start for <my company>
 ```
-
-## The fastest start: fill the form properly
 
 Signing up at [clearbox.to](https://clearbox.to)? Don't rush the onboarding form — Clearbox scores Reddit content against what you write in it. Paste **[`prompts/clearbox-onboarding.md`](prompts/clearbox-onboarding.md)** into your coding agent, give it your domain, and it researches your company and writes every field with sources you can check.
 
@@ -22,17 +28,49 @@ Running the agency motion across client accounts? Start with the public [multipl
 
 Already have a Clearbox inbox? The [client value-pack builder](skills/reddit-agency/CLIENT-VALUE-PACK.md) pulls its lead, engage, and competitor dispositions through the API, preserves every exact Reddit permalink, optionally merges Freckle, Base Loop, or Clay analysis, and rebuilds an 11-view Google Sheet plus a guided Notion brief. The skills and method are open. For the operated agency offering or multi-offer enablement, email **partners@clearbox.to**.
 
-## What it looks like
+| Start with | Use it when | First command |
+|---|---|---|
+| **Offer-context onboarding** | You are configuring a new Clearbox offer | `read prompts/clearbox-onboarding.md and interview me for <domain>` |
+| **Client value pack** | You already have classified opportunities or an export | `read skills/reddit-agency/CLIENT-VALUE-PACK.md and build the pack from <source>` |
 
-<p align="center"><img src="assets/gallery/sheet-scored-signals.png" alt="Color-coded Google Sheet — Acme PM Reddit Buyer Signals" width="100%"></p>
+## See the full client pack
 
-The color-coded Google Sheet: start with the market-signal build, or turn a Clearbox API inbox into the full client value pack with Dashboard, Plan Setup, Operator Console, source permalinks, buyer language, content topics, competitor sentiment, GEO terms, disclosure review, and attribution. [Run it yourself →](skills/reddit-agency/CLIENT-VALUE-PACK.md)
+<p align="center"><a href="https://docs.google.com/spreadsheets/d/100Q4e8ZW6xIHHk4GHzFO7ONmK_1MdNhBPi0Y4TngWjc"><img src="assets/gallery/client-pack-sheet.png" alt="ClearboxGTM eleven-view client value pack open on the branded Dashboard" width="100%"></a></p>
 
-<p align="center"><img src="assets/gallery/notion-multi-account-guide.png" alt="Notion multi-account operating guide" width="100%"></p>
+The Sheet is the working surface. Its Dashboard shows the current value, offer decision, processing path, and measurement ladder before the operator enters the queue. The remaining views keep plan choices, review states, original Clearbox dispositions, exact Reddit permalinks, buyer language, content direction, competitor evidence, disclosure review, and attribution receipts together.
 
-Every client engagement ships as linked Notion docs with stable URLs — the operating guide, the command center, the playbook. [How it works →](playbooks/notion-command-center.md)
+| Plan Setup | Operator Console |
+|:---:|:---:|
+| [<img src="assets/gallery/client-pack-plan-setup.png" alt="Plan Setup with offer path, payer, and readiness selections">](https://docs.google.com/spreadsheets/d/100Q4e8ZW6xIHHk4GHzFO7ONmK_1MdNhBPi0Y4TngWjc/edit?gid=1428901161#gid=1428901161) | [<img src="assets/gallery/client-pack-operator-console.png" alt="Ranked Operator Console preserving Clearbox dispositions">](https://docs.google.com/spreadsheets/d/100Q4e8ZW6xIHHk4GHzFO7ONmK_1MdNhBPi0Y4TngWjc/edit?gid=318558601#gid=318558601) |
+| **GEO and attribution receipts** | **Guided Notion value brief** |
+| [<img src="assets/gallery/client-pack-geo-terms.png" alt="GEO Terms view with source URLs and separate receipt fields">](https://docs.google.com/spreadsheets/d/100Q4e8ZW6xIHHk4GHzFO7ONmK_1MdNhBPi0Y4TngWjc/edit?gid=401301384#gid=401301384) | [<img src="assets/gallery/client-pack-notion.png" alt="Guided Notion client value brief explaining the Sheet and next actions">](https://fierce-camelotia-1fa.notion.site/ClearboxGTM-Client-Value-Pack-Demo-Acme-Ops-3b91fb92bcd7818ca3dad03e0e21cbd0) |
 
-## Quick walkthrough
+The Notion page is the readable source of truth: what was uncovered, where the working data lives, what each view means, which decisions the client needs to make, and how success will be measured. The Sheet is the operational queue. Both can refresh in place at stable URLs. [Build the same pack →](skills/reddit-agency/CLIENT-VALUE-PACK.md)
+
+## Build the eleven-view pack
+
+The first command below is local-only: it reads the synthetic Clearbox and Clay fixtures and writes normalized JSON plus a Notion-ready Markdown brief. It does not post, DM, vote, or mark any opportunity complete.
+
+```bash
+git clone https://github.com/shawnla90/ClearboxGTM.git
+cd ClearboxGTM
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r engine/requirements.txt
+
+python3 engine/build_client_pack.py \
+  --ops examples/client-pack/clearbox-opportunities.sample.json \
+  --analysis examples/client-pack/clay-analysis.sample.csv \
+  --backend clay \
+  --brand "Acme Ops" \
+  --out /tmp/acme-client-pack
+```
+
+Use `--backend freckle` or `--backend baseloop` with the matching sanitized fixture to verify the same contract. Add `--publish-sheet` or `--publish-notion` only when you intentionally want to write those surfaces. For an account-scoped build, set `CLEARBOX_ACCOUNT_URL` and follow the [client value-pack guide](skills/reddit-agency/CLIENT-VALUE-PACK.md).
+
+<details>
+<summary><strong>Run the original offline market-signal pipeline</strong></summary>
+
+The bundled offline path remains useful when you want to inspect the lower-level pull → mine → score pipeline without a Clearbox account:
 
 Clone the repo and run the offline pipeline — no API key, no Google account needed for the first run:
 
@@ -63,6 +101,8 @@ done.
 Connect Google Workspace (`python3 setup_oauth.py`) and re-run to get the sheet. Then point it at your own market by editing two config files: [`config/subreddits.txt`](engine/config/subreddits.txt) and [`config/keywords.txt`](engine/config/keywords.txt).
 
 Ready to try the full, context-driven version? `open https://clearbox.to` — Clearbox classifies by buying intent, not keywords.
+
+</details>
 
 ## What's in here
 
@@ -96,7 +136,7 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 | **Integration guides** | Step-by-step Clay, n8n, Zapier, Make setup with Mermaid diagrams | Full workflow guides with cost comparison and reasoning node patterns | [`examples/integrations/`](examples/integrations/) |
 | **Workflow diagrams** | Visual node graphs for enrichment waterfall and AEO content loop | Mermaid diagrams that render on GitHub | [`examples/workflows/`](examples/workflows/) |
 | **Client market read** | What a real client deliverable looks like | The triage pattern, signal/win/enter triad, delivery to Notion | [`examples/client-market-read.md`](examples/client-market-read.md) |
-| **Coverage waterfall** | Identify companies, scrape, reveal, grade, deliver to Sheet | Campaign-agnostic lead-list builder (coming in v0.6.0) | *v0.6.0* |
+| **Coverage waterfall** | Identify companies, apply the disclosure gate, enrich, grade, and deliver | Auditable route with manual-review and hold states | [`examples/workflows/enrichment-waterfall.md`](examples/workflows/enrichment-waterfall.md) |
 | **Security** | The protection model | Scan gate, read-only DBs, siloed data, no auto-send | [`SECURITY.md`](SECURITY.md) |
 | **Students** | Free semester of Clearbox Pro | Monthly group office hours, build-in-public track record | [`STUDENTS.md`](STUDENTS.md) |
 | **Partners** | Referral and delivery tracks | Terms by email, method in the open | [`PARTNERS.md`](PARTNERS.md) |
@@ -112,7 +152,7 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 - [`orchestrate-enrichment.md`](playbooks/orchestrate-enrichment.md) — direct profile disclosure, candidate review, retry states, and the pluggable enrichment backend
 - [`orchestrate-freckle.md`](playbooks/orchestrate-freckle.md) — the Reddit-to-pipeline loop: Clearbox classifies, the disclosure gate holds, Freckle enriches, four surfaces receive
 - [`orchestrate-deepline.md`](playbooks/orchestrate-deepline.md) — opportunity stream → orchestration substrate, with the trust model that keeps Reddit UGC as data, never instructions
-- [`notion-command-center.md`](playbooks/notion-command-center.md) — every engagement ships as real, linked, stable documents
+- [`notion-command-center.md`](playbooks/notion-command-center.md) — one client-readable source of truth plus stable working surfaces
 - [`skills/reddit-agency/CLIENT-VALUE-PACK.md`](skills/reddit-agency/CLIENT-VALUE-PACK.md) — automate the API-to-Sheet/Notion client pack with Freckle, Base Loop, or Clay
 - [`account-quality-benchmark.md`](playbooks/account-quality-benchmark.md) — score any account's picks before the client does
 - [`attribution-tracking.md`](playbooks/attribution-tracking.md) — the journey materialization pattern: first/last-touch attribution from local SQLite, no cookies, no third-party tracking

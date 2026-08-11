@@ -21,6 +21,7 @@ from lib.client_pack import (  # noqa: E402
     normalize_clearbox,
     render_notion_markdown,
 )
+from lib.sheet_engine import client_dashboard  # noqa: E402
 
 BUILDER_SPEC = importlib.util.spec_from_file_location("client_pack_builder", ENGINE / "build_client_pack.py")
 client_pack_builder = importlib.util.module_from_spec(BUILDER_SPEC)
@@ -88,6 +89,50 @@ class ClientPackTests(unittest.TestCase):
         self.assertIn("qualified_conversations", pack["tabs"]["GEO Terms"][0])
 
         config = client_pack_builder.sheet_config(pack, "stable-sheet-id", False)
+        dashboard = config["dashboard"]
+        self.assertEqual(dashboard["layout"], "client_pack")
+        self.assertEqual(len(dashboard["cards"]), 4)
+        self.assertEqual([card["value"] for card in dashboard["cards"]], [3, 1, 1, 1])
+        self.assertEqual(dashboard["priority"][0]["value"], 2)
+        self.assertEqual(dashboard["priority"][1]["value"], "3 OF 3")
+        self.assertEqual([card["value"] for card in dashboard["workflow"]], [
+            "CLEARBOX", "CLAY", "HUMAN QUEUE", "SHEET + NOTION",
+        ])
+        self.assertEqual([card["value"] for card in dashboard["evidence"]], [
+            "EXACT URL", "QUERY RECEIPT", "CAPTURED PROOF", "SOURCE-LINKED",
+        ])
+
+        class FakeWorksheet:
+            id = 77
+
+            def __init__(self, title):
+                self.title = title
+                self.rows = []
+
+            def append_rows(self, rows, value_input_option):
+                self.rows = rows
+                self.value_input_option = value_input_option
+
+        class FakeSpreadsheet:
+            def add_worksheet(self, title, rows, cols):
+                self.shape = (rows, cols)
+                self.worksheet = FakeWorksheet(title)
+                return self.worksheet
+
+        fake_sheet = FakeSpreadsheet()
+        requests = []
+        rendered = client_dashboard(fake_sheet, requests, dashboard)
+        self.assertEqual(rendered.title, "Dashboard")
+        self.assertEqual(fake_sheet.shape, (33, 12))
+        self.assertEqual(len(rendered.rows), 29)
+        self.assertTrue(all(len(row) == 12 for row in rendered.rows))
+        self.assertEqual(rendered.rows[6][0], "3")
+        self.assertEqual(rendered.rows[11][4], "3 OF 3")
+        self.assertGreater(len(requests), 100)
+        self.assertTrue(any(
+            request.get("updateSheetProperties", {}).get("properties", {}).get("gridProperties", {}).get("hideGridlines")
+            for request in requests
+        ))
         sheet_titles = [config["dashboard"]["title"]] + [tab["title"] for tab in config["tabs"]] + [tab["title"] for tab in config["raw_tabs"]]
         self.assertEqual(sheet_titles, [title for title, _subtitle, _description in TAB_GUIDANCE])
         plan_setup = next(tab for tab in config["tabs"] if tab["title"] == "Plan Setup")

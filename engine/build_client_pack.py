@@ -120,30 +120,57 @@ def sheet_config(pack: dict, key: Optional[str], share: bool) -> dict:
     metrics = pack["metrics"]
     disposition = metrics["dispositions"]
     tier = metrics["tiers"]
-    dashboard_entries = [
-        {"kind": "section", "label": "CURRENT VALUE"},
-        {"kind": "kpi", "label": "Current opportunities", "value": str(metrics["total"])},
-        {"kind": "kpi", "label": "Lead", "value": str(disposition.get("lead", 0))},
-        {"kind": "kpi", "label": "Engage", "value": str(disposition.get("engage", 0))},
-        {"kind": "kpi", "label": "Competitor", "value": str(disposition.get("competitor", 0))},
-        {"kind": "kpi", "label": "Tier A", "value": str(tier.get("A", 0))},
-        {"kind": "blank", "label": ""},
-        {"kind": "section", "label": "HOW TO USE IT"},
-        {"kind": "bullet", "label": "Start with Plan Setup, then work Tier A rows in Operator Console and update Review Status."},
-        {"kind": "bullet", "label": "Signals preserves every Clearbox disposition and exact Reddit permalink. Optional analysis never replaces that source record."},
-        {"kind": "bullet", "label": "GEO Terms separates search discovery, observed AI answers, exact citations, and business outcomes."},
-    ]
+    backend_labels = {"freckle": "Freckle", "baseloop": "Base Loop", "clay": "Clay", "clearbox_only": "Clearbox only"}
+    backends = [backend_labels.get(name, str(name).title()) for name in metrics.get("analysis_backends", [])]
+    workflow_label = " + ".join(backends) if backends else "Clearbox only"
+    matched = metrics.get("matched_analysis_rows", 0)
+    # Avoid a value like ``3/3`` being coerced into a date serial by Sheets.
+    coverage = f"{matched} OF {metrics['total']}" if metrics["total"] else "0 OF 0"
     return {
         "title": f"{pack['brand']} x Clearbox: Client Value Pack",
         "key": key,
         "share": "anyone_reader" if share else None,
         "dashboard": {
             "title": "Dashboard",
+            "layout": "client_pack",
             "subtitle": {
                 "title": f"{pack['brand'].upper()} X CLEARBOX: CLIENT VALUE PACK",
                 "sub": "Generated from Clearbox dispositions and exact Reddit permalinks",
+                "eyebrow": "11 WORKING VIEWS  •  SOURCE-LINKED  •  HUMAN-CONTROLLED REDDIT ACTIONS",
             },
-            "entries": dashboard_entries,
+            "cards": [
+                {"label": "CURRENT OPPORTUNITIES", "value": metrics["total"], "note": "one ranked working queue"},
+                {"label": "LEAD", "value": disposition.get("lead", 0), "note": "buying and comparison signals"},
+                {"label": "ENGAGE", "value": disposition.get("engage", 0), "note": "useful public-reply openings"},
+                {"label": "COMPETITOR", "value": disposition.get("competitor", 0), "note": "category and alternative evidence"},
+            ],
+            "priority": [
+                {"label": "TIER A — REVIEW FIRST", "value": tier.get("A", 0), "note": "analysis priority; never a source-disposition replacement"},
+                {"label": "ANALYSIS COVERAGE", "value": coverage, "note": f"current layer: {workflow_label}"},
+                {"label": "OFFER PATH", "value": pack["plan"]["path"], "note": f"payer decision: {pack['plan']['payer']}"},
+            ],
+            "workflow": [
+                {"label": "01  CLASSIFY", "value": "CLEARBOX", "note": "lead • engage • competitor + exact Reddit permalink"},
+                {"label": "02  ANALYZE", "value": workflow_label.upper(), "note": "scores, tiers, buyer language, reply angles, disclosure review"},
+                {"label": "03  OPERATE", "value": "HUMAN QUEUE", "note": "Plan Setup → Operator Console → Review Status"},
+                {"label": "04  REPORT", "value": "SHEET + NOTION", "note": "stable working surface + guided client source of truth"},
+            ],
+            "evidence": [
+                {"label": "1  ARTIFACT HEALTH", "value": "EXACT URL", "note": "live state, author, date, disclosure, screenshot"},
+                {"label": "2  SEARCH DISCOVERY", "value": "QUERY RECEIPT", "note": "query, date, position, exact Reddit URL"},
+                {"label": "3  AI ANSWER", "value": "CAPTURED PROOF", "note": "engine, prompt, date, brand named, exact citation"},
+                {"label": "4  BUSINESS OUTCOME", "value": "SOURCE-LINKED", "note": "reply → referral → meeting → pipeline → revenue"},
+            ],
+            "start": {
+                "left_title": "START HERE",
+                "left_primary": "1  Choose the offer path in Plan Setup",
+                "left_secondary": "2  Work Tier A rows in Operator Console",
+                "left_note": "Human review remains the publishing and completion gate.",
+                "right_title": "OPEN THESE VIEWS",
+                "right_primary": "Plan Setup  →  Operator Console  →  Signals",
+                "right_secondary": "GEO Terms  →  Disclosure Audit  →  Action Legend",
+                "right_note": "Every working row keeps its Clearbox disposition and exact Reddit permalink.",
+            },
         },
         "tabs": data_tabs,
         "raw_tabs": [{

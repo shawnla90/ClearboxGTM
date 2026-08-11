@@ -16,6 +16,7 @@ This repo makes public claims about a real system. This file is the standing loo
 - **Client-facing Plan Setup is outcome language.** Say that a separate client offer can be added and the client can pay for it. Do not expose payment-provider mechanics, admin emails or flags, internal workbook or workspace links, run IDs, or processor-specific setup in client-facing agency guidance.
 - **Clearbox owns the source disposition and permalink.** Freckle, Base Loop, and Clay may add analysis, but they may not silently replace the original `lead`, `engage`, or `competitor` value or drop the exact Reddit URL.
 - **Report automation is not account automation.** The Clearbox API pull, analysis merge, Sheet rebuild, and Notion refresh may be scheduled. Reddit posting, voting, DMs, and marking opportunities complete remain human-authorized actions.
+- **Public client-pack media is synthetic.** README demos, screenshots, videos, and GIFs must come from `examples/client-pack/` or another explicitly synthetic fixture. Real client names, private processing URLs, emails, tokens, and conversation captures do not enter public gallery or motion assets.
 
 ## FACTCHECK gates
 
@@ -39,9 +40,9 @@ DENYLIST="$HOME/.clearbox/never-publish.txt"
 if [ -f "$DENYLIST" ]; then
   while IFS= read -r term; do
     case "$term" in ''|'#'*) continue;; esac
-    if grep -riqE "$term" . --exclude-dir=.git --exclude-dir=__pycache__; then
+    if grep -IriqE "$term" . --exclude-dir=.git --exclude-dir=__pycache__; then
       echo "FAIL: denylist term matched: $term"
-      grep -rilE "$term" . --exclude-dir=.git --exclude-dir=__pycache__; FAIL=1
+      grep -IrilE "$term" . --exclude-dir=.git --exclude-dir=__pycache__; FAIL=1
     fi
   done < "$DENYLIST"
 else
@@ -53,7 +54,7 @@ BLOCKLIST="$HOME/shawn-gtme-os/.claude/blocklist.txt"
 if [ -f "$BLOCKLIST" ]; then
   while IFS= read -r term; do
     case "$term" in ''|'#'*) continue;; esac
-    if grep -riqE "$term" . --exclude-dir=.git --exclude-dir=__pycache__; then
+    if grep -IriqE "$term" . --exclude-dir=.git --exclude-dir=__pycache__; then
       echo "FAIL: blocklist term matched: $term"; FAIL=1
     fi
   done < "$BLOCKLIST"
@@ -62,17 +63,17 @@ fi
 # 3. Local infra: absolute home paths, and env-file references
 # (bracketed patterns so this file does not match itself; .env.notion is the
 # push tool's own documented config convention and is allowed)
-grep -rnE '/U[s]ers/' . --exclude-dir=.git --exclude-dir=__pycache__ \
+grep -IrnE '/U[s]ers/' . --exclude-dir=.git --exclude-dir=__pycache__ \
   && { echo "FAIL: absolute home path leak"; FAIL=1; }
-grep -rnE '\.e[n]v\.' . --exclude-dir=.git --exclude-dir=__pycache__ --exclude=.gitignore \
+grep -IrnE '\.e[n]v\.' . --exclude-dir=.git --exclude-dir=__pycache__ --exclude=.gitignore \
   | grep -v '\.env\.notion' && { echo "FAIL: env-file reference leak"; FAIL=1; }
 
 # 4. Private identifiers: org tokens
-grep -rnE 'org_[A-Za-z0-9]{20,}' . --exclude-dir=.git --exclude-dir=__pycache__ \
+grep -IrnE 'org_[A-Za-z0-9]{20,}' . --exclude-dir=.git --exclude-dir=__pycache__ \
   && { echo "FAIL: private org id"; FAIL=1; }
 
 # 5. Language rule: the views claim is "1.5M+", never the next million up
-grep -rniE '2[m]\+|2 milli[o]n' . --exclude-dir=.git --exclude-dir=__pycache__ \
+grep -IrniE '2[m]\+|2 milli[o]n' . --exclude-dir=.git --exclude-dir=__pycache__ \
   && { echo "FAIL: forbidden views claim"; FAIL=1; }
 grep -q '1\.5M+' proof/README.md || { echo "FAIL: proof/README.md missing 1.5M+ claim"; FAIL=1; }
 
@@ -81,11 +82,11 @@ grep -q '1\.5M+' proof/README.md || { echo "FAIL: proof/README.md missing 1.5M+ 
   && { echo "FAIL: numbers in PARTNERS.md"; FAIL=1; }
 
 # 7. Transparency docs teach lessons, never evasion
-[ -d transparency ] && grep -rniE 'bypass|evade|get past|circumvent|slip (past|through)' transparency/ \
+[ -d transparency ] && grep -IrniE 'bypass|evade|get past|circumvent|slip (past|through)' transparency/ \
   && { echo "FAIL: evasion language in transparency/"; FAIL=1; }
 
 # 7B. Client-facing agency guidance excludes admin and internal implementation detail
-grep -rniE 'Stripe customer|billing is independent|Freckle workbook|Base Loop workspace|workspace [a-z0-9]{20,}|field [a-z0-9]{20,}|runs? [a-z0-9]{20,}' \
+grep -IrniE 'Stripe customer|billing is independent|Freckle workbook|Base Loop workspace|workspace [a-z0-9]{20,}|field [a-z0-9]{20,}|runs? [a-z0-9]{20,}' \
   skills/reddit-agency README.md \
   && { echo "FAIL: admin or internal implementation detail in client-facing agency guidance"; FAIL=1; }
 
@@ -109,9 +110,20 @@ done
 
 # 11. Public URLs referenced by the docs respond
 for url in https://clearbox.to https://shawnos.ai/reddit https://shawnos.ai/vault \
-           https://github.com/shawnla90/gtm-coding-agent; do
+           https://github.com/shawnla90/gtm-coding-agent \
+           https://docs.google.com/spreadsheets/d/100Q4e8ZW6xIHHk4GHzFO7ONmK_1MdNhBPi0Y4TngWjc \
+           https://fierce-camelotia-1fa.notion.site/ClearboxGTM-Client-Value-Pack-Demo-Acme-Ops-3b91fb92bcd7818ca3dad03e0e21cbd0; do
   code=$(curl -sL -o /dev/null -w '%{http_code}' "$url")
   [ "$code" = "200" ] || { echo "FAIL: $url returned $code"; FAIL=1; }
+done
+
+# 12. The README showcase is complete and non-empty
+for asset in assets/gallery/client-pack-tour.gif \
+             assets/gallery/client-pack-tour.mp4 \
+             assets/gallery/client-pack-tour-poster.png \
+             assets/gallery/client-pack-sheet.png \
+             assets/gallery/client-pack-notion.png; do
+  [ -s "$asset" ] || { echo "FAIL: missing README showcase asset: $asset"; FAIL=1; }
 done
 
 [ "$FAIL" = 0 ] && echo "SCAN GATE: all green" || echo "SCAN GATE: FAILED"
@@ -126,3 +138,4 @@ exit "$FAIL"
 4. Push `main`, then tag the pushed commit, then `git rev-parse 'vX.Y.Z^{commit}'` must equal `origin/main`.
 5. Release notes = the top changelog block (see `RELEASING.md`).
 6. If CI already drafted the release, publish that draft — don't create a second.
+7. `videos/client-value-pack-tour` passes `npm run check`; inspect the proof contact sheet, GIF loop, MP4 duration, poster, and GitHub-rendered README.

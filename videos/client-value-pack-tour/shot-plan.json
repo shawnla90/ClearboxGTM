@@ -1,0 +1,418 @@
+{
+  "status": "final",
+  "category": "webpage",
+  "duration_s": 9,
+  "fps": 30,
+  "canvas": {
+    "w": 1920,
+    "h": 1080,
+    "aspect": "16:9"
+  },
+  "style": "A fast, premium GitHub README walkthrough built entirely around the supplied sanitized ClearboxGTM captures. Preserve every product screenshot pixel-for-pixel inside a near-black stage; use crisp white type, a restrained violet focus edge, tight camera pushes, and no decorative mock product chrome. The energy is confident and operator-led rather than flashy.",
+  "palette": [
+    "#0D0D12",
+    "#F7F7FA",
+    "#6D5EE9",
+    "#D8D3FF",
+    "#27232F"
+  ],
+  "font": "Inter",
+  "beats": [
+    0,
+    48,
+    90,
+    135,
+    183,
+    249
+  ],
+  "export": "mp4",
+  "asset_needs": [],
+  "block": "north-korea-locked-down",
+  "shot_brief": "The viewer is guided through one real ClearboxGTM client pack as a persistent violet focus window behaves like an operator's attention: it lands on the redesigned dashboard, glides to the offer decision in Plan Setup, follows the ranked row into the Operator Console, tracks the same opportunity to its exact Reddit permalink and evidence fields in GEO Terms, then resolves on the linked Notion brief as the source of truth. Camera movement always follows that focus window, making one end-to-end path feel continuous across five frozen, sanitized captures.",
+  "customize": {
+    "reuse": {
+      "catalog_block": "north-korea-locked-down",
+      "borrow": [
+        "annotation-corner focus frame",
+        "camera push choreography"
+      ],
+      "remove": [
+        "red wash",
+        "scribble circle",
+        "pop-up pill pointer",
+        "scanline",
+        "all source-specific copy and imagery"
+      ],
+      "blueprint": "demo-page-scroll-spotlight",
+      "rules": [
+        "demo-page-scroll-spotlight",
+        "coordinate-target-zoom",
+        "viewport-change"
+      ],
+      "gap_to_hand_author": "Only the deterministic five-capture surface swap and focus-edge stretch between frozen screenshots. Do not add cursor behavior, redraw UI, or invent DOM."
+    },
+    "dominant_motif": "persistent violet focus window with camera-follow",
+    "background": "near-black matte with a subtle violet falloff behind the active screenshot",
+    "capture_treatment": "Preserve the supplied captures exactly. Place each image on one flat device surface with an 18px corner radius, a 1px #27232F edge, and a soft 0 28px 80px rgba(0,0,0,0.42) shadow. No extra browser frame, tilt, reflection, or perspective distortion.",
+    "device_surfaces": {
+      "dashboard": {
+        "x": 272,
+        "y": 110,
+        "w": 1376,
+        "h": 860
+      },
+      "sheet-strip": {
+        "x": 96,
+        "y": 259,
+        "w": 1728,
+        "h": 562
+      },
+      "notion": {
+        "x": 341,
+        "y": 110,
+        "w": 1238,
+        "h": 860
+      }
+    },
+    "focus_window": {
+      "stroke": "#6D5EE9",
+      "stroke_width": 3,
+      "corner_length": 26,
+      "corner_radius": 10,
+      "outer_glow": "0 0 34px rgba(139,92,246,0.34)",
+      "entry": "underline_sweep adapted to the four focus-frame edges; reveal left-to-right over 10 frames after the camera lands",
+      "hold": "steady; no pulse, shimmer, or breathing",
+      "exit": "right edge extends to the canvas boundary over 6 frames and becomes the next capture reveal mask",
+      "constraint": "This is the only persistent accent graphic. Never place a second callout, cursor, pointer, or progress rail on screen."
+    },
+    "highlight_treatment": "Animate the violet focus frame on only after each camera landing. The inactive page remains fully legible at 100% opacity; dim only the near-black stage outside the device surface, never tint or blur product pixels.",
+    "transition_treatment": "Use the focus frame's right edge as a 6-frame bar_wipe into the next frozen capture, then contract it onto the next measured region over 4 frames. Keep the wipe violet only at the leading 3px edge; the new real screenshot fills behind it.",
+    "cursor": "none",
+    "overlay_copy": "One compact stage label per beat; never imitate product controls or add fabricated metrics.",
+    "label_system": {
+      "anchor": {
+        "x": 96,
+        "y": 72
+      },
+      "max_w": 540,
+      "h": 46,
+      "font_size": 24,
+      "font_weight": 700,
+      "letter_spacing_em": 0.12,
+      "color": "#F7F7FA",
+      "accent": "4px #6D5EE9 underline",
+      "background": "none",
+      "entry": "fade_in plus slide_right 18px over 8 frames",
+      "exit": "fade_out over 5 frames before each capture wipe",
+      "constraint": "Keep every label inside x 96-636 and y 72-118. The label must remain outside the active focus region and must not overlap capture text used as evidence."
+    },
+    "safe_area": {
+      "x": 96,
+      "y": 64,
+      "w": 1728,
+      "h": 952
+    },
+    "avoid_regions": [
+      {
+        "id": "github-readme-edge",
+        "x": 0,
+        "y": 0,
+        "w": 72,
+        "h": 1080,
+        "reason": "protect the left edge when the GIF is scaled in GitHub"
+      },
+      {
+        "id": "github-readme-bottom",
+        "x": 0,
+        "y": 1016,
+        "w": 1920,
+        "h": 64,
+        "reason": "keep copy and focus detail away from the encoded lower edge"
+      }
+    ],
+    "pattern_interrupt": "At 4.5 seconds, change only the camera path from a short push-in to a horizontal track across the exact source_url cells; the focus-window motif and visual treatment remain unchanged.",
+    "loop_note": "Frames 258-269 fade the final Notion surface and label to the same #0D0D12 near-black empty stage used at frame 0 before the dashboard reaches visibility. Frame 269 and frame 0 must match in color and contain no focus frame, producing a clean optimized README GIF loop."
+  },
+  "content": {
+    "url": "local sanitized ClearboxGTM client-pack captures",
+    "capture": {
+      "sequence": [
+        {
+          "id": "dashboard",
+          "source": "assets/dashboard.png",
+          "source_size": {
+            "w": 1600,
+            "h": 1000
+          },
+          "start_s": 0,
+          "end_s": 1.6,
+          "label": "SEE THE VALUE",
+          "region": {
+            "x": 45,
+            "y": 270,
+            "w": 1424,
+            "h": 145
+          },
+          "canvas_region": {
+            "x": 311,
+            "y": 342,
+            "w": 1225,
+            "h": 125
+          },
+          "motion": "Frames 0-10: fade the dashboard surface in while easing its camera scale from 0.96 to 1.00 with power3.out. Frames 8-18: reveal the violet focus frame left-to-right around Current Value. Frames 18-37: hold on the 3 / 1 / 1 opportunity cards. Frames 38-47: fade the label over 5 frames, then extend the focus frame's right edge into the transition wipe."
+        },
+        {
+          "id": "plan-setup",
+          "source": "assets/plan-setup.png",
+          "source_size": {
+            "w": 1600,
+            "h": 520
+          },
+          "start_s": 1.6,
+          "end_s": 3,
+          "label": "CHOOSE THE OFFER PATH",
+          "region": {
+            "x": 44,
+            "y": 143,
+            "w": 746,
+            "h": 112
+          },
+          "canvas_region": {
+            "x": 144,
+            "y": 413,
+            "w": 806,
+            "h": 121
+          },
+          "motion": "Frames 48-55: finish the violet edge wipe and reveal the Plan Setup surface at x96 y259. Frames 52-62: coordinate-target zoom the surface from 0.985 to 1.00 around the measured table region with power3.out. Frames 58-68: draw the focus frame around rows 2-4. Frames 68-79: hold Offer path, Who pays, and Readiness as one readable decision block. Frames 80-89: fade the label and extend the focus edge into the next wipe."
+        },
+        {
+          "id": "operator-console",
+          "source": "assets/operator-console.png",
+          "source_size": {
+            "w": 1600,
+            "h": 520
+          },
+          "start_s": 3,
+          "end_s": 4.5,
+          "label": "WORK THE RANKED QUEUE",
+          "region": {
+            "x": 44,
+            "y": 143,
+            "w": 1540,
+            "h": 113
+          },
+          "canvas_region": {
+            "x": 144,
+            "y": 413,
+            "w": 1663,
+            "h": 122
+          },
+          "motion": "Frames 90-97: finish the wipe with a match-cut on the selected tab and table header. Frames 96-106: contract the focus frame around the real three-row queue. Frames 106-124: camera-follow the measured row region 24px left-to-right while source_disposition, tier, action_lane, review_status, subreddit, and summary remain inside the supplied capture. Frames 125-134: fade the label and extend the focus edge into the GEO Terms wipe."
+        },
+        {
+          "id": "geo-evidence",
+          "source": "assets/geo-terms.png",
+          "source_size": {
+            "w": 1600,
+            "h": 520
+          },
+          "start_s": 4.5,
+          "end_s": 6.1,
+          "label": "KEEP THE EXACT RECEIPT",
+          "region": {
+            "x": 528,
+            "y": 143,
+            "w": 565,
+            "h": 112
+          },
+          "canvas_region": {
+            "x": 666,
+            "y": 413,
+            "w": 610,
+            "h": 121
+          },
+          "motion": "Frames 135-142: finish the wipe into GEO Terms at a fixed 1.00 surface scale. Frames 141-151: contract and draw the focus frame around source_url cells E2-E4. Frames 151-170: pattern interrupt by tracking the camera horizontally 92px toward benchmark_run and answer_engine while scale stays fixed; preserve the empty evidence fields exactly as captured. Frames 171-182: fade the label, extend the right focus edge, then rotate the reveal mask into the vertical Notion transition without introducing a second graphic."
+        },
+        {
+          "id": "notion-source-of-truth",
+          "source": "assets/notion.png",
+          "source_size": {
+            "w": 1440,
+            "h": 1000
+          },
+          "start_s": 6.1,
+          "end_s": 8.3,
+          "label": "SHARE ONE SOURCE OF TRUTH",
+          "region": {
+            "x": 367,
+            "y": 382,
+            "w": 706,
+            "h": 476
+          },
+          "canvas_region": {
+            "x": 657,
+            "y": 439,
+            "w": 607,
+            "h": 409
+          },
+          "motion": "Frames 183-192: turn the same focus edge into a top-to-bottom bar_wipe that reveals the Notion surface at x341 y110. Frames 190-200: contract the frame around the measured recommendation, linked Google Sheet, and Start here block. Frames 200-233: use hold_breath from surface scale 1.00 to 1.03 with sine.inOut while the source-of-truth content remains readable. Frames 234-248: relax the four-corner focus frame into one violet underline beneath the stage label."
+        },
+        {
+          "id": "resolve-and-loop",
+          "source": "assets/notion.png",
+          "source_size": {
+            "w": 1440,
+            "h": 1000
+          },
+          "start_s": 8.3,
+          "end_s": 9,
+          "label": "FROM SIGNAL TO RECEIPT",
+          "region": {
+            "x": 367,
+            "y": 239,
+            "w": 706,
+            "h": 619
+          },
+          "canvas_region": {
+            "x": 657,
+            "y": 316,
+            "w": 607,
+            "h": 532
+          },
+          "motion": "Frames 249-257: hold the real Notion surface with only the label underline remaining. Frames 258-269: fade the label, underline, device shadow, and Notion surface to the near-black stage with power2.in. Do not reveal the next dashboard inside this scene; frame 269 must visually match frame 0 before its dashboard fade begins."
+        }
+      ]
+    },
+    "timeline": {
+      "unit": "frame",
+      "total": 270,
+      "beats": [
+        {
+          "frame": 0,
+          "event": "near-black loop seam; dashboard begins fade and 0.96 to 1.00 camera settle"
+        },
+        {
+          "frame": 8,
+          "event": "dashboard focus-frame sweep begins"
+        },
+        {
+          "frame": 18,
+          "event": "dashboard value hold begins"
+        },
+        {
+          "frame": 38,
+          "event": "first focus-edge wipe begins"
+        },
+        {
+          "frame": 48,
+          "event": "Plan Setup beat lands"
+        },
+        {
+          "frame": 58,
+          "event": "offer-decision focus-frame sweep begins"
+        },
+        {
+          "frame": 80,
+          "event": "Plan Setup exit begins"
+        },
+        {
+          "frame": 90,
+          "event": "Operator Console match-cut lands"
+        },
+        {
+          "frame": 106,
+          "event": "ranked-row camera follow begins"
+        },
+        {
+          "frame": 125,
+          "event": "Operator Console exit begins"
+        },
+        {
+          "frame": 135,
+          "event": "GEO Terms beat lands at fixed scale"
+        },
+        {
+          "frame": 151,
+          "event": "single pattern interrupt: horizontal evidence track begins"
+        },
+        {
+          "frame": 171,
+          "event": "GEO exit and focus-edge rotation begins"
+        },
+        {
+          "frame": 183,
+          "event": "Notion vertical reveal begins"
+        },
+        {
+          "frame": 200,
+          "event": "source-of-truth hold_breath begins"
+        },
+        {
+          "frame": 234,
+          "event": "focus frame resolves into one underline"
+        },
+        {
+          "frame": 249,
+          "event": "final end-to-end label lands"
+        },
+        {
+          "frame": 258,
+          "event": "loop fade to near-black begins"
+        },
+        {
+          "frame": 269,
+          "event": "near-black loop seam matches frame 0"
+        }
+      ],
+      "transition_overlaps": [
+        {
+          "from": "dashboard",
+          "to": "plan-setup",
+          "frames": "38-55"
+        },
+        {
+          "from": "plan-setup",
+          "to": "operator-console",
+          "frames": "80-97"
+        },
+        {
+          "from": "operator-console",
+          "to": "geo-evidence",
+          "frames": "125-142"
+        },
+        {
+          "from": "geo-evidence",
+          "to": "notion-source-of-truth",
+          "frames": "171-192"
+        }
+      ],
+      "loop": {
+        "out": "frames 258-269 fade all visible layers to #0D0D12",
+        "in": "frames 0-10 fade the dashboard from #0D0D12",
+        "seam": "frame 269 and frame 0 are the same empty #0D0D12 stage"
+      }
+    },
+    "highlights": [
+      {
+        "region": "dashboard Current Value cards",
+        "label": "3 current opportunities"
+      },
+      {
+        "region": "Plan Setup rows 2 through 4",
+        "label": "offer path, payer, readiness"
+      },
+      {
+        "region": "Operator Console rows 2 through 4",
+        "label": "ranked human queue"
+      },
+      {
+        "region": "GEO Terms source_url cells E2 through E4",
+        "label": "exact Reddit permalinks"
+      },
+      {
+        "region": "Notion recommendation, linked Sheet, and Start here",
+        "label": "guided client source of truth"
+      }
+    ]
+  }
+}

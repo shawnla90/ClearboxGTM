@@ -2,6 +2,25 @@
 
 All notable changes to this repo are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are announced via GitHub Releases.
 
+## [0.10.0] - 2026-08-10
+
+The client pack you can see: a redesigned Clearbox dashboard, a real synthetic eleven-view demonstration, a guided public Notion brief, and an animated end-to-end README walkthrough backed by reproducible HyperFrames source.
+
+### Added
+
+- **Branded client-pack dashboard**: the Sheet builder now renders a dense Clearbox dark/purple value surface with opportunity cards, offer and analysis coverage, signal-to-receipt workflow, evidence ladder, and guided next actions.
+- **Verified public demonstration**: a view-only Acme Ops Sheet and guided Notion value brief generated from the repository's synthetic fixtures, with direct links from the README and gallery.
+- **End-to-end motion walkthrough**: a short silent GIF, MP4, poster, frozen screenshots, shot plan, and checked HyperFrames composition showing Dashboard → Plan Setup → Operator Console → GEO receipts → Notion.
+- **Repository roadmap**: product proof, broader `gtm-coding-agent` skill distribution, and the separately approval-gated launch campaign are explicit phases.
+- **Dashboard regression coverage**: tests now assert the client-pack layout contract, its key values, evidence stages, twelve-column grid, and formatting request set.
+
+### Changed
+
+- **README visual story**: the outdated five-tab screenshot and generic Notion guide no longer represent the current product. The README now leads with the animated eleven-view workflow, live synthetic demos, focused working-view captures, and the local/API build paths.
+- **Client-pack gallery**: every new asset traces to the synthetic fixture build and a verified public surface; the earlier screenshots remain only as release-history references.
+- **Evidence language**: the opening product explanation now states that search retrieval, observed AI appearance, exact citation, engagement, and business outcome require separate receipts.
+- **Coverage documentation**: removed the stale “coming in v0.6.0” marker and linked the shipped enrichment-waterfall workflow.
+
 ## [0.9.0] - 2026-08-10
 
 Client value-pack automation: any Clearbox user can turn the account API's classified opportunities and exact Reddit permalinks into the same guided Google Sheet and Notion delivery pattern used for agency clients.

@@ -35,6 +35,18 @@ GREY_LT = "F3F3F3"
 ORANGE = "FCE5CD"
 RED = "E67C73"
 
+# Clearbox client-pack palette. The generic sheet builder above intentionally
+# keeps its original navy/green treatment for backwards compatibility; the
+# eleven-view client dashboard uses the public Clearbox dark/purple system.
+CLEARBOX_INK = "0D0D12"
+CLEARBOX_CARD = "17171F"
+CLEARBOX_CARD_ALT = "201C30"
+CLEARBOX_PURPLE = "6D5EE9"
+CLEARBOX_PURPLE_LT = "D8D3FF"
+CLEARBOX_WHITE = "FFFFFF"
+CLEARBOX_MUTED = "AAA7B4"
+CLEARBOX_LINE = "35313F"
+
 
 def rgb(h: str) -> dict:
     h = h.lstrip("#")
@@ -160,6 +172,237 @@ def raw_tab(sh, reqs, title, values, widths=None, header=True):
     return ws
 
 
+def _sheet_range(sid, start_row, end_row, start_col, end_col):
+    return {
+        "sheetId": sid,
+        "startRowIndex": start_row,
+        "endRowIndex": end_row,
+        "startColumnIndex": start_col,
+        "endColumnIndex": end_col,
+    }
+
+
+def _merge(reqs, sid, row, start_col, end_col):
+    reqs.append({"mergeCells": {
+        "range": _sheet_range(sid, row, row + 1, start_col, end_col),
+        "mergeType": "MERGE_ALL",
+    }})
+
+
+def _format(reqs, sid, start_row, end_row, start_col, end_col, fmt, fields=None):
+    reqs.append({"repeatCell": {
+        "range": _sheet_range(sid, start_row, end_row, start_col, end_col),
+        "cell": {"userEnteredFormat": fmt},
+        "fields": fields or "userEnteredFormat",
+    }})
+
+
+def _row_height(reqs, sid, start_row, end_row, px):
+    reqs.append({"updateDimensionProperties": {
+        "range": {
+            "sheetId": sid,
+            "dimension": "ROWS",
+            "startIndex": start_row,
+            "endIndex": end_row,
+        },
+        "properties": {"pixelSize": px},
+        "fields": "pixelSize",
+    }})
+
+
+def client_dashboard(sh, reqs, spec):
+    """Render the dense, branded dashboard used by the eleven-view client pack.
+
+    The values are deliberately supplied through ``spec`` so this visual layer
+    remains reusable and testable. It reports the evidence ladder without ever
+    turning search retrieval or an uncaptured AI answer into a claimed result.
+    """
+    rows, cols = 29, 12
+    values = [["" for _ in range(cols)] for _ in range(rows)]
+
+    def put(row, col, value):
+        values[row][col] = str(value)
+
+    subtitle = spec.get("subtitle", {})
+    put(0, 0, subtitle.get("title", "CLIENT VALUE PACK"))
+    put(1, 0, subtitle.get("sub", "Clearbox dispositions, exact Reddit permalinks, and a human-controlled working queue"))
+    put(2, 0, subtitle.get("eyebrow", "11 WORKING VIEWS  •  SOURCE-LINKED  •  BUILT FOR CLIENT DELIVERY"))
+
+    section_rows = {
+        4: "CURRENT VALUE",
+        9: "PRIORITY & COVERAGE",
+        14: "FROM SIGNAL TO RECEIPT",
+        19: "MEASUREMENT EVIDENCE LADDER",
+        24: "WHAT TO DO NEXT",
+    }
+    for row, label in section_rows.items():
+        put(row, 0, label)
+
+    cards = list(spec.get("cards", []))[:4]
+    while len(cards) < 4:
+        cards.append({"label": "", "value": "", "note": ""})
+    for i, card in enumerate(cards):
+        col = i * 3
+        put(5, col, card.get("label", ""))
+        put(6, col, card.get("value", ""))
+        put(7, col, card.get("note", ""))
+
+    priority = list(spec.get("priority", []))[:3]
+    while len(priority) < 3:
+        priority.append({"label": "", "value": "", "note": ""})
+    for i, card in enumerate(priority):
+        col = i * 4
+        put(10, col, card.get("label", ""))
+        put(11, col, card.get("value", ""))
+        put(12, col, card.get("note", ""))
+
+    workflow = list(spec.get("workflow", []))[:4]
+    while len(workflow) < 4:
+        workflow.append({"label": "", "value": "", "note": ""})
+    for i, card in enumerate(workflow):
+        col = i * 3
+        put(15, col, card.get("label", ""))
+        put(16, col, card.get("value", ""))
+        put(17, col, card.get("note", ""))
+
+    evidence = list(spec.get("evidence", []))[:4]
+    while len(evidence) < 4:
+        evidence.append({"label": "", "value": "", "note": ""})
+    for i, card in enumerate(evidence):
+        col = i * 3
+        put(20, col, card.get("label", ""))
+        put(21, col, card.get("value", ""))
+        put(22, col, card.get("note", ""))
+
+    start = spec.get("start", {})
+    put(25, 0, start.get("left_title", "START HERE"))
+    put(26, 0, start.get("left_primary", "1  Choose the offer path in Plan Setup"))
+    put(27, 0, start.get("left_secondary", "2  Work Tier A rows in Operator Console"))
+    put(28, 0, start.get("left_note", "Human review remains the publishing gate."))
+    put(25, 6, start.get("right_title", "OPEN THESE VIEWS"))
+    put(26, 6, start.get("right_primary", "Plan Setup  →  Operator Console  →  Signals"))
+    put(27, 6, start.get("right_secondary", "GEO Terms  →  Disclosure Audit  →  Action Legend"))
+    put(28, 6, start.get("right_note", "The exact Reddit permalink stays attached to every working row."))
+
+    ws = sh.add_worksheet(title=spec["title"], rows=rows + 4, cols=cols)
+    ws.append_rows(values, value_input_option="USER_ENTERED")
+    sid = ws.id
+
+    reqs.append({"updateSheetProperties": {
+        "properties": {
+            "sheetId": sid,
+            "gridProperties": {"hideGridlines": True, "frozenRowCount": 3},
+        },
+        "fields": "gridProperties(hideGridlines,frozenRowCount)",
+    }})
+    for col in range(cols):
+        reqs.append(r_width(sid, col, 116 if col not in {0, 11} else 126))
+
+    _format(reqs, sid, 0, rows, 0, cols, {
+        "backgroundColor": rgb(CLEARBOX_INK),
+        "textFormat": {"foregroundColor": rgb(CLEARBOX_WHITE), "fontFamily": "Arial"},
+        "verticalAlignment": "MIDDLE",
+    })
+
+    for row in (0, 1, 2, *section_rows.keys()):
+        _merge(reqs, sid, row, 0, cols)
+
+    _format(reqs, sid, 0, 1, 0, cols, {
+        "backgroundColor": rgb(CLEARBOX_INK),
+        "textFormat": {"foregroundColor": rgb(CLEARBOX_WHITE), "bold": True, "fontSize": 20},
+        "horizontalAlignment": "LEFT",
+        "verticalAlignment": "MIDDLE",
+        "padding": {"left": 18},
+    })
+    _format(reqs, sid, 1, 2, 0, cols, {
+        "backgroundColor": rgb(CLEARBOX_INK),
+        "textFormat": {"foregroundColor": rgb(CLEARBOX_PURPLE_LT), "fontSize": 11},
+        "padding": {"left": 18},
+    })
+    _format(reqs, sid, 2, 3, 0, cols, {
+        "backgroundColor": rgb(CLEARBOX_PURPLE),
+        "textFormat": {"foregroundColor": rgb(CLEARBOX_WHITE), "bold": True, "fontSize": 9},
+        "padding": {"left": 18},
+    })
+    for row in section_rows:
+        _format(reqs, sid, row, row + 1, 0, cols, {
+            "backgroundColor": rgb(CLEARBOX_INK),
+            "textFormat": {"foregroundColor": rgb(CLEARBOX_PURPLE_LT), "bold": True, "fontSize": 10},
+            "padding": {"left": 2},
+        })
+
+    border = {
+        edge: {"style": "SOLID", "color": rgb(CLEARBOX_LINE)}
+        for edge in ("top", "bottom", "left", "right")
+    }
+
+    def style_cards(start_row, count, span, value_size=20, alternate=False):
+        for i in range(count):
+            c0, c1 = i * span, (i + 1) * span
+            for row in range(start_row, start_row + 3):
+                _merge(reqs, sid, row, c0, c1)
+            bg = CLEARBOX_CARD_ALT if alternate and i % 2 else CLEARBOX_CARD
+            _format(reqs, sid, start_row, start_row + 3, c0, c1, {
+                "backgroundColor": rgb(bg),
+                "borders": border,
+                "verticalAlignment": "MIDDLE",
+                "wrapStrategy": "WRAP",
+                "padding": {"left": 12, "right": 10},
+            })
+            _format(reqs, sid, start_row, start_row + 1, c0, c1, {
+                "textFormat": {"foregroundColor": rgb(CLEARBOX_MUTED), "bold": True, "fontSize": 9},
+                "padding": {"left": 12},
+            }, "userEnteredFormat(textFormat,padding)")
+            _format(reqs, sid, start_row + 1, start_row + 2, c0, c1, {
+                "textFormat": {"foregroundColor": rgb(CLEARBOX_WHITE), "bold": True, "fontSize": value_size},
+                "horizontalAlignment": "LEFT",
+                "padding": {"left": 12},
+            }, "userEnteredFormat(textFormat,horizontalAlignment,padding)")
+            _format(reqs, sid, start_row + 2, start_row + 3, c0, c1, {
+                "textFormat": {"foregroundColor": rgb(CLEARBOX_MUTED), "fontSize": 9},
+                "padding": {"left": 12, "right": 10},
+            }, "userEnteredFormat(textFormat,padding)")
+
+    style_cards(5, 4, 3, value_size=22)
+    style_cards(10, 3, 4, value_size=16, alternate=True)
+    style_cards(15, 4, 3, value_size=12, alternate=True)
+    style_cards(20, 4, 3, value_size=12)
+
+    for c0, c1 in ((0, 6), (6, 12)):
+        for row in range(25, 29):
+            _merge(reqs, sid, row, c0, c1)
+        _format(reqs, sid, 25, 29, c0, c1, {
+            "backgroundColor": rgb(CLEARBOX_CARD_ALT if c0 == 0 else CLEARBOX_CARD),
+            "borders": border,
+            "verticalAlignment": "MIDDLE",
+            "wrapStrategy": "WRAP",
+            "padding": {"left": 14, "right": 12},
+        })
+        _format(reqs, sid, 25, 26, c0, c1, {
+            "textFormat": {"foregroundColor": rgb(CLEARBOX_PURPLE_LT), "bold": True, "fontSize": 10},
+            "padding": {"left": 14},
+        }, "userEnteredFormat(textFormat,padding)")
+        _format(reqs, sid, 26, 28, c0, c1, {
+            "textFormat": {"foregroundColor": rgb(CLEARBOX_WHITE), "bold": True, "fontSize": 11},
+            "padding": {"left": 14, "right": 12},
+        }, "userEnteredFormat(textFormat,padding)")
+        _format(reqs, sid, 28, 29, c0, c1, {
+            "textFormat": {"foregroundColor": rgb(CLEARBOX_MUTED), "italic": True, "fontSize": 9},
+            "padding": {"left": 14, "right": 12},
+        }, "userEnteredFormat(textFormat,padding)")
+
+    for row, height in {
+        0: 46, 1: 30, 2: 24, 3: 14,
+        4: 26, 5: 24, 6: 42, 7: 38, 8: 14,
+        9: 26, 10: 24, 11: 34, 12: 38, 13: 14,
+        14: 26, 15: 24, 16: 32, 17: 42, 18: 14,
+        19: 26, 20: 24, 21: 32, 22: 42, 23: 14,
+        24: 26, 25: 26, 26: 32, 27: 32, 28: 38,
+    }.items():
+        _row_height(reqs, sid, row, row + 1, height)
+    return ws
+
+
 def dashboard(sh, reqs, title, subtitle, entries):
     """entries: list of {kind, label, value?}. kind ∈ section|kpi|bullet|link|note|blank."""
     rows, sections, kpis, bullets = [], [], [], []
@@ -231,7 +474,10 @@ def build(config: dict):
     reqs: list = []
     if config.get("dashboard"):
         d = config["dashboard"]
-        dashboard(sh, reqs, d["title"], d.get("subtitle", {}), d["entries"])
+        if d.get("layout") == "client_pack":
+            client_dashboard(sh, reqs, d)
+        else:
+            dashboard(sh, reqs, d["title"], d.get("subtitle", {}), d["entries"])
     for t in config.get("tabs", []):
         data_tab(sh, reqs, t["title"], t["df"], t["cols"], t.get("widths", {}), t.get("cf", []),
                  set(t.get("numeric", [])), t.get("validations", []))

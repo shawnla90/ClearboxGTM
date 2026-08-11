@@ -25,6 +25,9 @@ venv/
 node_modules/
 npm-debug.log*
 
+# HyperFrames renders are copied into assets/gallery after review.
+videos/**/renders/
+
 # API keys and secrets
 *.key
 *.pem

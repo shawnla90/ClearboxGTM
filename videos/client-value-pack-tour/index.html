@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>ClearboxGTM client value pack tour</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ink: #0d0d12;
+        --paper: #f7f7fa;
+        --violet: #6d5ee9;
+        --violet-soft: #c4b5fd;
+        --edge: #27232f;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+
+      body {
+        color: var(--paper);
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      #stage {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+
+      #tour {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+
+      .backdrop {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        width: 1920px;
+        height: 1080px;
+        background: var(--ink);
+      }
+
+      .ambient-glow {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        background: radial-gradient(circle at 51% 52%, rgba(109, 94, 233, 0.11), transparent 43%);
+        opacity: 0;
+      }
+
+      .surface-shot,
+      .shot-world {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+
+      .surface-shot {
+        z-index: 2;
+        opacity: 0;
+      }
+
+      .shot-world {
+        transform-origin: 50% 50%;
+        will-change: transform;
+      }
+
+      .device-surface {
+        position: absolute;
+        overflow: hidden;
+        border-radius: 18px;
+        background: var(--paper);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+      }
+
+      .device-surface::after {
+        position: absolute;
+        inset: 0;
+        border: 1px solid var(--edge);
+        border-radius: inherit;
+        content: "";
+        pointer-events: none;
+      }
+
+      .device-surface img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+      }
+
+      .device-dashboard {
+        left: 272px;
+        top: 110px;
+        width: 1376px;
+        height: 860px;
+      }
+
+      .device-sheet {
+        left: 96px;
+        top: 259px;
+        width: 1728px;
+        height: 562px;
+      }
+
+      .device-notion {
+        left: 341px;
+        top: 110px;
+        width: 1238px;
+        height: 860px;
+      }
+
+      .stage-label {
+        position: absolute;
+        left: 96px;
+        top: 72px;
+        z-index: 14;
+        display: flex;
+        width: max-content;
+        max-width: 540px;
+        height: 46px;
+        align-items: flex-start;
+        color: var(--paper);
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        line-height: 1.15;
+        opacity: 0;
+        white-space: nowrap;
+      }
+
+      .stage-label::after {
+        position: absolute;
+        bottom: 4px;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 4px;
+        border-radius: 999px;
+        background: var(--violet);
+        content: "";
+        transform-origin: 0 50%;
+      }
+
+      #focus-window {
+        position: absolute;
+        inset: 0;
+        z-index: 12;
+        width: 1920px;
+        height: 1080px;
+        pointer-events: none;
+      }
+
+      .focus-segment {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 4px;
+        background: var(--violet);
+        box-shadow: 0 0 34px rgba(109, 94, 233, 0.34);
+        opacity: 0;
+        will-change: transform, opacity;
+      }
+
+      .focus-segment.horizontal {
+        width: 26px;
+        height: 3px;
+      }
+
+      .focus-segment.vertical {
+        width: 3px;
+        height: 26px;
+      }
+
+      #focus-leading {
+        position: absolute;
+        top: -324px;
+        left: 0;
+        z-index: 13;
+        width: 3px;
+        height: 1728px;
+        border-radius: 999px;
+        background: var(--violet);
+        box-shadow: 0 0 34px rgba(109, 94, 233, 0.34);
+        opacity: 0;
+        transform-origin: 50% 50%;
+        will-change: transform, opacity;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      id="stage"
+      data-composition-id="client-value-pack-tour"
+      data-start="0"
+      data-duration="9"
+      data-fps="30"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section
+        id="tour"
+        class="clip"
+        data-start="0"
+        data-duration="9"
+        data-track-index="1"
+      >
+        <div class="backdrop" aria-hidden="true">
+          <div id="ambient-glow" class="ambient-glow"></div>
+        </div>
+
+        <div id="surface-dashboard" class="surface-shot" data-layout-ignore>
+          <div id="world-dashboard" class="shot-world">
+            <figure class="device-surface device-dashboard">
+              <img src="assets/dashboard.png" alt="Sanitized ClearboxGTM client value dashboard" />
+            </figure>
+          </div>
+        </div>
+
+        <div id="surface-plan" class="surface-shot" data-layout-ignore>
+          <div id="world-plan" class="shot-world">
+            <figure class="device-surface device-sheet">
+              <img src="assets/plan-setup.png" alt="Sanitized ClearboxGTM Plan Setup view" />
+            </figure>
+          </div>
+        </div>
+
+        <div id="surface-operator" class="surface-shot" data-layout-ignore>
+          <div id="world-operator" class="shot-world">
+            <figure class="device-surface device-sheet">
+              <img src="assets/operator-console.png" alt="Sanitized ClearboxGTM Operator Console" />
+            </figure>
+          </div>
+        </div>
+
+        <div id="surface-geo" class="surface-shot" data-layout-ignore>
+          <div id="world-geo" class="shot-world">
+            <figure class="device-surface device-sheet">
+              <img src="assets/geo-terms.png" alt="Sanitized ClearboxGTM GEO Terms evidence view" />
+            </figure>
+          </div>
+        </div>
+
+        <div id="surface-notion" class="surface-shot" data-layout-ignore>
+          <div id="world-notion" class="shot-world">
+            <figure class="device-surface device-notion">
+              <img src="assets/notion.png" alt="Sanitized ClearboxGTM Notion client value brief" />
+            </figure>
+          </div>
+        </div>
+
+        <div id="label-dashboard" class="stage-label">SEE THE VALUE</div>
+        <div id="label-plan" class="stage-label">CHOOSE THE OFFER PATH</div>
+        <div id="label-operator" class="stage-label">WORK THE RANKED QUEUE</div>
+        <div id="label-geo" class="stage-label">KEEP THE EXACT RECEIPT</div>
+        <div id="label-notion" class="stage-label">SHARE ONE SOURCE OF TRUTH</div>
+        <div id="label-resolve" class="stage-label">FROM SIGNAL TO RECEIPT</div>
+
+        <div id="focus-window" aria-hidden="true" data-layout-ignore>
+          <span id="focus-tl-h" class="focus-segment horizontal"></span>
+          <span id="focus-tl-v" class="focus-segment vertical"></span>
+          <span id="focus-tr-h" class="focus-segment horizontal"></span>
+          <span id="focus-tr-v" class="focus-segment vertical"></span>
+          <span id="focus-bl-h" class="focus-segment horizontal"></span>
+          <span id="focus-bl-v" class="focus-segment vertical"></span>
+          <span id="focus-br-h" class="focus-segment horizontal"></span>
+          <span id="focus-br-v" class="focus-segment vertical"></span>
+          <span id="focus-leading"></span>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+
+      const FPS = 30;
+      const frame = (value) => value / FPS;
+      const clamp01 = (value) => Math.max(0, Math.min(1, value));
+      const focusState = { x: 311, y: 342, w: 1225, h: 125, reveal: 0 };
+      const segment = (id) => document.getElementById(id);
+
+      const focusSegments = {
+        tlH: segment("focus-tl-h"),
+        tlV: segment("focus-tl-v"),
+        trH: segment("focus-tr-h"),
+        trV: segment("focus-tr-v"),
+        blH: segment("focus-bl-h"),
+        blV: segment("focus-bl-v"),
+        brH: segment("focus-br-h"),
+        brV: segment("focus-br-v"),
+      };
+
+      function placeSegment(element, x, y, scaleX, scaleY, opacity) {
+        element.style.opacity = String(opacity);
+        element.style.transform = `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY})`;
+      }
+
+      function applyFocus() {
+        const { x, y, w, h, reveal } = focusState;
+        const leftReveal = clamp01(reveal / 0.45);
+        const rightReveal = clamp01((reveal - 0.45) / 0.55);
+        const rightX = x + w - 26;
+        const bottomY = y + h - 26;
+
+        placeSegment(focusSegments.tlH, x, y, leftReveal, 1, leftReveal);
+        placeSegment(focusSegments.tlV, x, y, 1, leftReveal, leftReveal);
+        placeSegment(focusSegments.blH, x, y + h - 3, leftReveal, 1, leftReveal);
+        placeSegment(focusSegments.blV, x, bottomY, 1, leftReveal, leftReveal);
+        placeSegment(focusSegments.trH, rightX, y, rightReveal, 1, rightReveal);
+        placeSegment(focusSegments.trV, x + w - 3, y, 1, rightReveal, rightReveal);
+        placeSegment(focusSegments.brH, rightX, y + h - 3, rightReveal, 1, rightReveal);
+        placeSegment(focusSegments.brV, x + w - 3, bottomY, 1, rightReveal, rightReveal);
+      }
+
+      function focusTo(timeline, atFrame, durationFrames, geometry, ease = "power3.inOut") {
+        timeline.to(
+          focusState,
+          {
+            ...geometry,
+            duration: frame(durationFrames),
+            ease,
+            onUpdate: applyFocus,
+          },
+          frame(atFrame),
+        );
+      }
+
+      function labelIn(timeline, selector, atFrame, durationFrames = 8) {
+        timeline.fromTo(
+          selector,
+          { autoAlpha: 0, x: -18 },
+          { autoAlpha: 1, x: 0, duration: frame(durationFrames), ease: "power3.out" },
+          frame(atFrame),
+        );
+      }
+
+      function labelOut(timeline, selector, atFrame, durationFrames = 5) {
+        timeline.to(
+          selector,
+          { autoAlpha: 0, duration: frame(durationFrames), ease: "power2.in" },
+          frame(atFrame),
+        );
+      }
+
+      const tl = gsap.timeline({ paused: true, defaults: { overwrite: "auto" } });
+
+      applyFocus();
+
+      // 00-47 — the redesigned dashboard establishes, then the borrowed corner motif lands.
+      tl.fromTo(
+        "#ambient-glow",
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: frame(10), ease: "power3.out" },
+        frame(0),
+      );
+      tl.fromTo(
+        "#surface-dashboard",
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: frame(10), ease: "power3.out" },
+        frame(0),
+      );
+      tl.fromTo(
+        "#world-dashboard",
+        { scale: 0.96 },
+        { scale: 1, duration: frame(10), ease: "power3.out" },
+        frame(0),
+      );
+      labelIn(tl, "#label-dashboard", 2, 8);
+      focusTo(tl, 8, 10, { reveal: 1 }, "power3.out");
+      labelOut(tl, "#label-dashboard", 38, 5);
+      focusTo(tl, 38, 5, { reveal: 0 }, "power2.in");
+      tl.fromTo(
+        "#focus-leading",
+        { autoAlpha: 0, x: 1536, y: 0, rotation: 0, scaleY: 0.5 },
+        {
+          autoAlpha: 1,
+          x: 1824,
+          y: 0,
+          rotation: 0,
+          scaleY: 0.5,
+          duration: frame(8),
+          ease: "power3.inOut",
+        },
+        frame(40),
+      );
+      tl.to("#surface-dashboard", { autoAlpha: 0, duration: frame(12), ease: "power2.inOut" }, frame(43));
+      tl.fromTo(
+        "#surface-plan",
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: frame(12), ease: "power2.inOut" },
+        frame(43),
+      );
+      tl.set("#focus-leading", { autoAlpha: 0 }, frame(48));
+
+      // 48-89 — offer path, payer, and readiness remain readable as one decision block.
+      focusTo(tl, 48, 1, { x: 144, y: 413, w: 806, h: 121, reveal: 0 }, "power1.out");
+      labelIn(tl, "#label-plan", 48, 8);
+      tl.fromTo(
+        "#world-plan",
+        { scale: 0.985 },
+        { scale: 1, duration: frame(10), ease: "power3.out" },
+        frame(52),
+      );
+      focusTo(tl, 58, 10, { reveal: 1 }, "power3.out");
+      labelOut(tl, "#label-plan", 80, 5);
+      focusTo(tl, 80, 5, { reveal: 0 }, "power2.in");
+      tl.fromTo(
+        "#focus-leading",
+        { autoAlpha: 0, x: 950, y: 0, rotation: 0, scaleY: 0.326 },
+        {
+          autoAlpha: 1,
+          x: 1824,
+          y: 0,
+          rotation: 0,
+          scaleY: 0.326,
+          duration: frame(10),
+          ease: "power3.inOut",
+        },
+        frame(80),
+      );
+      tl.to("#surface-plan", { autoAlpha: 0, duration: frame(13), ease: "power2.inOut" }, frame(84));
+      tl.fromTo(
+        "#surface-operator",
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: frame(13), ease: "power2.inOut" },
+        frame(84),
+      );
+      tl.set("#focus-leading", { autoAlpha: 0 }, frame(90));
+
+      // 90-134 — the camera follows the ranked queue without adding a cursor.
+      focusTo(tl, 90, 1, { x: 144, y: 413, w: 1663, h: 122, reveal: 0 }, "power1.out");
+      labelIn(tl, "#label-operator", 90, 8);
+      focusTo(tl, 96, 10, { reveal: 1 }, "power3.out");
+      tl.to(
+        "#world-operator",
+        { x: -24, duration: frame(18), ease: "power2.inOut" },
+        frame(106),
+      );
+      labelOut(tl, "#label-operator", 125, 5);
+      focusTo(tl, 125, 5, { reveal: 0 }, "power2.in");
+      tl.fromTo(
+        "#focus-leading",
+        { autoAlpha: 0, x: 1807, y: 0, rotation: 0, scaleY: 0.326 },
+        {
+          autoAlpha: 1,
+          x: 1824,
+          y: 0,
+          rotation: 0,
+          scaleY: 0.326,
+          duration: frame(10),
+          ease: "power3.inOut",
+        },
+        frame(125),
+      );
+      tl.to("#surface-operator", { autoAlpha: 0, duration: frame(13), ease: "power2.inOut" }, frame(129));
+      tl.fromTo(
+        "#surface-geo",
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: frame(13), ease: "power2.inOut" },
+        frame(129),
+      );
+      tl.set("#focus-leading", { autoAlpha: 0 }, frame(135));
+
+      // 135-182 — exact source URLs hold, then the single camera-path interrupt tracks evidence fields.
+      focusTo(tl, 135, 1, { x: 666, y: 413, w: 610, h: 121, reveal: 0 }, "power1.out");
+      labelIn(tl, "#label-geo", 135, 8);
+      focusTo(tl, 141, 10, { reveal: 1 }, "power3.out");
+      tl.to(
+        "#world-geo",
+        { x: -92, duration: frame(19), ease: "power2.inOut" },
+        frame(151),
+      );
+      labelOut(tl, "#label-geo", 171, 5);
+      focusTo(tl, 171, 5, { reveal: 0 }, "power2.in");
+      tl.fromTo(
+        "#focus-leading",
+        { autoAlpha: 0, x: 1274, y: 0, rotation: 0, scaleY: 0.07 },
+        {
+          autoAlpha: 1,
+          x: 958.5,
+          y: -430,
+          rotation: 90,
+          scaleY: 1,
+          duration: frame(6),
+          ease: "power3.inOut",
+        },
+        frame(171),
+      );
+      tl.to(
+        "#focus-leading",
+        { y: 430, duration: frame(15), ease: "power3.inOut" },
+        frame(177),
+      );
+      tl.to("#surface-geo", { autoAlpha: 0, duration: frame(15), ease: "power2.inOut" }, frame(177));
+      tl.fromTo(
+        "#surface-notion",
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: frame(15), ease: "power2.inOut" },
+        frame(177),
+      );
+      tl.set("#focus-leading", { autoAlpha: 0 }, frame(192));
+
+      // 183-269 — the linked Notion brief resolves the flow, then returns to the exact black seam.
+      labelIn(tl, "#label-notion", 183, 8);
+      focusTo(tl, 190, 1, { x: 657, y: 439, w: 607, h: 409, reveal: 0 }, "power1.out");
+      focusTo(tl, 190, 10, { reveal: 1 }, "power3.out");
+      tl.to(
+        "#world-notion",
+        { scale: 1.03, duration: frame(33), ease: "sine.inOut" },
+        frame(200),
+      );
+      focusTo(tl, 234, 6, { reveal: 0 }, "power2.in");
+      labelOut(tl, "#label-notion", 240, 8);
+      labelIn(tl, "#label-resolve", 249, 8);
+      labelOut(tl, "#label-resolve", 258, 11);
+      tl.to(
+        "#surface-notion",
+        { autoAlpha: 0, duration: frame(11), ease: "power2.in" },
+        frame(258),
+      );
+      tl.to(
+        "#ambient-glow",
+        { autoAlpha: 0, duration: frame(11), ease: "power2.in" },
+        frame(258),
+      );
+
+      tl.seek(0);
+      window.__timelines["client-value-pack-tour"] = tl;
+    </script>
+  </body>
+</html>
