@@ -44,25 +44,25 @@ Do not collapse the Clearbox account, an offer, a plan, and a Reddit identity in
 - **Plan:** the capacity selected for that offer.
 - **Reddit identity:** the public account that participates under the identity and disclosure rules in this guide.
 
-**CLEARBOX PRODUCT FACT, verified August 10, 2026:** an authorized user can be enabled to create more than one offer. Before the user proceeds, the dashboard explains that each new offer gets its own Stripe customer and subscription, and that billing is independent across offers.
+**CLEARBOX PRODUCT FACT, verified August 10, 2026:** an authorized user can be enabled to create more than one offer. A separate offer can be created for a client, and that client can pay for its own offer.
 
 That creates three valid setup paths:
 
 1. **One offer, higher-capacity plan:** upgrade the existing offer when its own volume needs more capacity.
-2. **One primary offer plus additional offers:** keep the current offer intact, then create one independently billed offer for each added client or genuinely separate service line.
+2. **One primary offer plus additional offers:** keep the current offer intact, then create one separate offer for each added client or genuinely separate service line.
 3. **Both:** upgrade the primary offer and add separate offers alongside it.
 
-**CLEARBOX RULE:** never combine unrelated clients in one offer to avoid a subscription. Each offer gets its own client owner, billing owner, targeting, inbox, workflow, usage view, command-center Sheet, and evidence ledger. The dashboard account can control multiple offers, but the offers remain separate operating and billing boundaries.
+**CLEARBOX RULE:** never combine unrelated clients in one offer. Each offer gets its own client owner, payer decision, targeting, opportunity queue, operating notes, command-center Sheet, and evidence ledger. The dashboard account can control multiple offers while the client work remains separate.
 
 Every agency command center must include a short **Plan Setup** view that answers:
 
 - Which offer already exists?
 - Does that offer need a higher-capacity plan?
 - Is another client or service ready for its own offer?
-- Who owns the new offer and its subscription?
-- What does the dashboard say will happen before the user confirms?
+- Who will pay for the new offer: the agency, the client, or a decision made together?
+- Is the team reviewing, ready to configure, or asking for guidance?
 
-Do not replace this with internal tool language. Freckle, Base Loop, Clay, or another processor may support the work behind the scenes; the client needs to understand the offer, plan, billing, and operating boundaries they control.
+Do not replace this with internal tool language. The client needs to understand the offer, capacity, payer decision, operating boundary, and next step. Provider-specific billing mechanics, admin flags, workbook links, workspace links, run IDs, and internal processing details do not belong in the client-facing Plan Setup.
 
 ## When one owner has two related companies
 

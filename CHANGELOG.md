@@ -2,6 +2,21 @@
 
 All notable changes to this repo are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are announced via GitHub Releases.
 
+## [0.8.1] - 2026-08-10
+
+Client-facing Plan Setup correction: the agency pack now explains the decision a client needs to make without exposing backend billing mechanics, admin controls, processing workspaces, or run identifiers.
+
+### Added
+
+- **Guided decision fields**: Plan Setup requires dropdowns for the offer path, who pays, and readiness; operator queues use a Review Status dropdown.
+- **Collapsible Notion guides**: the publisher supports toggle blocks so a client brief can explain every Sheet tab without becoming a wall of text.
+- **Client-copy release gate**: the verification rules now reject provider-specific billing mechanics and internal workspace language in the public agency skill.
+
+### Changed
+
+- **reddit-agency 1.2.1**: client copy now says an agency can add a separate client offer and the client can pay for it. Internal payment-provider behavior stays in admin context.
+- **Plan Setup language**: one offer per client remains the operating rule, expressed through audience, queue, reporting, payer, and readiness instead of backend implementation details.
+
 ## [0.8.0] - 2026-08-10
 
 Plan and offer setup: the agency skill now carries the actual multi-offering product behavior into every client command center instead of stopping at workflow and account guidance.
@@ -9,8 +24,8 @@ Plan and offer setup: the agency skill now carries the actual multi-offering pro
 ### Added
 
 - **Plan Setup requirement**: every agency command-center Sheet must recommend a path for the existing offer and explain when to add a separate offer for another client or service line.
-- **Offer and billing boundary**: the operating guide now distinguishes the dashboard account, offer, plan, Reddit identity, operator, and billing owner.
-- **Verified multi-offering behavior**: the guide records that each new offer gets its own Stripe customer and subscription, with billing independent across offers.
+- **Offer and payer boundary**: the operating guide now distinguishes the dashboard account, offer, plan, Reddit identity, operator, and payer decision.
+- **Verified multi-offering behavior**: the guide records that an authorized user can add offers and a client can pay for the offer created for them.
 
 ### Changed
 

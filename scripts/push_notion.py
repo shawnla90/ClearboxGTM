@@ -14,6 +14,7 @@ access. Prints the URL.
 Markdown conventions beyond standard:
   > 💸 text                     -> callout, color inferred from the leading emoji
   - [ ] text / - [x]            -> to-do checkbox (unchecked / checked)
+  ::: toggle Title              -> collapsible toggle; close with :::
   ::: bookmark <url>            -> bookmark card
   ::: image <url> | caption     -> external image (GIF/PNG) with optional caption
   ::: image_upload <path> | cap -> upload a local file, embed it (optional caption)
@@ -182,6 +183,20 @@ def md_to_blocks(md: str) -> list:
                     for cl in cols_raw if cl]
             blocks.append({"object": "block", "type": "column_list",
                            "column_list": {"children": cols}})
+            continue
+        if s.startswith("::: toggle "):
+            title = s[len("::: toggle "):].strip()
+            i += 1
+            body = []
+            while i < len(lines) and lines[i].strip() != ":::":
+                body.append(lines[i])
+                i += 1
+            i += 1  # skip closing :::
+            children = md_to_blocks("\n".join(body))
+            toggle = {"rich_text": inline(title)}
+            if children:
+                toggle["children"] = children
+            blocks.append({"object": "block", "type": "toggle", "toggle": toggle})
             continue
         todo = re.match(r"^- \[([ xX])\]\s+(.*)$", s)
         if s == "---":

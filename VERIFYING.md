@@ -13,6 +13,7 @@ This repo makes public claims about a real system. This file is the standing loo
 - **Retrieval is not citation.** Exa-style search results measure `retrieval_visibility` — whether content surfaces when an index is queried. A *citation* claim requires a captured AI answer with a receipt (see `skills/reddit-agency/AI-VISIBILITY-SCORECARD.csv` for the receipt method). Never upgrade one into the other.
 - The views claim is the string **"1.5M+"**, exactly. It does not round up. When the real number crosses the next million, update this rule first, then the generator, then the docs — in that order.
 - **Automation boundaries** (see `playbooks/automation-boundaries.md`): research, classification, drafting, and monitoring can be automated; posting, voting, and DMs are always human actions. Docs must never imply otherwise.
+- **Client-facing Plan Setup is outcome language.** Say that a separate client offer can be added and the client can pay for it. Do not expose payment-provider mechanics, admin emails or flags, internal workbook or workspace links, run IDs, or processor-specific setup in client-facing agency guidance.
 
 ## FACTCHECK gates
 
@@ -80,6 +81,11 @@ grep -q '1\.5M+' proof/README.md || { echo "FAIL: proof/README.md missing 1.5M+ 
 # 7. Transparency docs teach lessons, never evasion
 [ -d transparency ] && grep -rniE 'bypass|evade|get past|circumvent|slip (past|through)' transparency/ \
   && { echo "FAIL: evasion language in transparency/"; FAIL=1; }
+
+# 7B. Client-facing agency guidance excludes admin and internal implementation detail
+grep -rniE 'Stripe customer|billing is independent|Freckle workbook|Base Loop workspace|workspace [a-z0-9]{20,}|field [a-z0-9]{20,}|runs? [a-z0-9]{20,}' \
+  skills/reddit-agency README.md \
+  && { echo "FAIL: admin or internal implementation detail in client-facing agency guidance"; FAIL=1; }
 
 # 8. Python compiles
 python3 -m compileall -q engine proof scripts || { echo "FAIL: compileall"; FAIL=1; }
