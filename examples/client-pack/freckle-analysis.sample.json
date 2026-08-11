@@ -1,0 +1,40 @@
+[
+  {
+    "id": "101",
+    "kind": "lead",
+    "tier": "A",
+    "total_score": 19,
+    "action_lane": "reply_now",
+    "buyer_language": "Which approach works best for a small operations team?",
+    "buyer_question": "How should a small operations team evaluate workflow support?",
+    "content_topic": "A practical workflow-support evaluation rubric",
+    "reply_angle": "Share a short evaluation checklist without pitching.",
+    "analysis_reason": "The buyer is actively comparing approaches.",
+    "search_query": "best workflow support for a small operations team",
+    "profile_review_verdict": "no_public_evidence",
+    "enrichment_eligibility": "not_eligible"
+  },
+  {
+    "id": "102",
+    "kind": "engage",
+    "tier": "A",
+    "total_score": 18,
+    "action_lane": "reply_now",
+    "buyer_language": "How do you keep customer follow-up from falling through?",
+    "buyer_question": "How can a small team prevent missed follow-up?",
+    "content_topic": "A human-controlled follow-up system",
+    "reply_angle": "Explain ownership, reminders, and exception review.",
+    "analysis_reason": "The question is specific and useful to answer publicly."
+  },
+  {
+    "id": "103",
+    "kind": "competitor",
+    "tier": "B",
+    "total_score": 15,
+    "action_lane": "competitor_watch",
+    "competitor_name": "ExampleCo",
+    "competitor_sentiment": "neutral",
+    "content_topic": "What buyers compare beyond the category benchmark",
+    "analysis_reason": "The competitor is the current reference point."
+  }
+]

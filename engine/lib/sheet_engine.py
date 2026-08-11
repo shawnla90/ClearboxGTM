@@ -80,6 +80,17 @@ def r_width(sid, col, px):
     return {"updateDimensionProperties": {"range": {"sheetId": sid, "dimension": "COLUMNS", "startIndex": col, "endIndex": col + 1}, "properties": {"pixelSize": px}, "fields": "pixelSize"}}
 
 
+def r_validation(sid, start_row, end_row, start_col, end_col, values):
+    """Dropdown validation request. Row/column indexes are zero-based and end-exclusive."""
+    return {"setDataValidation": {
+        "range": {"sheetId": sid, "startRowIndex": start_row, "endRowIndex": end_row,
+                  "startColumnIndex": start_col, "endColumnIndex": end_col},
+        "rule": {"condition": {"type": "ONE_OF_LIST", "values": [
+            {"userEnteredValue": str(value)} for value in values
+        ]}, "strict": True, "showCustomUi": True},
+    }}
+
+
 def cf_text(sid, col, nrows, value, color):
     return {"addConditionalFormatRule": {"rule": {"ranges": [{"sheetId": sid, "startRowIndex": 1, "endRowIndex": nrows, "startColumnIndex": col, "endColumnIndex": col + 1}],
             "booleanRule": {"condition": {"type": "TEXT_EQ", "values": [{"userEnteredValue": value}]}, "format": {"backgroundColor": rgb(color)}}}, "index": 0}}
@@ -109,7 +120,7 @@ def _values(df, cols, numeric):
     return out
 
 
-def data_tab(sh, reqs, title, df, cols, widths, cf, numeric):
+def data_tab(sh, reqs, title, df, cols, widths, cf, numeric, validations=None):
     ws = sh.add_worksheet(title=title, rows=len(df) + 10, cols=len(cols) + 2)
     ws.append_rows(_values(df, cols, numeric), value_input_option="USER_ENTERED")
     sid, nrows, ncols = ws.id, len(df) + 1, len(cols)
@@ -128,6 +139,13 @@ def data_tab(sh, reqs, title, df, cols, widths, cf, numeric):
         else:
             for val, color in spec["map"].items():
                 reqs.append(cf_text(sid, col, nrows, val, color))
+    for spec in validations or []:
+        if spec.get("col") not in cols:
+            continue
+        col = cols.index(spec["col"])
+        start_row = int(spec.get("start_row", 1))
+        end_row = int(spec.get("end_row", nrows))
+        reqs.append(r_validation(sid, start_row, end_row, col, col + 1, spec["values"]))
     return ws
 
 
@@ -196,7 +214,7 @@ def build(config: dict):
       token    : gspread OAuth token path (default ~/.config/gspread/token.json)
       share    : "anyone_reader" to share a freshly created sheet, else None
       dashboard: {title, subtitle:{title,sub}, entries:[{kind,label,value}]}  (optional)
-      tabs     : [{title, df, cols, widths?, cf?, numeric?}]                  data tabs
+      tabs     : [{title, df, cols, widths?, cf?, numeric?, validations?}]    data tabs
       raw_tabs : [{title, values, widths?, header?}]                         simple grids
     """
     gc = gspread.authorize(creds(config.get("token", DEFAULT_TOKEN)))
@@ -215,7 +233,8 @@ def build(config: dict):
         d = config["dashboard"]
         dashboard(sh, reqs, d["title"], d.get("subtitle", {}), d["entries"])
     for t in config.get("tabs", []):
-        data_tab(sh, reqs, t["title"], t["df"], t["cols"], t.get("widths", {}), t.get("cf", []), set(t.get("numeric", [])))
+        data_tab(sh, reqs, t["title"], t["df"], t["cols"], t.get("widths", {}), t.get("cf", []),
+                 set(t.get("numeric", [])), t.get("validations", []))
     for rt in config.get("raw_tabs", []):
         raw_tab(sh, reqs, rt["title"], rt["values"], rt.get("widths", {}), rt.get("header", True))
 

@@ -22,6 +22,7 @@ config/ (subreddits + keywords)
 - **`mine.py`** turns raw threads into real buyer language (questions, comparisons, pains) and clusters it into scored content topics. Optionally polishes the topic titles with `claude -p` on your subscription, no API key.
 - **`score.py`** scores every topic 1 to 5 on buyer intent, demand, competitive fit, and how widely the threads are read, and writes a one-line reason you get to keep.
 - **`build_sheet.py`** renders it all as a Google Sheet: score gradient red to green, tier colors, a dashboard tab, frozen headers, filters, shared anyone-with-link. Rebuilds in place so the link never changes.
+- **`build_client_pack.py`** turns an account-scoped Clearbox API inbox into the agency delivery surface: eleven Google Sheet views plus a guided Notion-ready brief. It preserves every Clearbox disposition and permalink, and accepts optional Freckle, Base Loop, or Clay analysis.
 - **`build_deck.py`** (optional) builds a short editable Google Slides deck from the same scored data.
 
 The styling engine is `lib/sheet_engine.py`. It is the real, reusable piece. See [ENGINE.md](ENGINE.md).
@@ -49,6 +50,7 @@ python3 content.py check content/pack-01/linkedin.md
 python3 sentiment.py --ops data/ops_classified.json --out data/sentiment.json --cli
 python3 last24.py --db data/signals.db --out data/last24.json --refresh
 python3 proposal.py --prospect "Acme Corp" --db data/signals.db --out data/proposal/
+python3 build_client_pack.py --brand "Acme Corp" --publish-sheet
 ```
 
 The example throughout is a project-management SaaS for small teams (call it "Acme PM"). Point it at your own market by editing two config files and two Python maps.
@@ -144,6 +146,27 @@ The Clearbox opportunity inbox is a pull-only HTTP API, so the Clearbox path in 
 - `GET /op/{id}/done` marks that opportunity handled.
 
 Two things trip people up. The token is a path segment in the URL, not a header, so it rides inside the path itself. And Cloudflare returns 403 to a default urllib User-Agent, so send a browser User-Agent on every request. There are no POST routes. Every call is a read, and the one state change, marking an op done, is itself a GET.
+
+### Automate the client Sheet and Notion pack
+
+Keep the account-scoped URL in the environment, then run the client pack builder. It calls only the inbox read route.
+
+```bash
+export CLEARBOX_ACCOUNT_URL="https://api.clearbox.to/a/YOUR_ACCOUNT_TOKEN"
+
+python3 build_client_pack.py \
+  --brand "Acme Corp" \
+  --analysis data/clay-analysis.csv \
+  --backend clay \
+  --publish-sheet \
+  --sheet-id EXISTING_GOOGLE_SHEET_ID \
+  --publish-notion \
+  --notion-page-id EXISTING_NOTION_PAGE_ID
+```
+
+Swap `clay` for `freckle` or `baseloop` and supply the matching JSON export. Omit the analysis arguments to build directly from Clearbox dispositions. Reusing the existing Sheet and Notion ids keeps the client links stable across scheduled refreshes.
+
+The builder refuses to silently publish a truncated API response. It also records a conflict if an analysis tool proposes a different disposition; the original Clearbox `kind` remains authoritative. See the full contract and all eleven views in [`../skills/reddit-agency/CLIENT-VALUE-PACK.md`](../skills/reddit-agency/CLIENT-VALUE-PACK.md).
 
 ## Enrichment APIs — with and without
 

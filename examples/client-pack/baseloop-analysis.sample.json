@@ -1,0 +1,48 @@
+{
+  "row_count": 3,
+  "rows": [
+    {
+      "row_id": "sample-row-101",
+      "cells": {
+        "Opportunity ID": "101",
+        "Signal Type": "lead",
+        "AI Priority Score": "5",
+        "AI Lane": "reply_now",
+        "AI Rationale": "The buyer is actively comparing approaches.",
+        "Pain Quote": "Which approach works best for a small operations team?",
+        "Title": "How should a small operations team evaluate workflow support?",
+        "Content Theme": "A practical workflow-support evaluation rubric",
+        "Helpful Reply Angle": "Share a short evaluation checklist without pitching.",
+        "Profile Review Verdict": "no_public_evidence",
+        "Enrichment Eligibility": "not_eligible"
+      }
+    },
+    {
+      "row_id": "sample-row-102",
+      "cells": {
+        "Opportunity ID": "102",
+        "Signal Type": "engage",
+        "AI Priority Score": "5",
+        "AI Lane": "reply_now",
+        "AI Rationale": "The question is specific and useful to answer publicly.",
+        "Pain Quote": "How do you keep customer follow-up from falling through?",
+        "Title": "How can a small team prevent missed follow-up?",
+        "Content Theme": "A human-controlled follow-up system",
+        "Helpful Reply Angle": "Explain ownership, reminders, and exception review."
+      }
+    },
+    {
+      "row_id": "sample-row-103",
+      "cells": {
+        "Opportunity ID": "103",
+        "Signal Type": "competitor",
+        "AI Priority Score": "4",
+        "AI Lane": "competitor_watch",
+        "AI Rationale": "The competitor is the current reference point.",
+        "Competitor Mentions": "ExampleCo",
+        "Competitor Signal": "neutral",
+        "Content Theme": "What buyers compare beyond the category benchmark"
+      }
+    }
+  ]
+}

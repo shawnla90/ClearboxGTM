@@ -1,0 +1,39 @@
+{
+  "counts": {"todo": 3, "done": 0, "total": 3},
+  "truncated": false,
+  "opportunities": [
+    {
+      "id": "101",
+      "kind": "lead",
+      "status": "todo",
+      "summary": "A buyer is comparing workflow support options",
+      "snippet": "Which approach works best for a small operations team?",
+      "author": "sample_buyer_1",
+      "subreddit": {"name": "sampleops"},
+      "url": "https://www.reddit.com/r/sampleops/comments/sample101/workflow_support/",
+      "posted_at": "2026-08-09T12:00:00Z"
+    },
+    {
+      "id": "102",
+      "kind": "engage",
+      "status": "todo",
+      "summary": "An operator wants a practical process for follow-up",
+      "snippet": "How do you keep customer follow-up from falling through?",
+      "author": "sample_buyer_2",
+      "subreddit": {"name": "samplebusiness"},
+      "url": "https://www.reddit.com/r/samplebusiness/comments/sample102/follow_up/",
+      "posted_at": "2026-08-09T13:00:00Z"
+    },
+    {
+      "id": "103",
+      "kind": "competitor",
+      "status": "todo",
+      "summary": "A competitor is the named category benchmark",
+      "snippet": "We currently use ExampleCo but are reviewing the category.",
+      "author": "sample_buyer_3",
+      "subreddit": {"name": "samplesaas"},
+      "url": "https://www.reddit.com/r/samplesaas/comments/sample103/exampleco/",
+      "posted_at": "2026-08-09T14:00:00Z"
+    }
+  ]
+}

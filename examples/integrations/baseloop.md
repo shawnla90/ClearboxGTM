@@ -93,7 +93,20 @@ The scored output feeds the same downstream surfaces as any other backend:
 
 | Surface | What lands there |
 |---------|-----------------|
-| Google Sheet | Color-coded review with 8+ tabs |
-| Notion | Command center with the guide and handbook |
+| Google Sheet | Eleven-view working surface with Plan Setup, Operator Console, evidence, and measurement |
+| Notion | Guided value brief that explains the value and every Sheet view |
 | Slack | Daily operator digest |
 | SQLite | Everything, permanently |
+
+Export the native `rows[].cells` result and pass it to the shared builder:
+
+```bash
+python3 engine/build_client_pack.py \
+  --ops data/clearbox-inbox.json \
+  --analysis data/baseloop-analysis.json \
+  --backend baseloop \
+  --brand "Client Name" \
+  --publish-sheet
+```
+
+The same contract supports Freckle and Clay. Clearbox remains authoritative for the original disposition and permalink.

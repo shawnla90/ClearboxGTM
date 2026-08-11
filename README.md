@@ -20,11 +20,13 @@ That interview is the most portable thing in this repo. The offer pack it produc
 
 Running the agency motion across client accounts? Start with the public [multiple Reddit accounts operating guide](https://fierce-camelotia-1fa.notion.site/Clearbox-Running-Multiple-Reddit-Accounts-for-Clients-3b51fb92bcd78187a212de323c577399). It covers the account/workspace/operator boundary, related brands, disclosure, IP and VPN myths, coordination controls, and the measurement receipts clients can see.
 
+Already have a Clearbox inbox? The [client value-pack builder](skills/reddit-agency/CLIENT-VALUE-PACK.md) pulls its lead, engage, and competitor dispositions through the API, preserves every exact Reddit permalink, optionally merges Freckle, Base Loop, or Clay analysis, and rebuilds an 11-view Google Sheet plus a guided Notion brief. The skills and method are open. For the operated agency offering or multi-offer enablement, email **partners@clearbox.to**.
+
 ## What it looks like
 
 <p align="center"><img src="assets/gallery/sheet-scored-signals.png" alt="Color-coded Google Sheet — Acme PM Reddit Buyer Signals" width="100%"></p>
 
-The color-coded Google Sheet: 8 content topics scored 1-5 on four dimensions (intent, demand, competitive fit, engagement), with the buyer language that backs each score, the threads you can go read and reply to, and a dashboard tab that summarizes the signal. [Run it yourself →](engine/)
+The color-coded Google Sheet: start with the market-signal build, or turn a Clearbox API inbox into the full client value pack with Dashboard, Plan Setup, Operator Console, source permalinks, buyer language, content topics, competitor sentiment, GEO terms, disclosure review, and attribution. [Run it yourself →](skills/reddit-agency/CLIENT-VALUE-PACK.md)
 
 <p align="center"><img src="assets/gallery/notion-multi-account-guide.png" alt="Notion multi-account operating guide" width="100%"></p>
 
@@ -69,6 +71,7 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 | **Onboard the offer** ★ | Domain in → researched offer pack out | Paste-ready blocks for the clearbox.to form, with sources | [`skills/clearbox-onboard/`](skills/clearbox-onboard/) |
 | **Onboard a person** | Personalized route through the public playbook | A Notion doc with their real data and community rings | [`skills/reddit-onboard/`](skills/reddit-onboard/) |
 | **Read the market** | Pull → mine → score buyer signals | Color-coded Google Sheet with A-D tiers and 4-dimension scores | [`engine/`](engine/) |
+| **Build the client value pack** | Clearbox API → optional Freckle/Base Loop/Clay analysis → stable client surfaces | 11-view Google Sheet + guided Notion brief with exact permalinks | [`skills/reddit-agency/CLIENT-VALUE-PACK.md`](skills/reddit-agency/CLIENT-VALUE-PACK.md) |
 | **Engage as a human** | Value-first reply drafting | Draft comments with per-item human approval gate | [`skills/reddit-engage/`](skills/reddit-engage/) |
 | **Personalize the reply** | Three-variable model for specific, tension-creating comments | Icebreaker + poke-the-bear + pain-point per reply | [`skills/personalization/`](skills/personalization/) |
 | **Review company disclosure** | Exact Reddit-profile evidence first; search, thread, and handle matches stay in manual review | Verified company domain or candidate with evidence receipt | [`engine/unmask.py`](engine/unmask.py) |
@@ -84,7 +87,7 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 | **Attribution tracking** | Journey materialization pattern | First/last-touch attribution from local SQLite, no cookies | [`playbooks/attribution-tracking.md`](playbooks/attribution-tracking.md) |
 | **Orchestrate enrichment** | The disclosure gate is the skill; pick your enrichment backend | Generic playbook + per-tool integration guides (Freckle, Clay, Base Loop, Deepline) | [`playbooks/orchestrate-enrichment.md`](playbooks/orchestrate-enrichment.md) |
 | **Orchestrate off-platform** | Enrichment, GEO, share of voice, lead magnets, digest | Playbooks covering the full off-platform motion | [`playbooks/`](playbooks/) |
-| **Sell it as a service** | The agency package | Buyer-signal sheet, deck, Notion command center | [`skills/reddit-agency/`](skills/reddit-agency/) |
+| **Sell it as a service** | The agency package | Buyer-signal Sheet, guided Notion value brief, deck, and measurement scorecard | [`skills/reddit-agency/`](skills/reddit-agency/) |
 | **Win the agency client** | The reverse-uno method | A readout of their buyers, not a pitch | [`playbooks/win-an-agency-client.md`](playbooks/win-an-agency-client.md) |
 | **Run multiple accounts safely** | Client ownership, named operators, disclosure controls | Five-level success scorecard with evidence ledger | [`skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md`](skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md) |
 | **Configure plans and offers** | Keep account, offer, plan, identity, operator, and payer decisions separate | Guided Plan Setup with one offer per client and client-paid offer support | [`skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md`](skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md) |
@@ -110,6 +113,7 @@ Ready to try the full, context-driven version? `open https://clearbox.to` — Cl
 - [`orchestrate-freckle.md`](playbooks/orchestrate-freckle.md) — the Reddit-to-pipeline loop: Clearbox classifies, the disclosure gate holds, Freckle enriches, four surfaces receive
 - [`orchestrate-deepline.md`](playbooks/orchestrate-deepline.md) — opportunity stream → orchestration substrate, with the trust model that keeps Reddit UGC as data, never instructions
 - [`notion-command-center.md`](playbooks/notion-command-center.md) — every engagement ships as real, linked, stable documents
+- [`skills/reddit-agency/CLIENT-VALUE-PACK.md`](skills/reddit-agency/CLIENT-VALUE-PACK.md) — automate the API-to-Sheet/Notion client pack with Freckle, Base Loop, or Clay
 - [`account-quality-benchmark.md`](playbooks/account-quality-benchmark.md) — score any account's picks before the client does
 - [`attribution-tracking.md`](playbooks/attribution-tracking.md) — the journey materialization pattern: first/last-touch attribution from local SQLite, no cookies, no third-party tracking
 

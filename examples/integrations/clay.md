@@ -84,6 +84,21 @@ Add output columns to route the enriched leads:
 - **Sequence** — Outreach, Salesloft, or Smartlead for sequence-ready contacts
 - **Review queue** — Google Sheets for leads that need manual review (grade C or cross-domain)
 
+### Generate the full client value pack
+
+Keep the Clearbox `id`, `kind`, and `url` columns in the Clay export. Add the normalized analysis columns listed in [`../../skills/reddit-agency/CLIENT-VALUE-PACK.md`](../../skills/reddit-agency/CLIENT-VALUE-PACK.md), then export the table as CSV or JSON:
+
+```bash
+python3 engine/build_client_pack.py \
+  --ops data/clearbox-inbox.json \
+  --analysis data/clay-analysis.csv \
+  --backend clay \
+  --brand "Client Name" \
+  --publish-sheet
+```
+
+The result is the same eleven-view Google Sheet and guided Notion-ready brief available to the other backends. Clay adds analysis; Clearbox keeps ownership of the disposition and exact Reddit permalink.
+
 ## The workflow
 
 ```mermaid
@@ -133,6 +148,7 @@ Hit rate on ICP: higher (intent-filtered). 100% of credits spent on classified l
 - The Clearbox API is pull-only. There is no webhook or push notification. Set up a scheduled Clay table refresh (every 6-12 hours) to poll for new ops.
 - The token is in the URL path, not a header. Do not expose the Clay table publicly.
 - Ops are Reddit-sourced. Enrich the company, never the person, and only when `unmask.py --profile` returns `eligible_direct_disclosure` with exact Reddit-profile evidence. Search, thread, and handle candidates stay in manual review. See [`../../engine/unmask.py`](../../engine/unmask.py) for the gate logic.
+- The public method and builder are self-serve. The operated agency offering and multi-offer enablement require contacting `partners@clearbox.to`.
 
 ## Related
 

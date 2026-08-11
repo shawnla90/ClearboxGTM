@@ -70,6 +70,12 @@ python3 unmask.py --ops data/ops_classified.json --profile --enrich --out data/u
 
 Each direct or candidate result preserves exact evidence URLs and excerpts. Everything not directly disclosed stays out of automatic enrichment.
 
+## Build the client delivery surfaces
+
+After the chosen backend finishes, pass its JSON or CSV result to `engine/build_client_pack.py`. The shared builder accepts `--backend freckle`, `--backend baseloop`, or `--backend clay`, preserves the original Clearbox disposition and permalink, and generates the same eleven-view Google Sheet plus guided Notion-ready brief for every path.
+
+See [`../skills/reddit-agency/CLIENT-VALUE-PACK.md`](../skills/reddit-agency/CLIENT-VALUE-PACK.md) for the normalized fields, API automation, stable-link rebuild, and client-safe release gate.
+
 ## The rules
 
 1. **The gate refuses to guess.** Only exact evidence on the author's Reddit profile is direct disclosure. Search, thread, and handle matches require review.

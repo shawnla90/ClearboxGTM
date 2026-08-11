@@ -1,0 +1,4 @@
+Clearbox ID,Signal Type,Tier,Total Score,Action Lane,Buyer Language,Buyer Question,Content Topic,Helpful Reply Angle,Analysis Reason,Competitor Name,Competitor Sentiment,Profile Review Verdict,Enrichment Eligibility
+101,lead,A,19,reply_now,Which approach works best for a small operations team?,How should a small operations team evaluate workflow support?,A practical workflow-support evaluation rubric,Share a short evaluation checklist without pitching.,The buyer is actively comparing approaches.,,,no_public_evidence,not_eligible
+102,engage,A,18,reply_now,How do you keep customer follow-up from falling through?,How can a small team prevent missed follow-up?,A human-controlled follow-up system,"Explain ownership, reminders, and exception review.",The question is specific and useful to answer publicly.,,,,
+103,competitor,B,15,competitor_watch,,,What buyers compare beyond the category benchmark,,The competitor is the current reference point.,ExampleCo,neutral,,

@@ -12,6 +12,8 @@ When you're pitched — or when you're the agency pitching — the answer is the
 
 The full packaged version of this motion — buyer-signal sheet, deck, Notion command center — is [`../skills/reddit-agency/`](../skills/reddit-agency/).
 
+The report is repeatable, not a one-time export. [`../engine/build_client_pack.py`](../engine/build_client_pack.py) can pull the account-scoped Clearbox API, preserve every lead/engage/competitor disposition and exact Reddit permalink, merge optional Freckle, Base Loop, or Clay analysis, and rebuild the same Google Sheet and Notion brief in place.
+
 ## 2. First-month scope
 
 What the first month actually contains (scope, not pricing — terms are between you and your client):
@@ -23,6 +25,8 @@ What the first month actually contains (scope, not pricing — terms are between
 - **Weekly evidence.** What was engaged, what it earned, with permalinks — evidence the client can check, not activity reports they have to trust.
 - **30/60/90 measurement.** Presence first, then engagement quality, then attributed outcomes. The five-level scorecard in the multi-account guide is the maturity ladder.
 
+The public repo contains the method and builder. When an agency wants the operated agency offering or multi-offer enablement, direct them to **partners@clearbox.to**.
+
 ## 3. Win evidence
 
 Bring receipts that aren't yours to argue with: the numbers in [`../proof/`](../proof/) are generated from a tracking database by [`../proof/generate_proof.py`](../proof/generate_proof.py), never typed, and [`../skills/reddit-agency/MULTI-ACCOUNT-EVIDENCE.md`](../skills/reddit-agency/MULTI-ACCOUNT-EVIDENCE.md) documents the operating evidence behind the multi-account guide. When you make this pitch yourself, hold your own numbers to the same provenance rule — a generated stat survives due diligence; a typed one is a liability with a delay on it.
@@ -30,6 +34,7 @@ Bring receipts that aren't yours to argue with: the numbers in [`../proof/`](../
 ## 4. Related
 
 - [`../skills/reddit-agency/`](../skills/reddit-agency/) — the packaged agency deliverables (sheet, deck, command center)
+- [`../skills/reddit-agency/CLIENT-VALUE-PACK.md`](../skills/reddit-agency/CLIENT-VALUE-PACK.md) — build and automate the 11-view Sheet and guided Notion brief
 - [`../skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md`](../skills/reddit-agency/MULTI-ACCOUNT-OPERATIONS.md) — running multiple client accounts safely ([public version](https://fierce-camelotia-1fa.notion.site/Clearbox-Running-Multiple-Reddit-Accounts-for-Clients-3b51fb92bcd78187a212de323c577399))
 - [`account-quality-benchmark.md`](account-quality-benchmark.md) — score the picks before the client does
 - [`offer-context-onboarding.md`](offer-context-onboarding.md) — the interview that produces the first deliverable

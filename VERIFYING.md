@@ -14,6 +14,8 @@ This repo makes public claims about a real system. This file is the standing loo
 - The views claim is the string **"1.5M+"**, exactly. It does not round up. When the real number crosses the next million, update this rule first, then the generator, then the docs — in that order.
 - **Automation boundaries** (see `playbooks/automation-boundaries.md`): research, classification, drafting, and monitoring can be automated; posting, voting, and DMs are always human actions. Docs must never imply otherwise.
 - **Client-facing Plan Setup is outcome language.** Say that a separate client offer can be added and the client can pay for it. Do not expose payment-provider mechanics, admin emails or flags, internal workbook or workspace links, run IDs, or processor-specific setup in client-facing agency guidance.
+- **Clearbox owns the source disposition and permalink.** Freckle, Base Loop, and Clay may add analysis, but they may not silently replace the original `lead`, `engage`, or `competitor` value or drop the exact Reddit URL.
+- **Report automation is not account automation.** The Clearbox API pull, analysis merge, Sheet rebuild, and Notion refresh may be scheduled. Reddit posting, voting, DMs, and marking opportunities complete remain human-authorized actions.
 
 ## FACTCHECK gates
 
@@ -89,6 +91,9 @@ grep -rniE 'Stripe customer|billing is independent|Freckle workbook|Base Loop wo
 
 # 8. Python compiles
 python3 -m compileall -q engine proof scripts || { echo "FAIL: compileall"; FAIL=1; }
+
+# 8B. Unit tests cover source dispositions, permalinks, backend adapters, and Notion blocks
+python3 -m unittest discover -s tests -v || { echo "FAIL: unit tests"; FAIL=1; }
 
 # 9. Proof pipeline is fresh and idempotent (run it, then require zero diff)
 python3 proof/generate_proof.py --with-logpose || { echo "FAIL: proof generator"; FAIL=1; }

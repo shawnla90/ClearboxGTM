@@ -110,6 +110,19 @@ One message lands each morning: the threads to reply to with a draft already wri
 | Slack | The daily digest | Whoever is replying today |
 | SQLite | Everything, permanently | You, and any script you write later |
 
+For the full agency delivery surface, export the Freckle analysis with the original Clearbox opportunity id and run:
+
+```bash
+python3 engine/build_client_pack.py \
+  --ops data/clearbox-inbox.json \
+  --analysis data/freckle-analysis.json \
+  --backend freckle \
+  --brand "Client Name" \
+  --publish-sheet
+```
+
+This produces the same eleven-view Sheet and guided Notion-ready brief as the Base Loop and Clay paths. Freckle adds analysis; Clearbox remains authoritative for the original lead, engage, or competitor disposition and exact Reddit permalink.
+
 The database is the part people skip and then regret skipping. Owning the rows means the analysis is repeatable, the numbers can be regenerated instead of remembered, and you are never asking a vendor to export your own history back to you.
 
 ## Where each stage runs

@@ -8,7 +8,7 @@ You have an audience of operators, founders, or marketers who should be reading 
 
 ## Delivery partners
 
-You're an agency or operator who wants to *run* the motion for clients — the readout, the engagement queue, the weekly evidence. This repo is the method, free, in the open: start with [`playbooks/win-an-agency-client.md`](playbooks/win-an-agency-client.md) and [`skills/reddit-agency/`](skills/reddit-agency/). When you want product access for client workspaces and a direct line to us, **email partners@clearbox.to**.
+You're an agency or operator who wants to *run* the motion for clients — the readout, the engagement queue, the weekly evidence. This repo is the method, free, in the open: start with [`playbooks/win-an-agency-client.md`](playbooks/win-an-agency-client.md) and [`skills/reddit-agency/`](skills/reddit-agency/). When you want the operated agency offering, multi-offer enablement, or a direct line to us, **email partners@clearbox.to**.
 
 ## What voids it
 

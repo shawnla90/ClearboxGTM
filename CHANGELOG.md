@@ -2,6 +2,24 @@
 
 All notable changes to this repo are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are announced via GitHub Releases.
 
+## [0.9.0] - 2026-08-10
+
+Client value-pack automation: any Clearbox user can turn the account API's classified opportunities and exact Reddit permalinks into the same guided Google Sheet and Notion delivery pattern used for agency clients.
+
+### Added
+
+- **API-to-client-pack builder**: `engine/build_client_pack.py` pulls the account-scoped inbox or reads an export, preserves Clearbox dispositions and permalinks, and writes a normalized pack plus guided Notion-ready brief.
+- **Three interchangeable analysis adapters**: sanitized Freckle JSON, Base Loop native JSON, and Clay CSV/JSON shapes normalize to the same output contract without replacing the original Clearbox disposition.
+- **Eleven-view Sheet contract**: Dashboard, Plan Setup, Operator Console, Signals, Buyer Language, Content Topics, Competitor Sentiment, GEO Terms, Disclosure Audit, Research Workflow, and Action Legend, including decision and review dropdowns.
+- **Reusable client value-pack guide**: build commands, Clay automation setup, stable Sheet/Notion ids, attribution receipts, truncation handling, client-safe language, and the release checklist.
+- **Pack validation tests**: source disposition and permalink preservation, backend normalization, API read-only behavior, evidence fields, and Notion safety checks.
+
+### Changed
+
+- **reddit-agency skill**: now generates one readable Notion value brief plus one working Sheet, with a short TLDR for sending and the detailed workflow kept in the guide.
+- **Agency access boundary**: the public skill and builder are self-serve; the operated agency offering and multi-offer enablement require contacting `partners@clearbox.to`.
+- **Report automation boundary**: API pulls, analysis merges, Sheet rebuilds, and Notion refreshes may be scheduled; Reddit publishing and opportunity completion remain human-authorized.
+
 ## [0.8.1] - 2026-08-10
 
 Client-facing Plan Setup correction: the agency pack now explains the decision a client needs to make without exposing backend billing mechanics, admin controls, processing workspaces, or run identifiers.

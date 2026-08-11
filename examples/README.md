@@ -15,6 +15,15 @@ Real API responses from real services, generated 2026-08-09. Every file in this 
 
 Every API is optional. The pipeline runs without any of them; each one makes a specific step better.
 
+## Sanitized client-pack fixtures
+
+[`client-pack/`](client-pack/) contains synthetic, non-client fixtures for the reusable agency builder:
+
+- A Clearbox account API response with lead, engage, competitor, and exact permalink fields.
+- Equivalent Freckle JSON, Base Loop native `rows[].cells` JSON, and Clay CSV analysis overlays.
+
+Run any overlay through `engine/build_client_pack.py` to verify that all three processing paths produce the same eleven-view Sheet and guided Notion contract while preserving the original Clearbox dispositions.
+
 ## The files
 
 - [`exa-retrieval-visibility.json`](exa-retrieval-visibility.json) — Exa retrieval check for "Clearbox" across 8 buyer questions. Score: 0/8 (a new brand before the content strategy lands).

@@ -30,7 +30,7 @@ Because `pull.py` and `mine.py` both import this file, the same definition of "r
 
 ## `lib/sheet_engine.py` - the color-coded sheet builder
 
-The developed, reusable piece, vendored from the market-scoring starter. A single config-driven module that turns pandas DataFrames into an interactive Google Sheet: a red-to-green score gradient, categorical color maps for tiers and kinds, banding, a frozen header, filters, sized columns, a styled dashboard tab, anyone-with-link sharing, and rebuild-in-place by sheet id so a shared link stays valid.
+The developed, reusable piece, vendored from the market-scoring starter. A single config-driven module that turns pandas DataFrames into an interactive Google Sheet: a red-to-green score gradient, categorical color maps for tiers and kinds, dropdown validation, banding, a frozen header, filters, sized columns, a styled dashboard tab, anyone-with-link sharing, and rebuild-in-place by sheet id so a shared link stays valid.
 
 It is pure, with no file I/O and no argv. The thin builder (`build_sheet.py`) owns the data and the paths and calls `build(config)`. See the market-scoring starter's [ENGINE.md](../market-scoring-sheet/ENGINE.md) for the full config schema and the palette. This starter reuses it unchanged, which is the point: one styling engine, identical output across every sheet in the kit.
 
@@ -49,7 +49,18 @@ Transparent rules, not a black box. Every content topic gets a 0-100 total from 
 
 ## The client-service layer
 
-The four pieces above are the reusable engine. These five modules sit on top and turn the scored signal into an operated client offer: what to own in AI answers, where a competitor is winning, what to send each day, which leads disclosed a company, and the content that answers the buyer question. Each is a single file, read-only except for its `--out`, and re-points by argument.
+The four pieces above are the reusable engine. The modules below sit on top and turn the scored signal into an operated client offer: what to own in AI answers, where a competitor is winning, what to send each day, which leads disclosed a company, the content that answers the buyer question, and the client delivery surfaces. Each re-points by argument.
+
+### `build_client_pack.py` - API to client Sheet and Notion brief
+
+Pulls the account-scoped Clearbox inbox or reads an export, preserves each lead/engage/competitor disposition and exact Reddit permalink, merges optional Freckle, Base Loop, or Clay analysis, and writes one normalized client pack. With explicit publish flags, it builds the eleven-view Google Sheet and refreshes a Notion page in place.
+
+```bash
+export CLEARBOX_ACCOUNT_URL="https://api.clearbox.to/a/YOUR_ACCOUNT_TOKEN"
+python3 build_client_pack.py --brand "Acme PM" --publish-sheet
+```
+
+The pure normalization and rendering contract lives in `lib/client_pack.py`; synthetic backend fixtures live in `../examples/client-pack/`. Report refreshes may be scheduled. Reddit sends and completion state do not happen in this module.
 
 ### `geo.py` - the GEO terms and their retrieval visibility
 

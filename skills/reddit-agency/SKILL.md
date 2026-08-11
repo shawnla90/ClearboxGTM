@@ -1,7 +1,6 @@
 ---
 name: reddit-agency
-version: 1.2.1
-description: The agency motion for a Reddit-led visibility offer. Given a client name and website, research them, pull real recent Reddit buyer signals, and build a complete package: a buyer-signal sheet, pitch deck, command center, operating docs, and the required multi-account safety and measurement module. Use when the user says "build a reddit package for <client>", "help me win <client>", or "reddit as a service for <client>".
+description: 'The agency motion for a Reddit-led visibility offer. Given a client name and website, research them, pull classified opportunities and exact permalinks from the Clearbox API, optionally process them through Freckle, Base Loop, or Clay, and build a complete client package: an 11-view Google Sheet dashboard, guided Notion value brief, pitch materials, multi-account safety, and measurement receipts. Use when the user asks to build a Reddit package for a client, automate client reports from Clearbox, build the Sheet and Notion pack, win a client, or run Reddit as a service.'
 ---
 
 # reddit-agency
@@ -46,15 +45,19 @@ Both share the guardrails:
 - **Recency is a hard gate** (default last 30 days). Engage with live conversations where participation is still useful. Recency does not guarantee safety; it is an operational and sincerity guardrail.
 - **Relevance-gated.** Keep only threads that name a real brand or a category noun. A broad keyword search drags in off-topic noise that destroys trust in the whole sheet.
 
+For an existing Clearbox account, prefer the account-scoped API. `GET /inbox?status=all` returns the classified opportunities. Preserve `id`, `kind`, and `url` as the source record. The API token is part of the URL path, so keep the account URL in the environment and never place it in the client Sheet or Notion page. If the response is truncated, stop or label the build partial; never silently present the returned page as the complete inbox.
+
 ### Step 2 — Mine buyer language and score it
 
 `mine.py` extracts the real questions, comparisons, and pains; `score.py` ranks each topic on intent, demand, brand fit, and citation potential, with a one-line reason. Recalibrate thresholds to the fresh-data scale so you get a real A/B/C spread, not everything at 5.
 
 ### Step 3 — Build the deliverables
 
-- **Sheet:** `build_sheet.py` renders the color-coded sheet (content plan, buyer language, buyer threads, dashboard, scoring model). Rebuild in place so the link never changes.
+- **Client value pack:** read [`CLIENT-VALUE-PACK.md`](CLIENT-VALUE-PACK.md) and use `engine/build_client_pack.py`. It pulls the Clearbox API or an export, preserves every disposition and permalink, accepts optional Freckle, Base Loop, or Clay analysis, and generates the canonical 11-view client model plus a guided Notion-ready brief.
+- **Sheet:** the client pack renders Dashboard, Plan Setup, Operator Console, Signals, Buyer Language, Content Topics, Competitor Sentiment, GEO Terms, Disclosure Audit, Research Workflow, and Action Legend. Rebuild with the existing Sheet id so the link never changes.
 - **Deck:** adapt a deck to the client from the same data; export a PDF.
-- **Docs + command center:** write the research brief, offer and 30/60/90 plan, internal playbook, and client case as markdown, then publish each as a real doc (`../../scripts/push_notion.py`) and build one command center page that links all of them. Reuse page ids so shared links stay stable.
+- **Notion brief:** publish the generated client brief as the readable source of truth. It must show the value uncovered, the priority opportunities, what every Sheet tab means, the offer decision, and the attribution ladder. Link the Sheet, not a private processing surface. Reuse the Notion page id so the shared link stays stable.
+- **TLDR:** send a short message that states the value, recommended next step, and two links. Put detailed operating guidance in the Notion brief instead of repeating it in the message.
 
 ### Step 4 — Verify, then ship
 
@@ -66,17 +69,26 @@ Use the five-level scorecard in [`MULTI-ACCOUNT-OPERATIONS.md`](MULTI-ACCOUNT-OP
 
 Start each client benchmark from [`AI-VISIBILITY-SCORECARD.csv`](AI-VISIBILITY-SCORECARD.csv) so the same buyer question can be compared across engines, dates, and repeated runs.
 
+### Step 6 — Explain what is open and what requires enablement
+
+The skill, builder, attribution model, and Freckle/Base Loop/Clay methods are public. Any Clearbox user can use them to produce their own client Sheet and Notion pack.
+
+The operated agency offering and multi-offer enablement still require contact with Clearbox. Direct agencies to **partners@clearbox.to** when they want the agency offering, another offer enabled, or help configuring the delivery model. In client-facing language, say only that a separate client offer can be added and the client can pay for it. Do not expose provider-specific billing mechanics.
+
 ## Do
 
 - **Recency is sacred.** If a thread is old, it does not enter the database and never goes in front of a client.
 - **Relevance-gate every pull.**
 - **Every reference must be a real, shared, verified document.** Phantom references are the fastest way to lose trust.
 - **The command center doc is the source of truth**, and it is plain reading.
+- **The Sheet is the working surface.** The Notion brief explains the value, workflow, and tab meanings; it does not duplicate every row.
 - **Community first, website-independent.** The owned presence is the deliverable you can build no matter what access the client gives.
 - **Score with a real tier spread.**
 - **Keep links stable.** Rebuilds update docs and sheets in place.
 - **Include the multi-account guide in every agency command center.** The universal public page is the client-safe version; the evidence ledger remains available for fact-checking.
 - **Include Plan Setup in every agency Sheet.** State the recommended path, the separate-client-offer alternative, who pays, and readiness. Use dropdowns for those decisions and keep provider-specific billing mechanics out of client-facing copy.
+- **Preserve Clearbox dispositions and permalinks.** Freckle, Base Loop, and Clay may add analysis but never silently replace `lead`, `engage`, or `competitor`.
+- **Make automated reporting explicit.** The API pull, analysis merge, Sheet rebuild, and Notion refresh may be scheduled. Reddit publishing and marking work complete stay human-authorized.
 - **Keep identity, workspace, and operator separate.** Each has a named owner.
 - **Measure exact receipts.** A brand mention, a Reddit citation, an exact comment citation, and a business outcome are different events.
 - **Frame Clearbox as the engine.** You sell Reddit and AI visibility as a service; behind the scenes it runs on Clearbox for live tracking, sentiment, and competitor monitoring.
@@ -98,6 +110,8 @@ Start each client benchmark from [`AI-VISIBILITY-SCORECARD.csv`](AI-VISIBILITY-S
 ## Related
 
 - `../../engine/` — the runnable pipeline (pull → mine → score → unmask → geo → competitor → content → digest → sheet)
+- `CLIENT-VALUE-PACK.md` — API-to-Sheet/Notion contract, all eleven views, backend adapters, automation, and release gate
+- `../../engine/build_client_pack.py` — backend-neutral Clearbox API/export to client-pack builder
 - `../../playbooks/orchestrate-freckle.md` — where enrichment slots in
 - `../../playbooks/account-quality-benchmark.md` — how to audit pick quality before a client does
 - `../../scripts/push_notion.py` — doc publishing
