@@ -1,54 +1,54 @@
 {
-  "asOf": "2026-08-10",
-  "comments": 595,
+  "asOf": "2026-08-17",
+  "comments": 598,
   "eras": [
     {
       "days": 37.9,
       "era": "Karma-building",
       "items": 422,
       "proves": "A real account, posting on real interests, ramps fast \u2014 and never got banned doing it",
-      "views": 1186874
+      "views": 1189800
     },
     {
-      "days": 121.3,
+      "days": 130.4,
       "era": "Working era",
-      "items": 368,
+      "items": 374,
       "proves": "The same account then carries a professional presence: slower, steadier, compounding",
-      "views": 379153
+      "views": 384667
     }
   ],
   "inbound": {
-    "itemsWithReplies": 246,
-    "replies": 724
+    "itemsWithReplies": 248,
+    "replies": 728
   },
   "karma": {
     "comment": 903,
-    "post": 1600,
-    "total": 2503
+    "post": 1607,
+    "total": 2510
   },
   "leadFunnel": {
     "new": 20
   },
   "logpose": {
     "dealStages": {
-      "lost": 64,
-      "open": 46,
-      "trial": 11,
+      "lost": 73,
+      "open": 53,
+      "trial": 6,
       "won": 8
     },
     "signupsByFirstTouchChannel": {
       "email": 5,
       "linkedin": 8,
-      "referral": 60,
+      "referral": 66,
       "search": 7,
-      "web": 52,
+      "web": 55,
       "x": 1
     }
   },
-  "monthsTracked": 5.4,
-  "posts": 195,
-  "subreddits": 49,
-  "views": 1566027,
+  "monthsTracked": 5.6,
+  "posts": 198,
+  "subreddits": 50,
+  "views": 1574467,
   "viewsClaim": "1.5M+",
   "wins": 25
 }
