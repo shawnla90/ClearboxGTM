@@ -22,7 +22,7 @@ The operated-service version of the morning briefing. Each day the account's eng
 ## Inputs
 
 - `data/ops_classified.json` — classified opportunities from a Clearbox workspace run
-- `data/engage_angles.json` — drafted reply angles for the engage-lane ops (produced by the engage skill or manually)
+- `data/engage_angles.json` — drafted reply angles for the engage-lane ops (exported by `replies.py angles`, the engage skill, or manually)
 - `--client` — the client name for the digest header
 
 ## How to run
@@ -59,4 +59,5 @@ A formatted Slack message with:
 - `../../engine/digest.py` — the module this wraps
 - `../last24/` — the raw signal feed that surfaces fresh threads for the digest
 - `../reddit-engage/` — where the reply angles in the digest come from
+- `../reply-engine/` — drafts the gated reply templates and exports the angles file this digest renders
 - `../../playbooks/automation-boundaries.md` — the rule that digest delivery is automated but thread replies are always human

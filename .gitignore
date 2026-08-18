@@ -51,3 +51,7 @@ social/
 workspaces/*
 !workspaces/example-acme-pm/
 !workspaces/example-acme-pm/**
+
+# Engine run outputs are per-client scratch. Only the fictional samples are tracked.
+engine/data/*
+!engine/data/*.sample.json

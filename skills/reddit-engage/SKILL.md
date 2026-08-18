@@ -28,7 +28,7 @@ Count and report the queue state before drafting anything. If nothing is scouted
 
 1. **Load the queue** and show the counts by status.
 2. **Present each opportunity**: subreddit, title, score, why it matched, URL.
-3. **Draft a comment per item.** Read the post first. The reply must add genuine value on its own: a tip, a "here's what worked for me", a relevant experience. 2–5 sentences for comments; longer only if the post warrants depth. If you can't draft something genuine, skip it and say why.
+3. **Draft a comment per item.** Read the post first. The reply must add genuine value on its own: a tip, a "here's what worked for me", a relevant experience. 2–5 sentences for comments; longer only if the post warrants depth. If you can't draft something genuine, skip it and say why. For the batch pass — one gated ≤18-word starter template per op, drafted before this loop — use [`../reply-engine/`](../reply-engine/); this loop is where a GO template gets expanded into a full comment and approved.
 4. **Collect decisions one at a time**: approve / edit (user supplies the text) / reject (record the reason). **Save the queue after every decision**, not at the end — progress is never lost.
 5. **Summarize**: approved / rejected / skipped, and what happens next.
 
@@ -46,3 +46,4 @@ Count and report the queue state before drafting anything. If nothing is scouted
 - `../../playbooks/how-to-win-on-reddit.md` — why the no-links, value-first rules exist
 - `../../engine/` — the scout/score pipeline that fills the queue
 - `../../engine/content.py` — batch draft generation the approval loop can start from
+- `../reply-engine/` — the batch template pass: gated ≤18-word starters this loop expands and approves

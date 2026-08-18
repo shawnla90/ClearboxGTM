@@ -2,6 +2,21 @@
 
 All notable changes to this repo are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are announced via GitHub Releases.
 
+## [0.11.0] - 2026-08-18
+
+The reply pass, codified. One gated, ≤18-word suggested-reply template per classified opportunity: the agent drafts, the script checks the hard cap and the slop gate, the human edits and posts. Every skipped thread carries its reason.
+
+### Added
+
+- **`skills/reply-engine/`**: the batch suggested-reply skill — the ≤18-word binding cap (15–18 target, `wc -w` semantics, rendered as `<N>/18` per draft), the deterministic GO/REVIEW/NO-REPLY gate table with per-op overrides, the `suggested_replies.json` contract, the rules-pinned Suggested Replies sheet tab schema, distilled voice rules, and worked examples with word counts including a NO-REPLY and an override case.
+- **`engine/replies.py`**: `scaffold` builds the replies contract from the classified ops (slots only for gated-in ops), `check` enforces the word cap, empty slots, the shared anti-slop gate, no-links, and gate validity with a nonzero exit, `sheet` adds or replaces only the Suggested Replies tab on an existing client sheet (frozen rules + header rows, gate color coding), and `angles` exports digest-compatible `engage_angles.json` so the daily digest renders the drafted replies.
+- **Wiring**: README stage row, how-to-win-on-reddit motion row, and reciprocal Related links from reddit-engage (which now declares the two reply modes), personalization, and slack-digest.
+
+### Verification
+
+- `tests/test_replies.py`: lane-to-gate mapping across both lane vocabularies, override precedence, `wc -w`-equivalent counting, cap enforcement at 18 vs 19 words, scaffold slot selection, and digest-compatible angles output.
+- `skills/reply-engine` added to the Reddit-surface source check in VERIFYING.md.
+
 ## [0.10.1] - 2026-08-10
 
 The Reddit engine now has one explicit opportunity source: Clearbox. This patch removes the legacy parallel discovery path so the public architecture, runnable starter, and reusable agency skill all teach the same source contract.

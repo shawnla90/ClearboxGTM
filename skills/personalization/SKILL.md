@@ -135,6 +135,7 @@ This table feeds the poke-the-bear and pain-point variables. When a thread match
 ## Related
 
 - [`../reddit-engage/SKILL.md`](../reddit-engage/SKILL.md) — the approval loop that uses these variables in drafted comments
+- [`../reply-engine/SKILL.md`](../reply-engine/SKILL.md) — the batch ≤18-word template pass; icebreaker-grade specificity at template length
 - [`../../playbooks/how-to-win-on-reddit.md`](../../playbooks/how-to-win-on-reddit.md) — why the no-links, value-first rules exist
 - [`../competitor-intel/SKILL.md`](../competitor-intel/SKILL.md) — competitor context feeds the poke-the-bear variable
 - [`../../engine/mine.py`](../../engine/mine.py) — buyer-language extraction that identifies the question type

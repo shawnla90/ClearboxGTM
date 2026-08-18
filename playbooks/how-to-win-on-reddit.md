@@ -28,6 +28,7 @@ AI assistants read Reddit heavily when buyers ask "best X", "X vs Y", "should I 
 | Onboard a person | Their route through the playbook, from their real data | `skills/reddit-onboard/` |
 | Read the market | Pull, mine, score buyer signals into action lanes | `engine/` |
 | Engage as a human | Draft value-first replies, approve one by one | `skills/reddit-engage/` |
+| Batch the reply pass | One ≤18-word draft template per op, gated GO/REVIEW/NO-REPLY, human edits before posting | `skills/reply-engine/` |
 | Resolve who it is | The disclosure gate, then enrichment | `engine/unmask.py` + `playbooks/orchestrate-freckle.md` |
 | Orchestrate the rest | Enrichment, scoring, magnets, digests — off-platform | `playbooks/orchestrate-deepline.md` |
 | Deliver as a service | The agency package: sheet, deck, command center | `skills/reddit-agency/` |

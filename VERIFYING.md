@@ -92,7 +92,7 @@ grep -IrniE 'Stripe customer|billing is independent|Freckle workbook|Base Loop w
 
 # 7C. The Reddit engine has one opportunity source: Clearbox
 REDDIT_SURFACES=(README.md engine/README.md engine/ENGINE.md engine/pull.py engine/run.sh \
-  skills/reddit-agency playbooks/reddit-ai-visibility-loop.md playbooks/how-to-win-on-reddit.md)
+  skills/reddit-agency skills/reply-engine playbooks/reddit-ai-visibility-loop.md playbooks/how-to-win-on-reddit.md)
 grep -IrniE 'r[a]pidapi|r[e]ddit34|REDDIT_SOUR[C]E|lib/reddit_clien[t]|scr[a]pe|scr[a]per|scr[a]ping' \
   "${REDDIT_SURFACES[@]}" \
   && { echo "FAIL: legacy Reddit discovery source referenced in an active surface"; FAIL=1; }

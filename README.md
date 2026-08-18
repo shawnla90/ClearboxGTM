@@ -112,6 +112,7 @@ Connect Google Workspace (`python3 setup_oauth.py`) and re-run to get the sheet.
 | **Build the client value pack** | Clearbox API → optional Freckle/Base Loop/Clay analysis → stable client surfaces | 11-view Google Sheet + guided Notion brief with exact permalinks | [`skills/reddit-agency/CLIENT-VALUE-PACK.md`](skills/reddit-agency/CLIENT-VALUE-PACK.md) |
 | **Engage as a human** | Value-first reply drafting | Draft comments with per-item human approval gate | [`skills/reddit-engage/`](skills/reddit-engage/) |
 | **Personalize the reply** | Three-variable model for specific, tension-creating comments | Icebreaker + poke-the-bear + pain-point per reply | [`skills/personalization/`](skills/personalization/) |
+| **Batch the reply pass** | One gated ≤18-word reply template per classified op | Suggested Replies sheet tab + suggested_replies.json with GO/REVIEW/NO-REPLY gates | [`skills/reply-engine/`](skills/reply-engine/) |
 | **Review company disclosure** | Exact Reddit-profile evidence first; search, thread, and handle matches stay in manual review | Verified company domain or candidate with evidence receipt | [`engine/unmask.py`](engine/unmask.py) |
 | **Profile lookup** | Separate direct profile evidence, search candidates, absence, and lookup errors | Verdict, enrichment eligibility, exact URLs, domains, and bio | [`skills/profile-lookup/`](skills/profile-lookup/) |
 | **Measure AI visibility** | GEO terms + live retrieval-visibility score | JSON of buyer questions with Exa retrieval status | [`skills/geo-visibility/`](skills/geo-visibility/) |
